@@ -1,10 +1,17 @@
+using Back.Src.ProEventos.API.Model;
+using Microsoft.EntityFrameworkCore;
+using ProEventos.API;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BancoProEventos")!)
+);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddOpenApi(); // válido no .NET 9
+builder.Services.AddOpenApi(); 
 
 var app = builder.Build();
 
@@ -13,7 +20,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.MapOpenApi(); // válido no .NET 9
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();

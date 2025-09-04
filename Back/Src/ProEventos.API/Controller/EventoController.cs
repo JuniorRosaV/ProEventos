@@ -11,55 +11,44 @@ namespace ProEventos.API.Controllers
     
     public class EventoController : ControllerBase
     {
-
-        public List<Evento> _eventos =  new List<Evento>
+        public readonly DataContext _context;
+        public EventoController(DataContext context)
         {
-            new Evento()
-            {
-                EventoId = 1,
-                Local = "Garça - SP",
-                DataEvento = "2025/10/22",
-                Tema = "WorkShop de C#",
-                QtdPessoas = 300,
-                Lote = "1º lote",
-                ImagemUrl = "Foto.png"
-            },
-            new Evento()
-            {
-                EventoId = 2, // lembre-se de mudar o ID
-                Local = "Garça - SP",
-                DataEvento = "2025/10/23",
-                Tema = "WorkShop de Angular",
-                QtdPessoas = 302,
-                Lote = "2º lote",
-                ImagemUrl = "Foto.png"
-            }
-        };
+            _context = context;
+        }
 
         [HttpGet]
         public IEnumerable<Evento> Get()
         {
-            return _eventos;
+            return _context.Eventos;
         }
 
         [HttpGet("{id}")]
         public IEnumerable<Evento> GetId(int id)
         {
-            var evento = _eventos.FirstOrDefault(a => a.EventoId == id);
+            var evento = _context.Eventos.FirstOrDefault(a => a.EventoId == id);
             return evento != null ? new List<Evento> { evento } : new List<Evento>();
         }
 
 
-        [HttpPost]
-        public List<Evento> Post([FromBody]Evento passarEvento)
+        [HttpPost("batch")]
+        public IActionResult Post([FromBody] List<Evento> eventos)
         {
-            _eventos.Add(passarEvento);
-            return _eventos;
+            if (eventos == null || !eventos.Any())
+                return BadRequest("Nenhum evento informado.");
+
+            _context.Eventos.AddRange(eventos);
+            _context.SaveChanges();
+
+            return NoContent();
         }
+
+
+
         [HttpPut("{id}")]
         public ActionResult<Evento> Put(int id, [FromBody] Evento passarEvento)
         {
-            var Evento = _eventos.FirstOrDefault(e => e.EventoId == id);
+            var Evento = _context.Eventos.FirstOrDefault(e => e.EventoId == id);
             if (Evento == null)
             {
                 return NotFound();
@@ -77,14 +66,14 @@ namespace ProEventos.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var eventoParaDeletar = _eventos.FirstOrDefault(e => e.EventoId == id);
+            var eventoParaDeletar = _context.Eventos.FirstOrDefault(e => e.EventoId == id);
 
             if (eventoParaDeletar == null)
             {
                 return NotFound();
             }
 
-            _eventos.Remove(eventoParaDeletar);
+            _context.Eventos.Remove(eventoParaDeletar);
 
             return NoContent();
         }
