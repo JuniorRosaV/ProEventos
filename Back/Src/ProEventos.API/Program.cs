@@ -9,6 +9,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BancoProEventos")!)
 );
 builder.Services.AddControllers();
+builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi(); 
@@ -22,6 +23,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.MapOpenApi();
 }
+
+app.UseCors(
+    x => x.AllowAnyHeader()
+          .AllowAnyMethod()
+          .AllowAnyOrigin()
+);
 
 app.UseHttpsRedirection();
 
