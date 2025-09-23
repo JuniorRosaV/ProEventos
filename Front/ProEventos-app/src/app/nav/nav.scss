@@ -1,0 +1,101 @@
+// nav.scss
+$primary-color: #150a1a;
+$secondary-color: #9600c4;
+$dark-bg: #1e1e2f;
+$text-color: #ffffff;
+$hover-color: #000000;
+$transition-speed: 0.3s;
+
+.navbar {
+  background: linear-gradient(90deg, $primary-color, $secondary-color);
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+
+  .navbar-brand {
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: $text-color;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color $transition-speed, transform $transition-speed;
+
+    &:hover {
+      color: $hover-color;
+      transform: scale(1.1);
+    }
+  }
+
+  .navbar-toggler {
+    border: 2px solid $text-color;
+    background-color: transparent;
+    transition: all $transition-speed;
+
+    &:hover {
+      background-color: rgba(255,255,255,0.1);
+      transform: rotate(10deg);
+    }
+
+    .navbar-toggler-icon {
+      filter: invert(1);
+    }
+  }
+
+  .navbar-collapse {
+    justify-content: flex-end;
+
+    .navbar-nav {
+      .nav-item {
+        margin-left: 1.5rem;
+
+        .nav-link {
+          color: $text-color;
+          font-weight: 500;
+          font-size: 1.1rem;
+          position: relative;
+          transition: color $transition-speed;
+
+          &:after {
+            content: '';
+            display: block;
+            width: 0%;
+            height: 2px;
+            background: $hover-color;
+            transition: width $transition-speed;
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+          }
+
+          &:hover {
+            color: $hover-color;
+
+            &:after {
+              width: 100%;
+            }
+          }
+
+          &.active {
+            font-weight: 700;
+            color: $hover-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Mobile / Responsive tweaks
+@media (max-width: 992px) {
+  .navbar-collapse {
+    background: $dark-bg;
+    padding: 1rem;
+
+    .nav-item {
+      margin: 0.8rem 0;
+
+      .nav-link {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

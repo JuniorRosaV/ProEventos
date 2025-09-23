@@ -1,0 +1,192 @@
+$bg-start: #9600c4;        
+$bg-end: #000000;         
+$text-color: #ffffff;
+$highlight-color: #d18fff;
+$transition-speed: 0.3s;
+$table-bg: rgb(0, 0, 0);
+
+.eventos-container {
+  background: linear-gradient(135deg, $bg-start, $bg-end);
+  color: $text-color;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(to right, $highlight-color, $text-color);
+  margin-bottom: 2rem;
+}
+
+
+.form-inline {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+
+  .form-group {
+    display: flex;
+
+    .form-control {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      background: rgba(255, 255, 255, 0.1);
+      color: $text-color;
+      outline: none;
+      transition: all $transition-speed;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.747);
+        text-transform: uppercase;
+      }
+
+      &:focus {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid $highlight-color;
+      }
+    }
+
+    .btn {
+      border: none;
+      background: $highlight-color;
+      color: $text-color;
+      font-weight: bold;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      transition: all $transition-speed;
+
+      &:hover {
+        background: lighten($highlight-color, 10%);
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  table-layout: fixed;
+  overflow: hidden;
+  background: linear-gradient(90deg,$bg-end,$bg-start);
+  box-shadow: 0 4px 8px rgba(156, 1, 161, 0.753); // Adiciona uma sombra para profundidade
+
+  /* Estilo do cabeçalho da tabela */
+  thead {
+    th {
+      text-align: center;
+      font-weight: bold;
+      padding: 0.75rem;
+      background: none;
+      border-bottom: 2px solid #5e00a1;
+      color: #ffffff;
+    }
+  }
+  tbody {
+  tr {
+    transition: all 0.3s;
+    cursor: pointer;
+
+    /* Linhas ímpares (1ª, 3ª, etc.) com fundo roxo */
+    &:nth-of-type(odd) {
+      background: rgb(92, 0, 121);
+    }
+    
+    /* Linhas pares (2ª, 4ª, etc.) com fundo preto */
+    &:nth-of-type(even) {
+      background: rgb(0, 0, 0);
+    }
+
+    /* Efeito ao passar o mouse por cima */
+    &:hover {
+      background: rgba(150, 0, 196, 0.7);
+    }
+
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      color: #2c0631 !important; // Usa !important para garantir a cor branca
+    }
+  }
+}
+
+  /* Estilo do rodapé da tabela */
+  tfoot {
+    td {
+      text-align: center;
+      padding: 1rem;
+      color: #d18fff;
+      font-weight: bold;
+    }
+  }
+}
+
+.btn-outline-primary {
+  color: #fff;
+  background-color: #8000ff;
+  border-color: #8000ff;
+
+  &:hover {
+    color: #fff;
+    background-color: #5e00b3;
+    border-color: #5e00b3;
+  }
+}
+
+.btn-outline-danger {
+  color: #fff;
+  background-color: #d32f2f;
+  border-color: #d32f2f;
+  margin-left: 1px;
+
+  &:hover {
+    color: #fff;
+    background-color: #a31515;
+    border-color: #a31515;
+  }
+}
+
+// Responsividade para telas menores
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.9rem;
+
+    thead {
+      display: none;
+    }
+
+    tbody {
+      tr {
+        display: block;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+
+        td {
+          display: flex;
+          justify-content: space-between;
+          padding: 0.5rem;
+          border: none;
+
+          // Adiciona o label do cabeçalho antes de cada célula
+          &:before {
+            content: attr(data-label);
+            font-weight: 700;
+            color: $highlight-color;
+          }
+        }
+      }
+    }
+  }
+}

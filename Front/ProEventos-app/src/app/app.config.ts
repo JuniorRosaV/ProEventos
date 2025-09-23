@@ -5,7 +5,7 @@ import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,8 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     importProvidersFrom(
       BrowserAnimationsModule,
-      FormsModule,
-      ReactiveFormsModule
+      CollapseModule.forRoot()
     ),
   ]
 };

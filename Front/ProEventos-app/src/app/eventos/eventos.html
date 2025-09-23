@@ -1,7 +1,67 @@
-<h1>Eventos do component!</h1>
-@for (evento of eventos; track evento) {
-  <p><strong>Tema:</strong> {{ evento.tema }}</p>
-  <p><strong>Local:</strong> {{ evento.local }}</p>
+<div class="eventos-container">
+  <h1>Eventos</h1>
   <hr>
-}
+  
+  <div class="form-inline">
+    <div class="form-group mb-2">
+      <input 
+      type="text"
+      class="form-control mr-2"
+      placeholder="buscar"
+      [(ngModel)]="filtroLista"
+      >
+      <button class="btn btn-outline-success">buscar</button>
+    </div>
+  </div>  
+  <table class="table table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>
+          <button type="button" class="btn btn-outline-light btn-sm" 
+          (click) ="alternarImagem()">
+          {{ !mostrarImagem ? 'Exibir' : 'Ocultar' }}
+        </button>
+      </th>
+        <th>#</th>
+        <th>Tema</th>
+        <th>Local</th>
+        <th>Data</th>
+        <th>Horario</th>
+        <th>Qtd Pessoas</th>
+        <th>Lote</th>
+        <th>Opções</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="eventos && eventos.length">
+      <tr *ngFor="let evento of eventosFiltrados">
+        <td>
+          <img *ngIf="mostrarImagem"
+            [src]="'/assets/' + evento.imagemUrl"
+            [style.width.px]="larguraImagem"
+            [style.margin.px]="margemImagem">
+        </td>
+        <td>{{ evento.eventoId }}</td>
+        <td>{{ evento.tema }}</td>
+        <td>{{ evento.local }}</td>
+        <td>{{ evento.dataEvento | date:'dd/MM/yyyy' }}</td>
+        <td>{{ evento.dataEvento | date:'HH:mm' }}</td>
+        <td>{{ evento.qtdPessoas }}</td>
+        <td>{{ evento.lote }}</td>
+        <td>
+          <button class="btn btn-outline-primary btn-sm">Editar</button>
+          <button class="btn btn-outline-danger btn-sm">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+
+    <tfoot *ngIf="!eventos.length">
+      <tr>
+        <td colspan="8">
+          <h4>Nenhum evento encontrado!</h4>
+        </td>
+      </tr>
+    </tfoot>
+  </table> 
+</div>
+
 
