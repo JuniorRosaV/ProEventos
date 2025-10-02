@@ -1,18 +1,18 @@
-using Back.Src.ProEventos.API.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
+using ProEventos.Domain;
+using ProEventos.Repository.Context;
+
 
 namespace ProEventos.API.Controllers
 {
 
     [ApiController] // Marca como API controller
     [Route("api/[controller]")] // Rota padrão: /api/nome-do-controller
-    
+
     public class EventoController : ControllerBase
     {
-        public readonly DataContext _context;
-        public EventoController(DataContext context)
+        public readonly ProEventosContext _context;
+        public EventoController(ProEventosContext context)
         {
             _context = context;
         }
@@ -26,7 +26,7 @@ namespace ProEventos.API.Controllers
         [HttpGet("{id}")]
         public IEnumerable<Evento> GetId(int id)
         {
-            var evento = _context.Eventos.FirstOrDefault(a => a.EventoId == id);
+            var evento = _context.Eventos.FirstOrDefault(a => a.Id == id);
             return evento != null ? new List<Evento> { evento } : new List<Evento>();
         }
 
@@ -48,7 +48,7 @@ namespace ProEventos.API.Controllers
         [HttpPut("{id}")]
         public ActionResult<Evento> Put(int id, [FromBody] Evento passarEvento)
         {
-            var Evento = _context.Eventos.FirstOrDefault(e => e.EventoId == id);
+            var Evento = _context.Eventos.FirstOrDefault(e => e.Id == id);
             if (Evento == null)
             {
                 return NotFound();
@@ -57,7 +57,7 @@ namespace ProEventos.API.Controllers
             Evento.DataEvento = passarEvento.DataEvento;
             Evento.Tema = passarEvento.Tema;
             Evento.QtdPessoas = passarEvento.QtdPessoas;
-            Evento.Lote = passarEvento.Lote;
+            Evento.Lotes = passarEvento.Lotes;
             Evento.ImagemUrl = passarEvento.ImagemUrl;
 
             return Ok(Evento);
@@ -66,7 +66,7 @@ namespace ProEventos.API.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            var eventoParaDeletar = _context.Eventos.FirstOrDefault(e => e.EventoId == id);
+            var eventoParaDeletar = _context.Eventos.FirstOrDefault(e => e.Id == id);
 
             if (eventoParaDeletar == null)
             {

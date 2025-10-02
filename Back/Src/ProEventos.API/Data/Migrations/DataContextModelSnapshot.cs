@@ -9,8 +9,8 @@ using ProEventos.API;
 
 namespace ProEventos.API.Data.Migrations
 {
-    [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ProEventosContext))]
+    partial class ProEventosContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -53,5 +53,9 @@ namespace ProEventos.API.Data.Migrations
                 });
 #pragma warning restore 612, 618
         }
+    }
+
+    internal class ProEventosContext
+    {
     }
 }

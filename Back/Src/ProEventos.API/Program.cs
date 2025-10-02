@@ -1,11 +1,10 @@
-using Back.Src.ProEventos.API.Model;
 using Microsoft.EntityFrameworkCore;
-using ProEventos.API;
+using ProEventos.Repository.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<DataContext>(options =>
+builder.Services.AddDbContext<ProEventosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BancoProEventos")!)
 );
 builder.Services.AddControllers();
