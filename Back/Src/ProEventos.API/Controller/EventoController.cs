@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ProEventos.Domain;
+using ProEventos.Domain.Models;
 using ProEventos.Repository.Context;
+using ProEventos.Service.Interfaces;
 
 
 namespace ProEventos.API.Controllers
@@ -12,68 +13,69 @@ namespace ProEventos.API.Controllers
     public class EventoController : ControllerBase
     {
         public readonly ProEventosContext _context;
-        public EventoController(ProEventosContext context)
+        public readonly IEventoService _eventoService;
+        public EventoController(ProEventosContext context, IEventoService eventoService)
         {
             _context = context;
+            _eventoService = eventoService;
         }
 
         [HttpGet]
-        public IEnumerable<Evento> Get()
+        public async Task<IActionResult> Get()
         {
-            return _context.Eventos;
+            var eventos = await  _eventoService.GetAllEventosAsync(); 
+            if (eventos == null || !eventos.Any()) return NoContent();
+            return Ok(eventos);
         }
 
         [HttpGet("{id}")]
-        public IEnumerable<Evento> GetId(int id)
+        public async Task<IActionResult> GetId(int id)
         {
-            var evento = _context.Eventos.FirstOrDefault(a => a.Id == id);
-            return evento != null ? new List<Evento> { evento } : new List<Evento>();
+            var evento = await _eventoService.GetEventoByIdAsync(id);
+            if (evento == null) return NoContent();
+            return Ok(evento);
         }
 
 
         [HttpPost("batch")]
-        public IActionResult Post([FromBody] List<Evento> eventos)
+        public async Task<IActionResult> Post([FromBody] Evento evento)
         {
-            if (eventos == null || !eventos.Any())
-                return BadRequest("Nenhum evento informado.");
+            if (evento == null) return BadRequest("Nenhum evento informado.");
 
-            _context.Eventos.AddRange(eventos);
-            _context.SaveChanges();
+            await _eventoService.AddEvento(evento);
+            await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(evento);
         }
 
 
 
         [HttpPut("{id}")]
-        public ActionResult<Evento> Put(int id, [FromBody] Evento passarEvento)
+        public async Task<ActionResult> Put( [FromBody] Evento passarEvento)
         {
-            var Evento = _context.Eventos.FirstOrDefault(e => e.Id == id);
+            var Evento = await _eventoService.GetEventoByIdAsync(passarEvento.Id);
             if (Evento == null)
             {
+
                 return NotFound();
             }
-            Evento.Local = passarEvento.Local;
-            Evento.DataEvento = passarEvento.DataEvento;
-            Evento.Tema = passarEvento.Tema;
-            Evento.QtdPessoas = passarEvento.QtdPessoas;
-            Evento.Lotes = passarEvento.Lotes;
-            Evento.ImagemUrl = passarEvento.ImagemUrl;
+            await _eventoService.UpdateEvento(Evento.Id, passarEvento);
+            await _context.SaveChangesAsync();
 
             return Ok(Evento);
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var eventoParaDeletar = _context.Eventos.FirstOrDefault(e => e.Id == id);
-
-            if (eventoParaDeletar == null)
+            var Evento = await _eventoService.GetEventoByIdAsync(id);
+            if (Evento == null)
             {
+                
                 return NotFound();
             }
-
-            _context.Eventos.Remove(eventoParaDeletar);
+            await _eventoService.DeleteEvento(Evento.Id);
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }

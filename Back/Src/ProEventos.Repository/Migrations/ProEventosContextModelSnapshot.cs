@@ -4,12 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ProEventos.Repository.Interfaces;
 using ProEventos.Repository.Context;
 
 #nullable disable
 
-namespace ProEventos.Repository.Migrations
+namespace proeventos.Repository.Migrations
 {
     [DbContext(typeof(ProEventosContext))]
     partial class ProEventosContextModelSnapshot : ModelSnapshot
@@ -23,7 +22,7 @@ namespace ProEventos.Repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ProEventos.Domain.Evento", b =>
+            modelBuilder.Entity("ProEventos.Domain.Models.Evento", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,21 +53,21 @@ namespace ProEventos.Repository.Migrations
                     b.ToTable("Eventos");
                 });
 
-            modelBuilder.Entity("ProEventos.Domain.Lote", b =>
+            modelBuilder.Entity("ProEventos.Domain.Models.Lote", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("DataFim")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DataInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EventoId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("IdEvento")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataFim")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("IdEvento")
                         .HasColumnType("int");
 
                     b.Property<string>("Nome")
@@ -83,12 +82,12 @@ namespace ProEventos.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventoId");
+                    b.HasIndex("IdEvento");
 
                     b.ToTable("Lotes");
                 });
 
-            modelBuilder.Entity("ProEventos.Domain.Palestrante", b =>
+            modelBuilder.Entity("ProEventos.Domain.Models.Palestrante", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,7 +120,7 @@ namespace ProEventos.Repository.Migrations
                     b.ToTable("Palestrantes");
                 });
 
-            modelBuilder.Entity("ProEventos.Domain.PalestranteEvento", b =>
+            modelBuilder.Entity("ProEventos.Domain.Models.PalestranteEvento", b =>
                 {
                     b.Property<int>("EventoId")
                         .HasColumnType("int");
@@ -136,7 +135,7 @@ namespace ProEventos.Repository.Migrations
                     b.ToTable("PalestrantesEventos");
                 });
 
-            modelBuilder.Entity("ProEventos.Domain.RedeSocial", b =>
+            modelBuilder.Entity("ProEventos.Domain.Models.RedeSocial", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -167,45 +166,44 @@ namespace ProEventos.Repository.Migrations
                     b.ToTable("RedesSociais");
                 });
 
-            modelBuilder.Entity("ProEventos.Domain.Lote", b =>
+            modelBuilder.Entity("ProEventos.Domain.Models.Lote", b =>
                 {
-                    b.HasOne("ProEventos.Domain.Evento", "Evento")
+                    b.HasOne("ProEventos.Domain.Models.Evento", "Evento")
                         .WithMany("Lotes")
-                        .HasForeignKey("EventoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdEvento")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Evento");
                 });
 
-            modelBuilder.Entity("ProEventos.Domain.PalestranteEvento", b =>
+            modelBuilder.Entity("ProEventos.Domain.Models.PalestranteEvento", b =>
                 {
-                    b.HasOne("ProEventos.Domain.Evento", "Eventos")
+                    b.HasOne("ProEventos.Domain.Models.Evento", "Evento")
                         .WithMany("PalestrantesEventos")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProEventos.Domain.Palestrante", "Palestrantes")
+                    b.HasOne("ProEventos.Domain.Models.Palestrante", "Palestrante")
                         .WithMany("PalestrantesEventos")
                         .HasForeignKey("PalestranteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Eventos");
+                    b.Navigation("Evento");
 
-                    b.Navigation("Palestrantes");
+                    b.Navigation("Palestrante");
                 });
 
-            modelBuilder.Entity("ProEventos.Domain.RedeSocial", b =>
+            modelBuilder.Entity("ProEventos.Domain.Models.RedeSocial", b =>
                 {
-                    b.HasOne("ProEventos.Domain.Evento", "Evento")
+                    b.HasOne("ProEventos.Domain.Models.Evento", "Evento")
                         .WithMany("RedesSociais")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProEventos.Domain.Palestrante", "Palestrante")
+                    b.HasOne("ProEventos.Domain.Models.Palestrante", "Palestrante")
                         .WithMany("RedesSociais")
                         .HasForeignKey("PalestranteId");
 
@@ -214,7 +212,7 @@ namespace ProEventos.Repository.Migrations
                     b.Navigation("Palestrante");
                 });
 
-            modelBuilder.Entity("ProEventos.Domain.Evento", b =>
+            modelBuilder.Entity("ProEventos.Domain.Models.Evento", b =>
                 {
                     b.Navigation("Lotes");
 
@@ -223,7 +221,7 @@ namespace ProEventos.Repository.Migrations
                     b.Navigation("RedesSociais");
                 });
 
-            modelBuilder.Entity("ProEventos.Domain.Palestrante", b =>
+            modelBuilder.Entity("ProEventos.Domain.Models.Palestrante", b =>
                 {
                     b.Navigation("PalestrantesEventos");
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ProEventos.Domain
+namespace ProEventos.Domain.Models
 {
     public class Evento
     {
@@ -11,8 +11,8 @@ namespace ProEventos.Domain
         public DateTime DataEvento { get; set; }
         public int QtdPessoas { get; set; }
         public string ImagemUrl { get; set; }
-        public IEnumerable<Lote> Lotes { get; set; }
-        public IEnumerable<RedeSocial> RedesSociais { get; set; }
-        public IEnumerable<PalestranteEvento> PalestrantesEventos { get; set; }
+        public ICollection<Lote> Lotes { get; set; } = new List<Lote>();
+        public IEnumerable<RedeSocial>? RedesSociais { get; set; }
+        public IEnumerable<PalestranteEvento>? PalestrantesEventos { get; set; }
     }
 }

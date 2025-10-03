@@ -1,7 +1,7 @@
 ﻿using ProEventos.Repository.Context;
 using ProEventos.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using ProEventos.Domain;
+using ProEventos.Domain.Models;
 
 namespace ProEventos.Repository.Repositories
 {
@@ -22,11 +22,11 @@ namespace ProEventos.Repository.Repositories
             {
                 query = query
                     .Include(e => e.PalestrantesEventos)
-                    .ThenInclude(pe => pe.Palestrantes);
+                    .ThenInclude(pe => pe.Palestrante);
             }
 
             query = query.OrderBy(e => e.Id)
-                         .Where(e => e.Tema.ToLower().Contains(tema.ToLower()));
+                         .Where(e => e.Tema.ToLower().Contains(tema.ToLower())).AsNoTracking();
 
             return await query.ToArrayAsync();
         }
@@ -41,10 +41,10 @@ namespace ProEventos.Repository.Repositories
             {
                 query = query
                 .Include(e => e.PalestrantesEventos)
-                .ThenInclude(pe => pe.Palestrantes);
+                .ThenInclude(pe => pe.Palestrante);
             }
 
-            query = query.OrderBy(e => e.Id);
+            query = query.OrderBy(e => e.Id).AsNoTracking();
 
             return await query.ToArrayAsync();
         }
@@ -59,10 +59,10 @@ namespace ProEventos.Repository.Repositories
             {
                 query = query
                 .Include(e => e.PalestrantesEventos)
-                .ThenInclude(pe => pe.Palestrantes);
+                .ThenInclude(pe => pe.Palestrante);
             }
 
-            query = query.OrderBy(e => e.Id).Where(e => e.Id == eventoId);
+            query = query.OrderBy(e => e.Id).Where(e => e.Id == eventoId).AsNoTracking();
 
             return await query.FirstOrDefaultAsync();
         }

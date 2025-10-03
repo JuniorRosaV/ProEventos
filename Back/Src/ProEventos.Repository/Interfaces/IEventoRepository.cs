@@ -1,4 +1,4 @@
-﻿using ProEventos.Domain;
+﻿using ProEventos.Domain.Models;
 namespace ProEventos.Repository.Interfaces;
 
 public interface IEventoRepository

@@ -1,4 +1,4 @@
-﻿namespace ProEventos.Domain;
+﻿namespace ProEventos.Domain.Models;
 
 public class Palestrante
 {
