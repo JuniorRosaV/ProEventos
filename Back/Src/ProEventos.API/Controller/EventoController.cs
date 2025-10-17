@@ -35,7 +35,13 @@ namespace ProEventos.API.Controllers
             if (evento == null) return NoContent();
             return Ok(evento);
         }
-
+        [HttpGet("tema/{tema}")]
+        public async Task<IActionResult> GetByTema(string tema)
+        {
+            var eventos = await _eventoService.GetAllEventosByTemaAsync(tema);
+            if (eventos == null || !eventos.Any()) return NoContent();
+            return Ok(eventos);
+        }
 
         [HttpPost("batch")]
         public async Task<IActionResult> Post([FromBody] Evento evento)

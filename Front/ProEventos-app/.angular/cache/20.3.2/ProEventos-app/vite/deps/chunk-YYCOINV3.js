@@ -60,9 +60,9 @@ import {
   ɵɵinject,
   ɵɵinjectAttribute,
   ɵɵstyleProp
-} from "./chunk-IEP3SSLR.js";
+} from "./chunk-2MVQRDIU.js";
 
-// node_modules/@angular/common/fesm2022/location.mjs
+// ../../../node_modules/@angular/common/fesm2022/location.mjs
 var _DOM = null;
 function getDOM() {
   return _DOM;
@@ -549,7 +549,7 @@ function _stripOrigin(baseHref) {
   return baseHref;
 }
 
-// node_modules/@angular/common/fesm2022/common_module.mjs
+// ../../../node_modules/@angular/common/fesm2022/common_module.mjs
 var HashLocationStrategy = class _HashLocationStrategy extends LocationStrategy {
   _platformLocation;
   _baseHref = "";
@@ -3678,7 +3678,7 @@ var CommonModule = class _CommonModule {
   }], null, null);
 })();
 
-// node_modules/@angular/common/fesm2022/platform_navigation.mjs
+// ../../../node_modules/@angular/common/fesm2022/platform_navigation.mjs
 var PlatformNavigation = class _PlatformNavigation {
   static ɵfac = function PlatformNavigation_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _PlatformNavigation)();
@@ -3699,7 +3699,7 @@ var PlatformNavigation = class _PlatformNavigation {
   }], null, null);
 })();
 
-// node_modules/@angular/common/fesm2022/common.mjs
+// ../../../node_modules/@angular/common/fesm2022/common.mjs
 function registerLocaleData2(data, localeId, extraData) {
   return registerLocaleData(data, localeId, extraData);
 }
@@ -5184,4 +5184,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-ABWUPZ5Y.js.map
+//# sourceMappingURL=chunk-YYCOINV3.js.map

@@ -1,11 +1,20 @@
+import { routes } from './app.routes';
+
 import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
+import { EventoService } from './services/evento-service';
+
+
+
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +25,10 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     importProvidersFrom(
       BrowserAnimationsModule,
-      CollapseModule.forRoot()
+      CollapseModule.forRoot(),
+      TooltipModule.forRoot(),
+      BsDropdownModule.forRoot()
     ),
+    EventoService
   ]
 };

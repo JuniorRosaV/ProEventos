@@ -58,14 +58,14 @@ import {
   ɵɵinject,
   ɵɵinjectAttribute,
   ɵɵstyleProp
-} from "./chunk-LSUUNFI6.js";
+} from "./chunk-QLWI7Y6T.js";
 import {
   __spreadProps,
   __spreadValues,
   __toESM
 } from "./chunk-6DU2HRTW.js";
 
-// node_modules/@angular/common/fesm2022/location.mjs
+// ../../../node_modules/@angular/common/fesm2022/location.mjs
 var import_rxjs = __toESM(require_cjs(), 1);
 var _DOM = null;
 function getDOM() {
@@ -553,7 +553,7 @@ function _stripOrigin(baseHref) {
   return baseHref;
 }
 
-// node_modules/@angular/common/fesm2022/common_module.mjs
+// ../../../node_modules/@angular/common/fesm2022/common_module.mjs
 var HashLocationStrategy = class _HashLocationStrategy extends LocationStrategy {
   _platformLocation;
   _baseHref = "";
@@ -3682,7 +3682,7 @@ var CommonModule = class _CommonModule {
   }], null, null);
 })();
 
-// node_modules/@angular/common/fesm2022/platform_navigation.mjs
+// ../../../node_modules/@angular/common/fesm2022/platform_navigation.mjs
 var PlatformNavigation = class _PlatformNavigation {
   static ɵfac = function PlatformNavigation_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _PlatformNavigation)();
@@ -3703,7 +3703,7 @@ var PlatformNavigation = class _PlatformNavigation {
   }], null, null);
 })();
 
-// node_modules/@angular/common/fesm2022/common.mjs
+// ../../../node_modules/@angular/common/fesm2022/common.mjs
 var import_rxjs2 = __toESM(require_cjs(), 1);
 function registerLocaleData2(data, localeId, extraData) {
   return registerLocaleData(data, localeId, extraData);
@@ -5063,4 +5063,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-ZZAJE3EH.js.map
+//# sourceMappingURL=chunk-SMQMOI4Q.js.map

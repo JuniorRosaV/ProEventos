@@ -1,14 +1,15 @@
+import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   CommonModule,
   DomAdapter,
   PLATFORM_BROWSER_ID,
   getDOM,
   setRootDomAdapter
-} from "./chunk-ABWUPZ5Y.js";
+} from "./chunk-SMQMOI4Q.js";
 import {
   XhrFactory,
   parseCookieValue
-} from "./chunk-ZJ25XCV3.js";
+} from "./chunk-YJB63RH5.js";
 import {
   APP_ID,
   ApplicationModule,
@@ -33,7 +34,6 @@ import {
   TestabilityRegistry,
   TracingService,
   ViewEncapsulation,
-  __spreadValues,
   _global,
   allLeavingAnimations,
   createPlatformFactory,
@@ -46,9 +46,13 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-IEP3SSLR.js";
+} from "./chunk-QLWI7Y6T.js";
+import {
+  __spreadProps,
+  __spreadValues
+} from "./chunk-6DU2HRTW.js";
 
-// node_modules/@angular/platform-browser/fesm2022/dom_renderer.mjs
+// ../../../node_modules/@angular/platform-browser/fesm2022/dom_renderer.mjs
 var EVENT_MANAGER_PLUGINS = new InjectionToken(ngDevMode ? "EventManagerPlugins" : "");
 var EventManager = class _EventManager {
   _zone;
@@ -267,7 +271,7 @@ var SharedStylesHost = class _SharedStylesHost {
     if (this.nonce) {
       element.setAttribute("nonce", this.nonce);
     }
-    if (false) {
+    if (true) {
       element.setAttribute(APP_ID_ATTRIBUTE_NAME, this.appId);
     }
     return host.appendChild(element);
@@ -382,14 +386,14 @@ var DomRendererFactory2 = class _DomRendererFactory2 {
     this.ngZone = ngZone;
     this.nonce = nonce;
     this.tracingService = tracingService;
-    this.platformIsServer = false;
+    this.platformIsServer = true;
     this.defaultRenderer = new DefaultDomRenderer2(eventManager, doc, ngZone, this.platformIsServer, this.tracingService);
   }
   createRenderer(element, type) {
     if (!element || !type) {
       return this.defaultRenderer;
     }
-    if (false) {
+    if (type.encapsulation === ViewEncapsulation.ShadowDom) {
       type = __spreadProps(__spreadValues({}, type), {
         encapsulation: ViewEncapsulation.Emulated
       });
@@ -631,7 +635,7 @@ var DefaultDomRenderer2 = class {
       if (event === "__ngUnwrap__") {
         return eventHandler;
       }
-      const allowDefaultBehavior = false ? this.ngZone.runGuarded(() => eventHandler(event)) : eventHandler(event);
+      const allowDefaultBehavior = true ? this.ngZone.runGuarded(() => eventHandler(event)) : eventHandler(event);
       if (allowDefaultBehavior === false) {
         event.preventDefault();
       }
@@ -755,7 +759,7 @@ var EmulatedEncapsulationDomRenderer2 = class extends NoneEncapsulationDomRender
   }
 };
 
-// node_modules/@angular/platform-browser/fesm2022/browser.mjs
+// ../../../node_modules/@angular/platform-browser/fesm2022/browser.mjs
 var BrowserDomAdapter = class _BrowserDomAdapter extends DomAdapter {
   supportsDOMEvents = true;
   static makeCurrent() {
@@ -1232,4 +1236,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-IKYXGZXY.js.map
+//# sourceMappingURL=chunk-YXQNO6UZ.js.map

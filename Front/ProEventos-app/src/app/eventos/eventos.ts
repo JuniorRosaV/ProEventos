@@ -1,59 +1,65 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EventoService } from '../services/evento-service';
+import { Evento } from '../models/Evento';
+import { DateTimeFormatPipe } from '../helpers/date-time-format-pipe';
+import { HoursFormatPipe } from '../helpers/hours-format-pipe';
 
 @Component({
   selector: 'app-eventos',
   standalone: true,              
-  imports: [CommonModule,FormsModule, ReactiveFormsModule],
+  imports: [CommonModule,FormsModule, ReactiveFormsModule,DateTimeFormatPipe, HoursFormatPipe],
   templateUrl: './eventos.html',
   styleUrls: ['./eventos.scss']  
 })
 export class Eventos {
-  public eventos : any = [] ;
-  public eventosFiltrados : any = [] ;
-  larguraImagem: number = 100;
-  margemImagem: number = 2;
-  mostrarImagem: boolean = true;
-  private _filtroLista: string = '';
+  public eventos : Evento[] = [] ;
+  public eventosFiltrados : Evento[] = [] ;
+  larguraImagem = 100;
+  margemImagem = 2;
+  mostrarImagem = true;
+  private filtroListado = '';
 
   public get filtroLista(): string 
   {
-    return this._filtroLista;
+    return this.filtroListado;
   }
 
   public set filtroLista(value: string)
   {
-    this._filtroLista = value;
+    this.filtroListado = value;
     this.eventosFiltrados = this.filtroLista ? this.filtrarEventos(this.filtroLista) : this.eventos;
   }
   
-  filtrarEventos(filtrarPor: string): any
+  public filtrarEventos(filtrarPor: string): Evento[]
   {
     filtrarPor = filtrarPor.toLocaleLowerCase();
     return this.eventos.filter(
-      ((evento:any)=> evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 || evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1))
+      ((evento:Evento)=> evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 || evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1))
   }
 
-  constructor(private http: HttpClient){}
+  constructor(private eventoService: EventoService) {}
   
-  ngOnInit(): void{
+  public ngOnInit(): void{
     this.getEventos();
   }
 
 
   public getEventos(): void {
-    this.http.get('http://localhost:5074/api/evento').subscribe(
-      (response: any) => {
-        this.eventos = response;
+    this.eventoService.getEventos().subscribe({
+      next: (eventos: Evento[]) => {
+        this.eventos = eventos;
         this.eventosFiltrados = this.eventos;
       },
-      error => console.log(error)
-    );
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
-  alternarImagem() 
+
+  public alterarImagem() :  void
   {
   this.mostrarImagem = !this.mostrarImagem;
   }

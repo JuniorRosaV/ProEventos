@@ -43,7 +43,7 @@ namespace ProEventos.Repository.Context
             // Palestrante -> PalestranteEvento (1:N)
             modelBuilder.Entity<Palestrante>()
                 .HasMany(p => p.PalestrantesEventos)
-                .WithOne(pe => pe.Palestrante) // <-- correção aqui
+                .WithOne(pe => pe.Palestrante)
                 .HasForeignKey(pe => pe.PalestranteId)
                 .OnDelete(DeleteBehavior.Cascade);
 

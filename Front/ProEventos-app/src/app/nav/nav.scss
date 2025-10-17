@@ -20,7 +20,6 @@ $transition-speed: 0.3s;
     transition: color $transition-speed, transform $transition-speed;
 
     &:hover {
-      color: $hover-color;
       transform: scale(1.1);
     }
   }
@@ -68,10 +67,6 @@ $transition-speed: 0.3s;
 
           &:hover {
             color: $hover-color;
-
-            &:after {
-              width: 100%;
-            }
           }
 
           &.active {

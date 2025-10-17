@@ -36,23 +36,20 @@ public class EventoService : IEventoService
     }
     public async Task<Evento> UpdateEvento(int eventoId, Evento model)
     {
-        var eventoBanco = await _eventoRepository.GetEventoByIdAsync(eventoId, true);
+        var eventoBanco = await _eventoRepository.GetEventoByIdAsync(eventoId, true, false);
         if (eventoBanco == null) return null;
 
-        // Atualiza campos simples
         eventoBanco.Tema = model.Tema;
         eventoBanco.Local = model.Local;
         eventoBanco.DataEvento = model.DataEvento;
         eventoBanco.QtdPessoas = model.QtdPessoas;
         eventoBanco.ImagemUrl = model.ImagemUrl;
 
-        // Atualiza lotes
         foreach (var lote in model.Lotes)
         {
             var loteExistente = eventoBanco.Lotes.FirstOrDefault(x => x.Id == lote.Id);
             if (loteExistente != null)
             {
-                // Atualiza campos do lote
                 loteExistente.Nome = lote.Nome;
                 loteExistente.Preco = lote.Preco;
                 loteExistente.DataInicio = lote.DataInicio;
@@ -61,13 +58,11 @@ public class EventoService : IEventoService
             }
             else
             {
-                // Novo lote
                 eventoBanco.Lotes.Add(lote);
             }
-        }
-
+        }        
         await _geralRepository.SaveChangesAsync();
-        return await _eventoRepository.GetEventoByIdAsync(eventoId, true);
+        return await _eventoRepository.GetEventoByIdAsync(eventoId, true, false);
     }
 
 
