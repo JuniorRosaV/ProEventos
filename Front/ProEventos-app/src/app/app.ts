@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Eventos } from './eventos/eventos';
 import { Nav } from './nav/nav';
@@ -12,7 +12,8 @@ import { Nav } from './nav/nav';
              Nav,
            ],
   templateUrl: './app.html',
-  styleUrls: ['./app.scss']
+  styleUrls: ['./app.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class App {
   protected readonly title = signal('ProEventos-app');

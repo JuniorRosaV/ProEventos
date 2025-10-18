@@ -1,7 +1,7 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   sequence
-} from "./chunk-QKBTK7JK.js";
+} from "./chunk-ZWEZSKZY.js";
 import {
   ANIMATION_MODULE_TYPE,
   DOCUMENT,
@@ -193,4 +193,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-A6UOJSY3.js.map
+//# sourceMappingURL=chunk-XGVZEOTQ.js.map

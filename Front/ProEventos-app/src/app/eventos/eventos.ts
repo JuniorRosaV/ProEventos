@@ -1,18 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, TemplateRef } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, TemplateRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventoService } from '../services/evento-service';
 import { Evento } from '../models/Evento';
 import { DateTimeFormatPipe } from '../helpers/date-time-format-pipe';
 import { HoursFormatPipe } from '../helpers/hours-format-pipe';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-eventos',
   standalone: true,              
   imports: [CommonModule,FormsModule, ReactiveFormsModule,DateTimeFormatPipe, HoursFormatPipe],
   templateUrl: './eventos.html',
-  styleUrls: ['./eventos.scss']  
+  styleUrls: ['./eventos.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class Eventos {
   modalRef?: BsModalRef;
@@ -44,11 +47,20 @@ export class Eventos {
   constructor
   (
     private eventoService: EventoService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private toastrService: ToastrService,
+    private spinner: NgxSpinnerService
   ) {}
   
   public ngOnInit(): void{
+    this.spinner.show();
     this.getEventos();
+    
+
+    setTimeout(() => {
+      /** spinner ends after 5 seconds */
+      this.spinner.hide();
+    }, 5000);
   }
 
 
@@ -57,9 +69,11 @@ export class Eventos {
       next: (eventos: Evento[]) => {
         this.eventos = eventos;
         this.eventosFiltrados = this.eventos;
+        this.spinner.hide();
       },
       error: (error) => {
         console.log(error);
+        this.spinner.hide();
       }
     });
   }
@@ -76,6 +90,7 @@ export class Eventos {
  
   confirm(): void {
     this.modalRef?.hide();
+    this.toastrService.success('Evento deletado com sucesso!', 'Deletado!');
   }
  
   decline(): void {

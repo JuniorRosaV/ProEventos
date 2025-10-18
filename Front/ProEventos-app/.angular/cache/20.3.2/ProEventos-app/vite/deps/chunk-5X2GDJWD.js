@@ -1,5 +1,3 @@
-import { createRequire } from 'module';const require = createRequire(import.meta.url);
-
 // node_modules/@angular/animations/fesm2022/private_export.mjs
 var AnimationMetadataType;
 (function(AnimationMetadataType2) {
@@ -18,6 +16,9 @@ var AnimationMetadataType;
   AnimationMetadataType2[AnimationMetadataType2["Stagger"] = 12] = "Stagger";
 })(AnimationMetadataType || (AnimationMetadataType = {}));
 var AUTO_STYLE = "*";
+function trigger(name, definitions) {
+  return { type: AnimationMetadataType.Trigger, name, definitions, options: {} };
+}
 function animate(timings, styles = null) {
   return { type: AnimationMetadataType.Animate, styles, timings };
 }
@@ -26,6 +27,12 @@ function sequence(steps, options = null) {
 }
 function style(tokens) {
   return { type: AnimationMetadataType.Style, styles: tokens, offset: null };
+}
+function state(name, styles, options) {
+  return { type: AnimationMetadataType.State, name, styles, options };
+}
+function transition(stateChangeExpr, steps, options = null) {
+  return { type: AnimationMetadataType.Transition, expr: stateChangeExpr, animation: steps, options };
 }
 var NoopAnimationPlayer = class {
   _onDoneFns = [];
@@ -253,9 +260,12 @@ var ɵPRE_STYLE = "!";
 export {
   AnimationMetadataType,
   AUTO_STYLE,
+  trigger,
   animate,
   sequence,
   style,
+  state,
+  transition,
   NoopAnimationPlayer,
   AnimationGroupPlayer,
   ɵPRE_STYLE
@@ -269,4 +279,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-QKBTK7JK.js.map
+//# sourceMappingURL=chunk-5X2GDJWD.js.map
