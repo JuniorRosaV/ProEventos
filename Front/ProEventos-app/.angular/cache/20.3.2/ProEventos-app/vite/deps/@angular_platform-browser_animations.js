@@ -1,7 +1,9 @@
 import {
   BrowserModule,
   DomRendererFactory2
-} from "./chunk-V5KD5BUN.js";
+} from "./chunk-SRD6BQBS.js";
+import "./chunk-JURP3JU7.js";
+import "./chunk-ZJ25XCV3.js";
 import {
   AUTO_STYLE,
   AnimationGroupPlayer,
@@ -10,9 +12,7 @@ import {
   sequence,
   style,
   ɵPRE_STYLE
-} from "./chunk-6TWIHM6P.js";
-import "./chunk-YYCOINV3.js";
-import "./chunk-34YOR6RC.js";
+} from "./chunk-ZPRPMBDV.js";
 import {
   ANIMATION_MODULE_TYPE,
   DOCUMENT,
@@ -30,9 +30,9 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-2MVQRDIU.js";
+} from "./chunk-QGYGGBCP.js";
 
-// ../../../node_modules/@angular/animations/fesm2022/util.mjs
+// node_modules/@angular/animations/fesm2022/util.mjs
 var LINE_START = "\n - ";
 function invalidTimingValue(exp) {
   return new RuntimeError(3e3, ngDevMode && `The provided timing value "${exp}" is invalid.`);
@@ -675,7 +675,7 @@ function computeStyle(element, prop) {
   return window.getComputedStyle(element)[prop];
 }
 
-// ../../../node_modules/@angular/animations/fesm2022/browser.mjs
+// node_modules/@angular/animations/fesm2022/browser.mjs
 var NoopAnimationDriver = class _NoopAnimationDriver {
   /**
    * @returns Whether `prop` is a valid CSS property
@@ -4224,7 +4224,7 @@ var AnimationRendererFactory = class {
   }
 };
 
-// ../../../node_modules/@angular/platform-browser/fesm2022/animations.mjs
+// node_modules/@angular/platform-browser/fesm2022/animations.mjs
 var InjectableAnimationEngine = class _InjectableAnimationEngine extends AnimationEngine {
   // The `ApplicationRef` is injected here explicitly to force the dependency ordering.
   // Since the `ApplicationRef` should be created earlier before the `AnimationEngine`, they

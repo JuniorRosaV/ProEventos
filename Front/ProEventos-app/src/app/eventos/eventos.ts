@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventoService } from '../services/evento-service';
 import { Evento } from '../models/Evento';
 import { DateTimeFormatPipe } from '../helpers/date-time-format-pipe';
 import { HoursFormatPipe } from '../helpers/hours-format-pipe';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-eventos',
@@ -14,6 +15,7 @@ import { HoursFormatPipe } from '../helpers/hours-format-pipe';
   styleUrls: ['./eventos.scss']  
 })
 export class Eventos {
+  modalRef?: BsModalRef;
   public eventos : Evento[] = [] ;
   public eventosFiltrados : Evento[] = [] ;
   larguraImagem = 100;
@@ -39,7 +41,11 @@ export class Eventos {
       ((evento:Evento)=> evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 || evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1))
   }
 
-  constructor(private eventoService: EventoService) {}
+  constructor
+  (
+    private eventoService: EventoService,
+    private modalService: BsModalService
+  ) {}
   
   public ngOnInit(): void{
     this.getEventos();
@@ -62,6 +68,18 @@ export class Eventos {
   public alterarImagem() :  void
   {
   this.mostrarImagem = !this.mostrarImagem;
+  }
+  
+  openModal(template: TemplateRef<void>) :void {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+ 
+  confirm(): void {
+    this.modalRef?.hide();
+  }
+ 
+  decline(): void {
+    this.modalRef?.hide();
   }
 
 }

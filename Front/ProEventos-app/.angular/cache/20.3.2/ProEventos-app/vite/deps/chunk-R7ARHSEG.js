@@ -1,6 +1,6 @@
 import {
   sequence
-} from "./chunk-6TWIHM6P.js";
+} from "./chunk-ZPRPMBDV.js";
 import {
   ANIMATION_MODULE_TYPE,
   DOCUMENT,
@@ -13,9 +13,9 @@ import {
   setClassMetadata,
   ɵɵdefineInjectable,
   ɵɵinject
-} from "./chunk-2MVQRDIU.js";
+} from "./chunk-QGYGGBCP.js";
 
-// ../../../node_modules/@angular/animations/fesm2022/animations.mjs
+// node_modules/@angular/animations/fesm2022/animations.mjs
 var AnimationBuilder = class _AnimationBuilder {
   static ɵfac = function AnimationBuilder_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _AnimationBuilder)();
@@ -192,4 +192,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-BSNO7QUH.js.map
+//# sourceMappingURL=chunk-R7ARHSEG.js.map

@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { EventoService } from './services/evento-service';
 
@@ -27,7 +28,8 @@ export const appConfig: ApplicationConfig = {
       BrowserAnimationsModule,
       CollapseModule.forRoot(),
       TooltipModule.forRoot(),
-      BsDropdownModule.forRoot()
+      BsDropdownModule.forRoot(),
+      ModalModule.forRoot()
     ),
     EventoService
   ]

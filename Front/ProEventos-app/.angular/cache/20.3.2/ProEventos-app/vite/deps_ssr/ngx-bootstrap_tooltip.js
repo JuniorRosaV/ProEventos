@@ -7,11 +7,11 @@ import {
   getBsVer,
   parseTriggers,
   warnOnce
-} from "./chunk-IK46U3PZ.js";
+} from "./chunk-I6YITJRI.js";
 import {
   CommonModule
-} from "./chunk-SMQMOI4Q.js";
-import "./chunk-YJB63RH5.js";
+} from "./chunk-ZZAJE3EH.js";
+import "./chunk-B22DVCYO.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -40,12 +40,12 @@ import {
   ɵɵdomElementStart,
   ɵɵprojection,
   ɵɵprojectionDef
-} from "./chunk-QLWI7Y6T.js";
+} from "./chunk-LSUUNFI6.js";
 import {
   __toESM
 } from "./chunk-6DU2HRTW.js";
 
-// ../../../node_modules/tslib/tslib.es6.mjs
+// node_modules/tslib/tslib.es6.mjs
 function __decorate(decorators, target, key, desc) {
   var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
   if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -56,7 +56,7 @@ function __metadata(metadataKey, metadataValue) {
   if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
 }
 
-// ../../../node_modules/ngx-bootstrap/tooltip/fesm2022/ngx-bootstrap-tooltip.mjs
+// node_modules/ngx-bootstrap/tooltip/fesm2022/ngx-bootstrap-tooltip.mjs
 var import_rxjs = __toESM(require_cjs(), 1);
 var _c0 = ["*"];
 var _TooltipConfig = class _TooltipConfig {

@@ -1,18 +1,13 @@
 <div class="eventos-container">
   <h1>Eventos</h1>
   <hr>
-  
+
   <div class="form-inline">
     <div class="form-group mb-2">
-      <input 
-        type="text"
-        class="form-control mr-2"
-        placeholder="Buscar"
-        [(ngModel)]="filtroLista"
-      >
+      <input type="text" class="form-control mr-2" placeholder="Buscar" [(ngModel)]="filtroLista">
       <button class="btn btn-outline-success">Buscar</button>
     </div>
-  </div>  
+  </div>
 
   <table class="table table-striped" *ngIf="eventosFiltrados && eventosFiltrados.length > 0; else semEventos">
     <thead class="thead-dark">
@@ -37,9 +32,7 @@
     <tbody>
       <tr *ngFor="let evento of eventosFiltrados">
         <td>
-          <img *ngIf="mostrarImagem"
-            [src]="'/assets/' + evento.imagemUrl"
-            [style.width.px]="larguraImagem"
+          <img *ngIf="mostrarImagem" [src]="'/assets/' + evento.imagemUrl" [style.width.px]="larguraImagem"
             [style.margin.px]="margemImagem">
         </td>
         <td>{{ evento.id }}</td>
@@ -53,7 +46,7 @@
           <button class="btn btn-outline-primary btn-sm" tooltip="Editar">
             <i class="fa fa-edit"></i>
           </button>
-          <button class="btn btn-outline-danger btn-sm" tooltip="Excluir">
+          <button class="btn btn-outline-danger btn-sm" tooltip="Excluir" (click)="openModal(template)">
             <i class="fa fa-trash"></i>
           </button>
         </td>
@@ -66,3 +59,11 @@
     <h1 class="text-center mt-3">Nenhum evento encontrado!</h1>
   </ng-template>
 </div>
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Você deseja Excluir o evento?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()">Sim</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">Não</button>
+  </div>
+</ng-template>

@@ -1,11 +1,11 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   AnimationBuilder
-} from "./chunk-SIVCQBFX.js";
+} from "./chunk-A6UOJSY3.js";
 import {
   animate,
   style
-} from "./chunk-LNYQMIKJ.js";
+} from "./chunk-QKBTK7JK.js";
 import {
   Directive,
   ElementRef,
@@ -22,10 +22,10 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵdirectiveInject
-} from "./chunk-QLWI7Y6T.js";
+} from "./chunk-LSUUNFI6.js";
 import "./chunk-6DU2HRTW.js";
 
-// ../../../node_modules/ngx-bootstrap/collapse/fesm2022/ngx-bootstrap-collapse.mjs
+// node_modules/ngx-bootstrap/collapse/fesm2022/ngx-bootstrap-collapse.mjs
 var COLLAPSE_ANIMATION_TIMING = "400ms cubic-bezier(0.4,0.0,0.2,1)";
 var expandAnimation = [style({
   height: 0,

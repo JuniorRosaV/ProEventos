@@ -1,6 +1,7 @@
+import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   isPlatformBrowser
-} from "./chunk-YYCOINV3.js";
+} from "./chunk-ZZAJE3EH.js";
 import {
   ApplicationRef,
   ComponentFactoryResolver$1,
@@ -12,27 +13,25 @@ import {
   Injectable,
   Injector,
   NgZone,
-  Observable,
   PLATFORM_ID,
   RendererFactory2,
-  Subject,
   TemplateRef,
-  __spreadProps,
-  __spreadValues,
-  animationFrameScheduler,
   assertInInjectionContext,
-  fromEvent,
   inject,
   isDevMode,
-  merge,
-  of,
+  require_cjs,
+  require_operators,
   setClassMetadata,
-  takeUntil,
   ɵɵdefineInjectable,
   ɵɵinject
-} from "./chunk-2MVQRDIU.js";
+} from "./chunk-LSUUNFI6.js";
+import {
+  __spreadProps,
+  __spreadValues,
+  __toESM
+} from "./chunk-6DU2HRTW.js";
 
-// ../../../node_modules/ngx-bootstrap/utils/fesm2022/ngx-bootstrap-utils.mjs
+// node_modules/ngx-bootstrap/utils/fesm2022/ngx-bootstrap-utils.mjs
 var Trigger = class {
   constructor(open, close) {
     this.open = open;
@@ -175,6 +174,11 @@ function getBsVer() {
     isBs5: isBs5()
   };
 }
+function currentBsVersion() {
+  const bsVer = getBsVer();
+  const resVersion = Object.keys(bsVer).find((key) => bsVer[key]);
+  return BsVerions[resVersion];
+}
 function OnChange() {
   const sufix = "Change";
   return function OnChangeHandler(target, propertyKey) {
@@ -195,6 +199,29 @@ function OnChange() {
     });
   };
 }
+var Utils = class {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static reflow(element) {
+    /* @__PURE__ */ ((bs) => bs)(element.offsetHeight);
+  }
+  // source: https://github.com/jquery/jquery/blob/master/src/css/var/getStyles.js
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static getStyles(elem) {
+    let view = elem.ownerDocument.defaultView;
+    if (!view || !view.opener) {
+      view = win;
+    }
+    return view.getComputedStyle(elem);
+  }
+  static stackOverflowConfig() {
+    const bsVer = currentBsVersion();
+    return {
+      crossorigin: "anonymous",
+      integrity: bsVer === "bs5" ? "sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" : "sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2",
+      cdnLink: bsVer === "bs5" ? "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" : "https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    };
+  }
+};
 var _messagesHash = {};
 var _hideMsg = typeof console === "undefined" || !("warn" in console);
 function warnOnce(msg) {
@@ -205,13 +232,15 @@ function warnOnce(msg) {
   console.warn(msg);
 }
 
-// ../../../node_modules/@angular/core/fesm2022/rxjs-interop.mjs
+// node_modules/@angular/core/fesm2022/rxjs-interop.mjs
+var import_rxjs = __toESM(require_cjs(), 1);
+var import_operators = __toESM(require_operators(), 1);
 function takeUntilDestroyed(destroyRef) {
   if (!destroyRef) {
     ngDevMode && assertInInjectionContext(takeUntilDestroyed);
     destroyRef = inject(DestroyRef);
   }
-  const destroyed$ = new Observable((subscriber) => {
+  const destroyed$ = new import_rxjs.Observable((subscriber) => {
     if (destroyRef.destroyed) {
       subscriber.next();
       return;
@@ -220,11 +249,12 @@ function takeUntilDestroyed(destroyRef) {
     return unregisterFn;
   });
   return (source) => {
-    return source.pipe(takeUntil(destroyed$));
+    return source.pipe((0, import_operators.takeUntil)(destroyed$));
   };
 }
 
-// ../../../node_modules/ngx-bootstrap/positioning/fesm2022/ngx-bootstrap-positioning.mjs
+// node_modules/ngx-bootstrap/positioning/fesm2022/ngx-bootstrap-positioning.mjs
+var import_rxjs2 = __toESM(require_cjs(), 1);
 var MapPlacementInToRL;
 (function(MapPlacementInToRL2) {
   MapPlacementInToRL2["top"] = "top";
@@ -1003,16 +1033,16 @@ function positionElements(hostElement, targetElement, placement, appendToBody, o
 }
 var _PositioningService = class _PositioningService {
   constructor(ngZone, rendererFactory, platformId) {
-    this.update$$ = new Subject();
+    this.update$$ = new import_rxjs2.Subject();
     this.positionElements = /* @__PURE__ */ new Map();
     this.isDisabled = false;
     if (isPlatformBrowser(platformId)) {
       ngZone.runOutsideAngular(() => {
-        this.triggerEvent$ = merge(fromEvent(window, "scroll", {
+        this.triggerEvent$ = (0, import_rxjs2.merge)((0, import_rxjs2.fromEvent)(window, "scroll", {
           passive: true
-        }), fromEvent(window, "resize", {
+        }), (0, import_rxjs2.fromEvent)(window, "resize", {
           passive: true
-        }), of(0, animationFrameScheduler), this.update$$);
+        }), (0, import_rxjs2.of)(0, import_rxjs2.animationFrameScheduler), this.update$$);
         this.triggerEvent$.pipe(takeUntilDestroyed()).subscribe(() => {
           if (this.isDisabled) {
             return;
@@ -1086,7 +1116,7 @@ function _getHtmlElement(element) {
   return element ?? null;
 }
 
-// ../../../node_modules/ngx-bootstrap/component-loader/fesm2022/ngx-bootstrap-component-loader.mjs
+// node_modules/ngx-bootstrap/component-loader/fesm2022/ngx-bootstrap-component-loader.mjs
 var ContentRef = class {
   constructor(nodes, viewRef, componentRef) {
     this.nodes = nodes;
@@ -1410,8 +1440,11 @@ var ComponentLoaderFactory = _ComponentLoaderFactory;
 
 export {
   parseTriggers,
+  win,
+  document2 as document,
   getBsVer,
   OnChange,
+  Utils,
   warnOnce,
   PlacementForBs5,
   PositioningService,
@@ -1435,4 +1468,4 @@ ngx-bootstrap/utils/fesm2022/ngx-bootstrap-utils.mjs:
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-CDJGT6F2.js.map
+//# sourceMappingURL=chunk-I6YITJRI.js.map

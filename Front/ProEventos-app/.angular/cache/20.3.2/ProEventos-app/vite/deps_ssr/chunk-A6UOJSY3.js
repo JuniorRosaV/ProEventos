@@ -1,7 +1,7 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   sequence
-} from "./chunk-LNYQMIKJ.js";
+} from "./chunk-QKBTK7JK.js";
 import {
   ANIMATION_MODULE_TYPE,
   DOCUMENT,
@@ -14,9 +14,9 @@ import {
   setClassMetadata,
   ɵɵdefineInjectable,
   ɵɵinject
-} from "./chunk-QLWI7Y6T.js";
+} from "./chunk-LSUUNFI6.js";
 
-// ../../../node_modules/@angular/animations/fesm2022/animations.mjs
+// node_modules/@angular/animations/fesm2022/animations.mjs
 var AnimationBuilder = class _AnimationBuilder {
   static ɵfac = function AnimationBuilder_Factory(__ngFactoryType__) {
     return new (__ngFactoryType__ || _AnimationBuilder)();
@@ -193,4 +193,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-SIVCQBFX.js.map
+//# sourceMappingURL=chunk-A6UOJSY3.js.map

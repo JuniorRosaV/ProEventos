@@ -1,10 +1,10 @@
 import {
   AnimationBuilder
-} from "./chunk-BSNO7QUH.js";
+} from "./chunk-R7ARHSEG.js";
 import {
   animate,
   style
-} from "./chunk-6TWIHM6P.js";
+} from "./chunk-ZPRPMBDV.js";
 import {
   Directive,
   ElementRef,
@@ -21,9 +21,9 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵdirectiveInject
-} from "./chunk-2MVQRDIU.js";
+} from "./chunk-QGYGGBCP.js";
 
-// ../../../node_modules/ngx-bootstrap/collapse/fesm2022/ngx-bootstrap-collapse.mjs
+// node_modules/ngx-bootstrap/collapse/fesm2022/ngx-bootstrap-collapse.mjs
 var COLLAPSE_ANIMATION_TIMING = "400ms cubic-bezier(0.4,0.0,0.2,1)";
 var expandAnimation = [style({
   height: 0,
