@@ -1,16 +1,15 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
 
-/* Variáveis de cor e transição */
-$bg-start: #9600c4; // roxo
-$bg-end: #000000;// preto
-$text-color: #ffffff;
-$highlight-color: #d18fff;
+$bg-start: #f5f7fa;           
+$bg-end: #e0e4e9;            
+$text-color: #2f3542;         
+$highlight-color: #4b7bec;  
 $transition-speed: 0.3s;
 
-/* Fundo global da página */
+
 body {
-  background: linear-gradient(300deg, $bg-end,$bg-start);
+  background: linear-gradient(300deg, $bg-end, $bg-start);
   color: $text-color;
   font-family: 'Segoe UI', sans-serif;
   min-height: 100vh;

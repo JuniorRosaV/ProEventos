@@ -1,16 +1,18 @@
-$bg-start: #9600c4;        
-$bg-end: #000000;         
-$text-color: #ffffff;
-$highlight-color: #d18fff;
+$bg-start: #f5f7fa;         // branco gelo
+$bg-end: #e0e4e9;           // cinza claro
+$text-color: #2f3542;       // cinza escuro para textos
+$highlight-color: #091122;  // azul leve como destaque
 $transition-speed: 0.3s;
-$table-bg: rgb(0, 0, 0);
+$table-bg: #ffffff;         // fundo branco
+$row-alt: #f0f2f5;          // cinza alternado para linhas ímpares
+$row-hover: #dcdde1;        // hover suave
 
 .eventos-container {
+  padding-top: 100px;
   background: linear-gradient(135deg, $bg-start, $bg-end);
   color: $text-color;
   font-family: 'Segoe UI', sans-serif;
   min-height: 100vh;
-  padding: 2rem;
 }
 
 h1 {
@@ -18,7 +20,8 @@ h1 {
   font-size: 2rem;
   font-weight: 900;
   margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  color: $text-color;
+  text-shadow: none;
 }
 
 hr {
@@ -38,20 +41,20 @@ hr {
 
     .form-control {
       padding: 0.5rem 1rem;
-      border: none;
+      border: 1px solid #ccc;
       border-radius: 4px 0 0 4px;
-      background: rgba(255, 255, 255, 0.1);
+      background: #ffffff;
       color: $text-color;
       outline: none;
       transition: all $transition-speed;
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.747);
+        color: #888;
         text-transform: uppercase;
       }
 
       &:focus {
-        background: rgba(255, 255, 255, 0.2);
+        background: #f9f9f9;
         border: 1px solid $highlight-color;
       }
     }
@@ -59,14 +62,14 @@ hr {
     .btn {
       border: none;
       background: $highlight-color;
-      color: $text-color;
+      color: #ffffff;
       font-weight: bold;
       border-radius: 0 4px 4px 0;
       cursor: pointer;
       transition: all $transition-speed;
 
       &:hover {
-        background: lighten($highlight-color, 10%);
+        background: darken($highlight-color, 10%);
         transform: scale(1.05);
       }
     }
@@ -77,87 +80,79 @@ hr {
   width: 100%;
   border-collapse: collapse;
   border-radius: 8px;
-  table-layout: fixed;
-  overflow: hidden;
-  background: linear-gradient(90deg,$bg-end,$bg-start);
-  box-shadow: 0 4px 8px rgba(156, 1, 161, 0.753); // Adiciona uma sombra para profundidade
+  background: $table-bg;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 
-  /* Estilo do cabeçalho da tabela */
   thead {
     th {
       text-align: center;
       font-weight: bold;
       padding: 0.75rem;
-      background: none;
-      border-bottom: 2px solid #5e00a1;
-      color: #ffffff;
+      background:$highlight-color;
+      border-bottom: 2px solid #dcdde1;
+      color: $bg-start;
     }
   }
+
   tbody {
-  tr {
-    transition: all 0.3s;
-    cursor: pointer;
+    tr {
+      transition: all 0.3s;
+      cursor: pointer;
 
-    /* Linhas ímpares (1ª, 3ª, etc.) com fundo roxo */
-    &:nth-of-type(odd) {
-      background: rgb(92, 0, 121);
-    }
-    
-    /* Linhas pares (2ª, 4ª, etc.) com fundo preto */
-    &:nth-of-type(even) {
-      background: rgb(0, 0, 0);
-    }
+      &:nth-of-type(odd) {
+        background: $row-alt;
+      }
 
-    /* Efeito ao passar o mouse por cima */
-    &:hover {
-      background: rgba(150, 0, 196, 0.7);
-    }
+      &:nth-of-type(even) {
+        background: #ffffff;
+      }
 
-    td {
-      padding: 0.75rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      color: #2c0631 !important; // Usa !important para garantir a cor branca
+      &:hover {
+        background: $row-hover;
+      }
+
+      td {
+        padding: 0.75rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        color: $text-color;
+      }
     }
   }
-}
 
-  /* Estilo do rodapé da tabela */
   tfoot {
     td {
       text-align: center;
       padding: 1rem;
-      color: #d18fff;
+      color: $highlight-color;
       font-weight: bold;
+      background: #f1f2f6;
     }
   }
 }
 
 .btn-outline-primary {
-  color: #fff;
-  background-color: #8000ff;
-  border-color: #8000ff;
+  color: #ffffff;
+  background-color: $highlight-color;
+  border-color: $highlight-color;
 
   &:hover {
-    color: #fff;
-    background-color: #5e00b3;
-    border-color: #5e00b3;
+    background-color: darken($highlight-color, 10%);
+    border-color: darken($highlight-color, 10%);
   }
 }
 
 .btn-outline-danger {
-  color: #fff;
+  color: #ffffff;
   background-color: #d32f2f;
   border-color: #d32f2f;
   margin-left: 1px;
 
   &:hover {
-    color: #fff;
     background-color: #a31515;
     border-color: #a31515;
   }
 }
 
-// Responsividade para telas menores
 @media (max-width: 768px) {
   .table {
     font-size: 0.9rem;
@@ -170,7 +165,7 @@ hr {
       tr {
         display: block;
         margin-bottom: 1rem;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        border-bottom: 2px solid rgba(0, 0, 0, 0.05);
 
         td {
           display: flex;
@@ -178,7 +173,6 @@ hr {
           padding: 0.5rem;
           border: none;
 
-          // Adiciona o label do cabeçalho antes de cada célula
           &:before {
             content: attr(data-label);
             font-weight: 700;

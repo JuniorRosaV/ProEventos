@@ -56,10 +56,9 @@ export class Eventos {
   public ngOnInit(): void{
     this.spinner.show();
     this.getEventos();
-    
 
     setTimeout(() => {
-      /** spinner ends after 5 seconds */
+
       this.spinner.hide();
     }, 5000);
   }

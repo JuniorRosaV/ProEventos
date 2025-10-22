@@ -1,41 +1,46 @@
 // nav.scss
-$primary-color: #150a1a;
-$secondary-color: #9600c4;
-$dark-bg: #1e1e2f;
-$text-color: #ffffff;
-$hover-color: #000000;
+$primary-color: #f5f7fa;       
+$secondary-color: #dfe4ea;     
+$dark-bg: #2f3542;             
+$text-color: #2f3542;          
+$hover-color: #1e272e;         
 $transition-speed: 0.3s;
 
 .navbar {
-  background: linear-gradient(90deg, $primary-color, $secondary-color);
+  background-color: $primary-color;
   padding: 1rem 2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1050;
 
   .navbar-brand {
-    font-weight: 900;
-    font-size: 1.8rem;
+    font-weight: 800;
+    font-size: 1.6rem;
     color: $text-color;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
     transition: color $transition-speed, transform $transition-speed;
 
     &:hover {
-      transform: scale(1.1);
+      color: $hover-color;
+      transform: scale(1.05);
     }
   }
 
   .navbar-toggler {
-    border: 2px solid $text-color;
+    border: none;
     background-color: transparent;
+    padding: 0.5rem;
     transition: all $transition-speed;
 
     &:hover {
-      background-color: rgba(255,255,255,0.1);
-      transform: rotate(10deg);
+      transform: rotate(5deg);
     }
 
     .navbar-toggler-icon {
-      filter: invert(1);
+      background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%232f3542' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     }
   }
 
@@ -44,12 +49,12 @@ $transition-speed: 0.3s;
 
     .navbar-nav {
       .nav-item {
-        margin-left: 1.5rem;
+        margin-left: 1.2rem;
 
         .nav-link {
           color: $text-color;
           font-weight: 500;
-          font-size: 1.1rem;
+          font-size: 1.05rem;
           position: relative;
           transition: color $transition-speed;
 
@@ -61,17 +66,25 @@ $transition-speed: 0.3s;
             background: $hover-color;
             transition: width $transition-speed;
             position: absolute;
-            bottom: -5px;
+            bottom: -4px;
             left: 0;
           }
 
           &:hover {
             color: $hover-color;
+
+            &:after {
+              width: 100%;
+            }
           }
 
           &.active {
             font-weight: 700;
             color: $hover-color;
+
+            &:after {
+              width: 100%;
+            }
           }
         }
       }
@@ -79,17 +92,18 @@ $transition-speed: 0.3s;
   }
 }
 
-// Mobile / Responsive tweaks
+// Responsivo
 @media (max-width: 992px) {
   .navbar-collapse {
-    background: $dark-bg;
+    background: $secondary-color;
     padding: 1rem;
+    border-radius: 0.5rem;
 
     .nav-item {
-      margin: 0.8rem 0;
+      margin: 0.7rem 0;
 
       .nav-link {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
       }
     }
   }
