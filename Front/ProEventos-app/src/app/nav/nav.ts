@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-nav',
-  imports: [CollapseModule, BsDropdownModule],
+  standalone: true,
+  imports: [CollapseModule, BsDropdownModule,RouterModule],
   templateUrl: './nav.html',
-  styleUrl: './nav.scss'
+  styleUrls: ['./nav.scss']
 })
 export class Nav {
   isCollapsed = true;
