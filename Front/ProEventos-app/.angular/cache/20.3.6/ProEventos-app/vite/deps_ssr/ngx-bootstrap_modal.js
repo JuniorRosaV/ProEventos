@@ -5,11 +5,11 @@ import {
   Utils,
   document as document2,
   win
-} from "./chunk-S7HDFZXE.js";
+} from "./chunk-KOGCD6RC.js";
 import {
   CommonModule,
   isPlatformBrowser
-} from "./chunk-FENV5KNB.js";
+} from "./chunk-SD4KV5YM.js";
 import "./chunk-DESF4QXN.js";
 import {
   Component,
@@ -30,7 +30,6 @@ import {
   Renderer2,
   RendererFactory2,
   ViewContainerRef,
-  require_operators,
   setClassMetadata,
   ɵɵNgOnChangesFeature,
   ɵɵProvidersFeature,
@@ -49,7 +48,10 @@ import {
   ɵɵprojection,
   ɵɵprojectionDef,
   ɵɵresolveWindow
-} from "./chunk-IMORJLE4.js";
+} from "./chunk-WQJB6FYU.js";
+import {
+  require_operators
+} from "./chunk-DFCHPRMF.js";
 import {
   __toESM
 } from "./chunk-6DU2HRTW.js";

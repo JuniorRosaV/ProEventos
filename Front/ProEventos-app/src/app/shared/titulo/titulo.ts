@@ -8,4 +8,6 @@ import { Component, Input } from '@angular/core';
 })
 export class Titulo {
   @Input() titulo: string = '';
+  @Input() subtitulo: string = 'Desde 2025';
+  @Input() iconClass: string = 'fa fa-user';
 }

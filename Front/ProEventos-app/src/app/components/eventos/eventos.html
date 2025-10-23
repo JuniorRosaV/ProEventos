@@ -1,6 +1,5 @@
 <div class="eventos-container">
-  <app-titulo [titulo]="'Eventos'"></app-titulo>
-
+  <app-titulo [titulo]="'Eventos'" [subtitulo]="'Lista de eventos'" [iconClass]="'fa fa-calendar'"></app-titulo>
 
   <div class="form-inline">
     <div class="form-group mb-2">
@@ -9,7 +8,13 @@
     </div>
   </div>
 
-  <table class="table table-striped" *ngIf="eventosFiltrados && eventosFiltrados.length > 0; else semEventos">
+  <!-- Mostra mensagem enquanto carrega -->
+  <div *ngIf="loading" class="text-center mt-3">
+    <p>Carregando eventos...</p>
+  </div>
+
+  <!-- Tabela de eventos, exibida apenas quando não está carregando e há eventos -->
+  <table *ngIf="!loading && eventosFiltrados.length > 0" class="table table-striped">
     <thead class="thead-dark">
       <tr>
         <th>
@@ -54,9 +59,9 @@
     </tbody>
   </table>
 
-  <!-- Template que aparece quando não há eventos -->
+  <!-- Template que aparece quando não há eventos e não está carregando -->
   <ng-template #semEventos>
-    <h1 class="text-center mt-3">Nenhum evento encontrado!</h1>
+    <h1 class="text-center mt-3" *ngIf="!loading">Nenhum evento encontrado!</h1>
   </ng-template>
 </div>
 

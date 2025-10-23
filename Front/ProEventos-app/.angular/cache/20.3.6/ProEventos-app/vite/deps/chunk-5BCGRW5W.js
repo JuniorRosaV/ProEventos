@@ -28,12 +28,9 @@ import {
   Renderer2,
   RendererStyleFlags2,
   RuntimeError,
-  Subject,
   TemplateRef,
   Version,
   ViewContainerRef,
-  __spreadProps,
-  __spreadValues,
   booleanAttribute,
   createNgModule,
   findLocaleData,
@@ -60,7 +57,12 @@ import {
   ɵɵinject,
   ɵɵinjectAttribute,
   ɵɵstyleProp
-} from "./chunk-ZCDEZXDQ.js";
+} from "./chunk-H6BDRWNQ.js";
+import {
+  Subject,
+  __spreadProps,
+  __spreadValues
+} from "./chunk-KRUOZGOS.js";
 
 // node_modules/@angular/common/fesm2022/location.mjs
 var _DOM = null;
@@ -5184,4 +5186,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-4PNREGUB.js.map
+//# sourceMappingURL=chunk-5BCGRW5W.js.map

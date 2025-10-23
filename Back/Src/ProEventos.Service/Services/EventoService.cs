@@ -26,7 +26,7 @@ public class EventoService : IEventoService
                 return await _eventoRepository.GetEventoByIdAsync(Model.Id, false);
             }
 
-            return null;
+            throw new Exception("Erro ao adicionar evento.");
         }
         catch (Exception ex)
         {
@@ -37,7 +37,7 @@ public class EventoService : IEventoService
     public async Task<Evento> UpdateEvento(int eventoId, Evento model)
     {
         var eventoBanco = await _eventoRepository.GetEventoByIdAsync(eventoId, true, false);
-        if (eventoBanco == null) return null;
+        if (eventoBanco == null) throw new Exception("Evento para update não encontrado.");
 
         eventoBanco.Tema = model.Tema;
         eventoBanco.Local = model.Local;
@@ -103,7 +103,7 @@ public class EventoService : IEventoService
         try
         {
             var eventos = await _eventoRepository.GetAllEventosByTemaAsync(tema, includePalestrantes);
-            if (eventos == null) return null;
+            if (eventos == null) throw new Exception("Nenhum evento encontrado para o tema informado.");
 
             return eventos;
         }
@@ -120,7 +120,7 @@ public class EventoService : IEventoService
             try
             {
                 var evento = await _eventoRepository.GetEventoByIdAsync(eventoId, includePalestrantes);
-                if (evento == null) return null;
+                if (evento == null) throw new Exception("Evento não encontrado.");
                 return evento;
             }
             catch (Exception ex)

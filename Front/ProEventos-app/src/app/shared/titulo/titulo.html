@@ -1,4 +1,14 @@
-  <h1>
-    {{titulo}}
-  </h1>
-  <hr>
+<div class="d-flex align-items-center justify-content-between p-3 my-3 text-white bg-highlight rounded shadow-sm">
+  <div class="d-flex align-items-center">
+    <i class="{{iconClass}}"></i>
+    <div class="lh-100 ml-3">
+      <h2 class="mb-0">{{titulo}}</h2>
+      <small>{{subtitulo}}</small>
+    </div> 
+  </div>
+  <div>
+    <button class="btn btn-outline-light">
+      Listar {{titulo}}
+    </button>
+  </div>
+</div>

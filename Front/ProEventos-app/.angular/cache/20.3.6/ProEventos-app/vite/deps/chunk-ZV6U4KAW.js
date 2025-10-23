@@ -4,7 +4,7 @@ import {
   PLATFORM_BROWSER_ID,
   getDOM,
   setRootDomAdapter
-} from "./chunk-4PNREGUB.js";
+} from "./chunk-5BCGRW5W.js";
 import {
   XhrFactory,
   parseCookieValue
@@ -33,7 +33,6 @@ import {
   TestabilityRegistry,
   TracingService,
   ViewEncapsulation,
-  __spreadValues,
   _global,
   allLeavingAnimations,
   createPlatformFactory,
@@ -46,7 +45,10 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-ZCDEZXDQ.js";
+} from "./chunk-H6BDRWNQ.js";
+import {
+  __spreadValues
+} from "./chunk-KRUOZGOS.js";
 
 // node_modules/@angular/platform-browser/fesm2022/dom_renderer.mjs
 var EventManagerPlugin = class {
@@ -1237,4 +1239,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-Q7XWV6OE.js.map
+//# sourceMappingURL=chunk-ZV6U4KAW.js.map

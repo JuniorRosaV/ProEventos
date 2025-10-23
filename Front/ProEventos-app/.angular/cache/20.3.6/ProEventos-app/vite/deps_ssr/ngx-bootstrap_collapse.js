@@ -1,7 +1,7 @@
 import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   AnimationBuilder
-} from "./chunk-ZCRBYBW4.js";
+} from "./chunk-D3BH52X3.js";
 import {
   animate,
   style
@@ -22,7 +22,8 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵdirectiveInject
-} from "./chunk-IMORJLE4.js";
+} from "./chunk-WQJB6FYU.js";
+import "./chunk-DFCHPRMF.js";
 import "./chunk-6DU2HRTW.js";
 
 // node_modules/ngx-bootstrap/collapse/fesm2022/ngx-bootstrap-collapse.mjs
