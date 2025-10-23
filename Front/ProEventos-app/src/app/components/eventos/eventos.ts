@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, TemplateRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, TemplateRef, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Evento } from '../../models/Evento';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -31,7 +31,6 @@ export class Eventos implements OnInit, OnDestroy {
   private filtroListado = '';
   private routerSub?: Subscription;
 
-  // Variável para controlar o estado de carregamento
   public loading: boolean = false;
 
   public get filtroLista(): string {
@@ -57,7 +56,8 @@ export class Eventos implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private toastrService: ToastrService,
     private spinner: NgxSpinnerService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -77,21 +77,25 @@ export class Eventos implements OnInit, OnDestroy {
   public getEventos(): void {
     this.loading = true;
     this.spinner.show();
+    console.log('Buscando eventos...');
 
     this.eventoService.getEventos().subscribe({
       next: (eventos: Evento[]) => {
+        console.log('Eventos recebidos:', eventos);
         this.eventos = eventos ?? [];
         this.eventos = (eventos ?? []).map(e => ({ ...e, lotes: e.lotes ?? [] }));
         this.eventosFiltrados = this.eventos;
-        this.loading = false;    // Finaliza o loading
+        this.loading = false;
         this.spinner.hide();
+        this.cdr.detectChanges();
       },
       error: (error) => {
-        console.log(error);
+        console.error('Erro ao buscar eventos:', error);
         this.eventos = [];
         this.eventosFiltrados = [];
         this.loading = false;
         this.spinner.hide();
+        this.cdr.detectChanges();
       }
     });
   }
