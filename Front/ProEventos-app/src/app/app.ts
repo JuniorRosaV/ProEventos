@@ -1,6 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { Nav } from './nav/nav';
+import { EventoListagem } from './components/eventos/evento-listagem/evento-listagem';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +9,6 @@ import { Nav } from './nav/nav';
   imports: [
             RouterModule,
             RouterOutlet,
-            // Contatos,
-            // Dashboards,
-            // Eventos,
-            // Palestrantes,
-            // Perfil,
-            // Titulo,
             Nav,
           ],
   templateUrl: './app.html',

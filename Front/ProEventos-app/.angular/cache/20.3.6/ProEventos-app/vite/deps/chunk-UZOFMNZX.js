@@ -1,15 +1,14 @@
-import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
   CommonModule,
   DomAdapter,
   PLATFORM_BROWSER_ID,
   getDOM,
   setRootDomAdapter
-} from "./chunk-SD4KV5YM.js";
+} from "./chunk-JDQEZ7D2.js";
 import {
   XhrFactory,
   parseCookieValue
-} from "./chunk-DESF4QXN.js";
+} from "./chunk-ZMLREZMJ.js";
 import {
   APP_ID,
   ApplicationModule,
@@ -46,11 +45,10 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-WQJB6FYU.js";
+} from "./chunk-6RQQVQ7T.js";
 import {
-  __spreadProps,
   __spreadValues
-} from "./chunk-6DU2HRTW.js";
+} from "./chunk-SI3RN3KH.js";
 
 // node_modules/@angular/platform-browser/fesm2022/dom_renderer.mjs
 var EventManagerPlugin = class {
@@ -311,7 +309,7 @@ var SharedStylesHost = class _SharedStylesHost {
     if (this.nonce) {
       element.setAttribute("nonce", this.nonce);
     }
-    if (true) {
+    if (false) {
       element.setAttribute(APP_ID_ATTRIBUTE_NAME, this.appId);
     }
     return host.appendChild(element);
@@ -426,14 +424,14 @@ var DomRendererFactory2 = class _DomRendererFactory2 {
     this.ngZone = ngZone;
     this.nonce = nonce;
     this.tracingService = tracingService;
-    this.platformIsServer = true;
+    this.platformIsServer = false;
     this.defaultRenderer = new DefaultDomRenderer2(eventManager, doc, ngZone, this.platformIsServer, this.tracingService);
   }
   createRenderer(element, type) {
     if (!element || !type) {
       return this.defaultRenderer;
     }
-    if (type.encapsulation === ViewEncapsulation.ShadowDom) {
+    if (false) {
       type = __spreadProps(__spreadValues({}, type), {
         encapsulation: ViewEncapsulation.Emulated
       });
@@ -675,7 +673,7 @@ var DefaultDomRenderer2 = class {
       if (event === "__ngUnwrap__") {
         return eventHandler;
       }
-      const allowDefaultBehavior = true ? this.ngZone.runGuarded(() => eventHandler(event)) : eventHandler(event);
+      const allowDefaultBehavior = false ? this.ngZone.runGuarded(() => eventHandler(event)) : eventHandler(event);
       if (allowDefaultBehavior === false) {
         event.preventDefault();
       }
@@ -1241,4 +1239,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-PZHCHQJC.js.map
+//# sourceMappingURL=chunk-UZOFMNZX.js.map

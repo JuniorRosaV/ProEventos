@@ -7,10 +7,10 @@ import {
   getBsVer,
   parseTriggers,
   warnOnce
-} from "./chunk-KOGCD6RC.js";
+} from "./chunk-RYXGZ32U.js";
 import {
   CommonModule
-} from "./chunk-SD4KV5YM.js";
+} from "./chunk-R4L4IWPT.js";
 import "./chunk-DESF4QXN.js";
 import {
   ChangeDetectionStrategy,
@@ -24,7 +24,6 @@ import {
   Output,
   Renderer2,
   ViewContainerRef,
-  require_cjs,
   setClassMetadata,
   ɵɵProvidersFeature,
   ɵɵattribute,
@@ -40,8 +39,10 @@ import {
   ɵɵdomElementStart,
   ɵɵprojection,
   ɵɵprojectionDef
-} from "./chunk-WQJB6FYU.js";
-import "./chunk-DFCHPRMF.js";
+} from "./chunk-C5VRL43C.js";
+import {
+  require_cjs
+} from "./chunk-O5J3CNTX.js";
 import {
   __toESM
 } from "./chunk-6DU2HRTW.js";

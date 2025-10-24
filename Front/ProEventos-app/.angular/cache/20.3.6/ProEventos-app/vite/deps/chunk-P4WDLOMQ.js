@@ -1,6 +1,6 @@
 import {
   isPlatformBrowser
-} from "./chunk-5BCGRW5W.js";
+} from "./chunk-JDQEZ7D2.js";
 import {
   ApplicationRef,
   ComponentFactoryResolver$1,
@@ -15,24 +15,24 @@ import {
   PLATFORM_ID,
   RendererFactory2,
   TemplateRef,
-  animationFrameScheduler,
   assertInInjectionContext,
-  fromEvent,
   inject,
   isDevMode,
-  merge,
   setClassMetadata,
   ɵɵdefineInjectable,
   ɵɵinject
-} from "./chunk-H6BDRWNQ.js";
+} from "./chunk-6RQQVQ7T.js";
 import {
   Observable,
   Subject,
   __spreadProps,
   __spreadValues,
+  animationFrameScheduler,
+  fromEvent,
+  merge,
   of,
   takeUntil
-} from "./chunk-KRUOZGOS.js";
+} from "./chunk-SI3RN3KH.js";
 
 // node_modules/ngx-bootstrap/utils/fesm2022/ngx-bootstrap-utils.mjs
 var Trigger = class {
@@ -1468,4 +1468,4 @@ ngx-bootstrap/utils/fesm2022/ngx-bootstrap-utils.mjs:
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-Y5S2MDDY.js.map
+//# sourceMappingURL=chunk-P4WDLOMQ.js.map
