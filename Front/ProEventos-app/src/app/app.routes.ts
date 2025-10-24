@@ -14,6 +14,7 @@ export const routes: Routes = [
     {
         path: 'eventos', component: Eventos,
         children: [
+            { path: 'eventos', redirectTo: 'eventos/lista', pathMatch: 'full' },
             { path: 'detalhe/:id', component: EventoDetalhe },
             { path: 'detalhe', component: EventoDetalhe },
             { path: 'lista', component: EventoListagem },
