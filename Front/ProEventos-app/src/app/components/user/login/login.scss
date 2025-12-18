@@ -1,0 +1,106 @@
+// Fundo da página
+.login-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0f4ff, #e9ecf7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+// Card do login
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  border-radius: 16px;
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+  }
+}
+
+// Formulário
+.form-signin {
+  width: 100%;
+  text-align: center;
+
+  img {
+    width: 200px;
+    height: auto;
+    // margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-weight: 600;
+    color: #2c2f4a;
+    margin-bottom: 2rem;
+  }
+
+  label {
+    display: none;
+  }
+
+  .form-control {
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15px;
+    margin-bottom: 1rem;
+    border: 1px solid #dcdff1;
+    transition: all 0.25s ease;
+
+    &:focus {
+      border-color: #5c6cff;
+      box-shadow: 0 0 0 0.15rem rgba(92, 108, 255, 0.25);
+    }
+  }
+
+  input[type='email'],
+  input[type='password'] {
+    border-radius: 10px;
+  }
+
+  button {
+    margin-top: 1.5rem;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #5c6cff, #3f51ff);
+    border: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(135deg, #4a59ff, #3647ff);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(63, 81, 255, 0.35);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  }
+
+  p {
+    font-size: 14px;
+    color: #6c757d;
+  }
+
+  a {
+    font-weight: 500;
+    color: #5c6cff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #3f51ff;
+      text-decoration: underline;
+    }
+  }
+}

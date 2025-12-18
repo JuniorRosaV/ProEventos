@@ -19,7 +19,11 @@ export class Titulo implements OnInit {
   constructor(private router: Router) {}
 
   listar(): void {
-  this.router.navigate([`/${this.titulo.toLocaleLowerCase()}/lista`]);
-}
-
+  const rota = this.titulo.toLocaleLowerCase();
+    if (rota === 'dashboard') {
+      this.router.navigate(['/dashboards']);
+    } else {
+      this.router.navigate([`/${rota}/lista`]);
+    }
+  }
 }

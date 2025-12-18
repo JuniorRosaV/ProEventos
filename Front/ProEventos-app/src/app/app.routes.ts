@@ -6,21 +6,33 @@ import { Palestrantes } from './components/palestrantes/palestrantes';
 import { Perfil } from './components/perfil/perfil';
 import { EventoDetalhe } from './components/eventos/evento-detalhe/evento-detalhe';
 import { EventoListagem } from './components/eventos/evento-listagem/evento-listagem';
+import { User } from './components/user/user';
+import { Registration } from './components/user/registration/registration';
+import { Login } from './components/user/login/login';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'dashboards', pathMatch: 'full' },
+    {
+        path: 'user', component: User,
+        children: 
+        [
+            { path: 'login', component: Login },
+            { path: 'registration', component: Registration }
+        ]
+        
+    }, 
+    { path: 'perfil', component: Perfil },
+    { path: '', redirectTo: '/user/login', pathMatch: 'full' },
     { path: 'contatos', component: Contatos },
     { path: 'dashboards', component: Dashboards },
     {
         path: 'eventos', component: Eventos,
         children: [
-            { path: 'eventos', redirectTo: 'eventos/lista', pathMatch: 'full' },
+            { path: '', redirectTo: 'lista', pathMatch: 'full' },
             { path: 'detalhe/:id', component: EventoDetalhe },
             { path: 'detalhe', component: EventoDetalhe },
             { path: 'lista', component: EventoListagem },
         ]
     },
     { path: 'palestrantes', component: Palestrantes },
-    { path: 'perfil', component: Perfil },
-    { path: '**', redirectTo: 'dashboards', pathMatch: 'full' }
+    // { path: '**', redirectTo: 'dashboards', pathMatch: 'full' }
 ];

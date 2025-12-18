@@ -1,0 +1,74 @@
+<div class="registration-container">
+  <div class="registration-card">
+
+    <!-- Lado esquerdo -->
+    <div class="registration-brand">
+      <img src="../../assets/conventusreg.png" alt="Conventus">
+    </div>
+
+    <!-- Lado direito -->
+    <div class="registration-form">
+
+      <form>
+
+        <h2>Cadastro de Usuário</h2>
+
+        <!-- Nome -->
+        <div class="form-row two-columns">
+          <div class="form-group">
+            <label>Primeiro Nome</label>
+            <input type="text" placeholder="Insira o primeiro nome" />
+          </div>
+
+          <div class="form-group">
+            <label>Último Nome</label>
+            <input type="text" placeholder="Insira o último nome" />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="Insira seu email" />
+        </div>
+
+        <!-- Usuário -->
+        <div class="form-group">
+          <label>Usuário</label>
+          <input type="text" placeholder="Nome de usuário" />
+        </div>
+
+        <!-- Senhas -->
+        <div class="form-row two-columns">
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" placeholder="Digite a senha" />
+          </div>
+
+          <div class="form-group">
+            <label>Confirmar Senha</label>
+            <input type="password" placeholder="Confirme a senha" />
+          </div>
+        </div>
+
+        <!-- Termos -->
+        <div class="terms">
+          <input type="checkbox" id="terms">
+          <label for="terms">
+            Eu concordo com os <a href="#">Termos de Uso</a>
+          </label>
+        </div>
+
+        <!-- Botão -->
+        <button type="submit">Registrar</button>
+
+        <!-- Link -->
+        <a class="login-link" routerLink="/user/login">
+          Já sou cadastrado
+        </a>
+
+      </form>
+
+    </div>
+  </div>
+</div>
