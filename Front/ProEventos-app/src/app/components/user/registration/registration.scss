@@ -67,8 +67,14 @@ $transition: all 0.25s ease;
     display: flex;
     flex-direction: column;
   }
+ 
+  .registration-form label {
+  text-align: left;
+  }
+
 
   label {
+    text-align: left;
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.6px;
