@@ -1,0 +1,111 @@
+/* ===== VARIÁVEIS (iguais ao registration) ===== */
+$primary: #2f43ff;
+$primary-dark: #0b1533;
+$bg: #eef2ff;
+$border: #dbe3ec;
+$text: #1f2937;
+$transition: all 0.25s ease;
+
+/* ===== FORM CONTAINER ===== */
+form {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* ===== LABELS ===== */
+label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: $text;
+  margin-bottom: 0.35rem;
+}
+
+/* ===== INPUTS ===== */
+.form-control {
+  border-radius: 12px;
+  border: 1px solid $border;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.9rem;
+  transition: $transition;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba(47, 67, 255, 0.25);
+    outline: none;
+  }
+}
+
+/* ===== INPUT INVÁLIDO ===== */
+.form-control.is-invalid {
+  border-color: #ef4444;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25);
+  }
+}
+
+/* ===== ESPAÇAMENTO ENTRE LINHAS ===== */
+.form-row {
+  margin-bottom: 1.2rem;
+}
+
+/* ===== FOOTER ===== */
+.card-footer {
+  background: transparent;
+  border-top: 1px solid $border;
+  padding: 1.5rem;
+
+  .d-flex {
+    align-items: center;
+  }
+}
+
+/* ===== BOTÕES ===== */
+.btn {
+  padding: 0.65rem 1.4rem;
+  border-radius: 14px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  transition: $transition;
+}
+
+/* Cancelar */
+.btn-outline-secondary {
+  border-color: $border;
+
+  &:hover {
+    background: #ff0b0b;
+  }
+}
+
+/* Salvar */
+.btn-success {
+  background: linear-gradient(135deg, $primary, darken($primary, 10%));
+  border: none;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(47, 67, 255, 0.35);
+  }
+}
+
+/* ===== SPINNER ===== */
+.spinner-border {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 576px) {
+  .card-footer {
+    .d-flex {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+}

@@ -1,1 +1,72 @@
-<p>evento-detalhe works!</p>
+<form>
+
+  <div class="p-3">
+
+    <!-- TEMA -->
+    <div class="row mb-3">
+      <div class="col-12">
+        <label>Tema</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Insira o Tema"
+        />
+      </div>
+    </div>
+
+    <!-- LOCAL + DATA -->
+    <div class="row mb-3">
+      <div class="col-md-8">
+        <label>Local</label>
+        <input type="text" class="form-control" />
+      </div>
+
+      <div class="col-md-4">
+        <label>Data e Hora</label>
+        <input type="datetime-local" class="form-control" />
+      </div>
+    </div>
+
+    <!-- QTD + TELEFONE + EMAIL -->
+    <div class="row mb-4">
+      <div class="col-md-2">
+        <label>Qtd Pessoas</label>
+        <input type="text" class="form-control is-invalid" />
+      </div>
+
+      <div class="col-md-4">
+        <label>Telefone</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="(000) 90000-0000"
+        />
+      </div>
+
+      <div class="col-md-6">
+        <label>Email</label>
+        <input
+          type="email"
+          class="form-control"
+          placeholder="e-mail"
+        />
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER COM BOTÕES -->
+  <div class="card-footer">
+    <div class="d-flex justify-content-between align-items-center">
+      <button type="button" class="btn btn-outline-secondary">
+        Cancelar Alteração
+      </button>
+
+      <button type="submit" class="btn btn-success">
+        <span class="spinner-border spinner-border-sm me-1"></span>
+        Salvar Evento
+      </button>
+    </div>
+  </div>
+
+</form>
