@@ -3,6 +3,11 @@ import {
 } from "./chunk-P73A5ETR.js";
 import "./chunk-IUMLMTK4.js";
 import "./chunk-UZOFMNZX.js";
+import {
+  NgForOf,
+  NgIf
+} from "./chunk-JDQEZ7D2.js";
+import "./chunk-ZMLREZMJ.js";
 import "./chunk-WPLKAPHN.js";
 import {
   animate,
@@ -11,11 +16,6 @@ import {
   transition,
   trigger
 } from "./chunk-JSPI25BQ.js";
-import {
-  NgForOf,
-  NgIf
-} from "./chunk-JDQEZ7D2.js";
-import "./chunk-ZMLREZMJ.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,

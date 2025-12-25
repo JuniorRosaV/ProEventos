@@ -9,6 +9,8 @@ local: string;
 dataEvento: Date;
 qtdPessoas: number;
 imagemUrl: string;
+telefone: string;
+email: string;
 lotes: Lote[];
 redesSociais?: RedeSocial[];
 palestrantesEventos?: Palestrante[];

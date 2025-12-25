@@ -2,16 +2,16 @@ import {
   ComponentLoaderFactory
 } from "./chunk-P4WDLOMQ.js";
 import {
+  NgClass
+} from "./chunk-JDQEZ7D2.js";
+import "./chunk-ZMLREZMJ.js";
+import {
   AnimationBuilder
 } from "./chunk-WPLKAPHN.js";
 import {
   animate,
   style
 } from "./chunk-JSPI25BQ.js";
-import {
-  NgClass
-} from "./chunk-JDQEZ7D2.js";
-import "./chunk-ZMLREZMJ.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
