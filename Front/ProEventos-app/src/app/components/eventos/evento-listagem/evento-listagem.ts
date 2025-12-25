@@ -1,116 +1,250 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Evento } from '../../../models/Evento';
-import { filter, Subscription } from 'rxjs';
-import { EventoService } from '../../../services/evento-service';
-import { ToastrService } from 'ngx-toastr';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { HoursFormatPipe } from '../../../helpers/hours-format-pipe';
-import { DateTimeFormatPipe } from '../../../helpers/date-time-format-pipe';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  TemplateRef,
+  Inject,
+  ChangeDetectorRef,
+  OnDestroy
+} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { PLATFORM_ID } from '@angular/core';
+import { finalize } from 'rxjs';
+
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+
+import { Evento } from '../../../models/Evento';
+import { EventoService } from '../../../services/evento-service';
+import { DateTimeFormatPipe } from '../../../helpers/date-time-format-pipe';
+import { HoursFormatPipe } from '../../../helpers/hours-format-pipe';
 
 @Component({
   selector: 'app-evento-listagem',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DateTimeFormatPipe, HoursFormatPipe, RouterModule],
   standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    DateTimeFormatPipe,
+    HoursFormatPipe
+  ],
   templateUrl: './evento-listagem.html',
   styleUrls: ['./evento-listagem.scss']
 })
-export class EventoListagem implements OnInit{
+export class EventoListagem
+  implements OnInit, AfterViewInit, OnDestroy {
+
+  /* =======================
+     VIEW
+  ======================= */
+  @ViewChild('network') canvas!: ElementRef<HTMLCanvasElement>;
+
   modalRef?: BsModalRef;
-  public eventos: Evento[] = [];
-  public eventosFiltrados: Evento[] = [];
-  larguraImagem = 100;
-  margemImagem = 2;
+
+  /* =======================
+     DADOS
+  ======================= */
+  eventos: Evento[] = [];
+  eventosFiltrados: Evento[] = [];
+
+  loading = false;
   mostrarImagem = true;
-  private filtroListado = '';
-  private routerSub?: Subscription;
 
-  public loading: boolean = false;
+  /* =======================
+     PARTÍCULAS
+  ======================= */
+  particles: Array<{ x: string; d: string; s: string }> = [];
 
-  public get filtroLista(): string {
-    return this.filtroListado;
-  }
-
-  public set filtroLista(value: string) {
-    this.filtroListado = value;
-    this.eventosFiltrados = this.filtroLista ? this.filtrarEventos(this.filtroLista) : this.eventos;
-  }
-  
-  public filtrarEventos(filtrarPor: string): Evento[] {
-    filtrarPor = filtrarPor.toLocaleLowerCase();
-    return this.eventos.filter(
-      (evento: Evento) =>
-        evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
-        evento.local.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-    );
-  }
+  /* =======================
+     CONTROLE
+  ======================= */
+  private animationFrameId?: number;
+  private mouseMoveListener?: (e: MouseEvent) => void;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private eventoService: EventoService,
     private modalService: BsModalService,
-    private toastrService: ToastrService,
+    private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
-  public ngOnInit(): void {
+  /* =======================
+     CICLO DE VIDA
+  ======================= */
+
+  ngOnInit(): void {
     this.getEventos();
 
-    this.routerSub = this.router.events
-      .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe(() => {
-        this.getEventos();
+    if (isPlatformBrowser(this.platformId)) {
+      this.initParticles();
+      this.initMouseGlow();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.initCanvasNetwork();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.mouseMoveListener) {
+      window.removeEventListener('mousemove', this.mouseMoveListener);
+    }
+
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+    }
+  }
+
+  /* =======================
+     GETTERS
+  ======================= */
+
+  get totalParticipantes(): number {
+    return this.eventos.reduce(
+      (total, e) => total + (e.qtdPessoas ?? 0),
+      0
+    );
+  }
+
+  /* =======================
+     API
+  ======================= */
+
+  getEventos(): void {
+    this.loading = true;
+    this.spinner.show();
+
+    this.eventoService
+      .getEventos()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+          this.spinner.hide();
+          this.cdr.detectChanges();
+        })
+      )
+      .subscribe({
+        next: eventos => {
+          this.eventos = eventos ?? [];
+          this.eventosFiltrados = [...this.eventos];
+        },
+        error: () => {
+          this.eventos = [];
+          this.eventosFiltrados = [];
+          this.toastr.error('Erro ao carregar eventos');
+        }
       });
   }
 
-  public ngOnDestroy(): void {
-    this.routerSub?.unsubscribe();
-  }
+  /* =======================
+     MODAL
+  ======================= */
 
-  public getEventos(): void {
-    this.loading = true;
-    this.spinner.show();
-    console.log('Buscando eventos...');
-
-    this.eventoService.getEventos().subscribe({
-      next: (eventos: Evento[]) => {
-        console.log('Eventos recebidos:', eventos);
-        this.eventos = eventos ?? [];
-        this.eventos = (eventos ?? []).map(e => ({ ...e, lotes: e.lotes ?? [] }));
-        this.eventosFiltrados = this.eventos;
-        this.loading = false;
-        this.spinner.hide();
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Erro ao buscar eventos:', error);
-        this.eventos = [];
-        this.eventosFiltrados = [];
-        this.loading = false;
-        this.spinner.hide();
-        this.cdr.detectChanges();
-      }
+  openModal(template: TemplateRef<void>): void {
+    this.modalRef = this.modalService.show(template, {
+      class: 'modal-sm'
     });
   }
 
-  public alterarImagem(): void {
-    this.mostrarImagem = !this.mostrarImagem;
-  }
-  
-  openModal(template: TemplateRef<void>): void {
-    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
-  }
- 
   confirm(): void {
     this.modalRef?.hide();
-    this.toastrService.success('Evento deletado com sucesso!', 'Deletado!');
+    this.toastr.success('Evento excluído com sucesso');
   }
- 
+
   decline(): void {
     this.modalRef?.hide();
+  }
+
+  /* =======================
+     ANIMAÇÕES
+  ======================= */
+
+  /** 🔥 Partículas flutuantes */
+  private initParticles(): void {
+    this.particles = Array.from({ length: 30 }).map(() => ({
+      x: `${Math.random() * 100}%`,
+      d: `${Math.random() * 20 + 10}s`,
+      s: `${Math.random() * 4 + 2}px`
+    }));
+  }
+
+  /** 🔥 Glow seguindo o mouse */
+  private initMouseGlow(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    this.mouseMoveListener = (e: MouseEvent) => {
+      const glow = document.querySelector('.mouse-glow') as HTMLElement;
+      if (!glow) return;
+
+      glow.style.left = `${e.clientX}px`;
+      glow.style.top = `${e.clientY}px`;
+    };
+
+    window.addEventListener('mousemove', this.mouseMoveListener);
+  }
+
+  /** 🔥 Canvas com partículas conectadas */
+  private initCanvasNetwork(): void {
+    if (!this.canvas) return;
+
+    const canvas = this.canvas.nativeElement;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    const points = Array.from({ length: 70 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: Math.random() - 0.5,
+      vy: Math.random() - 0.5
+    }));
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      points.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.fillStyle = '#a855f7';
+        ctx.fillRect(p.x, p.y, 2, 2);
+
+        points.forEach(p2 => {
+          const d = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (d < 130) {
+            ctx.strokeStyle = `rgba(168,85,247,${1 - d / 130})`;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        });
+      });
+
+      this.animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
   }
 }

@@ -1,8 +1,8 @@
 import {
   BrowserModule,
   DomRendererFactory2
-} from "./chunk-UZOFMNZX.js";
-import "./chunk-JDQEZ7D2.js";
+} from "./chunk-NEP2WTU4.js";
+import "./chunk-UOMX4QTZ.js";
 import "./chunk-ZMLREZMJ.js";
 import {
   AUTO_STYLE,
@@ -28,11 +28,13 @@ import {
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵinject
-} from "./chunk-6RQQVQ7T.js";
+} from "./chunk-CCEYWLKP.js";
+import "./chunk-5FKO4W2G.js";
+import "./chunk-BHPKRNZI.js";
 import {
   __objRest,
   __spreadValues
-} from "./chunk-SI3RN3KH.js";
+} from "./chunk-OI3CW3RE.js";
 
 // node_modules/@angular/animations/fesm2022/util.mjs
 var LINE_START = "\n - ";

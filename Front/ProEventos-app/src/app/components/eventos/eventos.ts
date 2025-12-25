@@ -4,9 +4,12 @@ import {
   ViewChild,
   OnInit,
   AfterViewInit,
-  CUSTOM_ELEMENTS_SCHEMA
+  CUSTOM_ELEMENTS_SCHEMA,
+  Inject,
+  PLATFORM_ID
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 import { Titulo } from '../../shared/titulo/titulo';
 
 @Component({
@@ -20,9 +23,16 @@ import { Titulo } from '../../shared/titulo/titulo';
 export class Eventos implements OnInit, AfterViewInit {
 
   @ViewChild('network') canvas!: ElementRef<HTMLCanvasElement>;
+  private isBrowser = false;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit() {
-    // Mouse glow
+    if (!this.isBrowser) return;
+
+    // Mouse glow (somente no browser)
     window.addEventListener('mousemove', e => {
       const glow = document.querySelector('.mouse-glow') as HTMLElement;
       if (glow) {
@@ -33,8 +43,12 @@ export class Eventos implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    if (!this.isBrowser) return;
+    if (!this.canvas) return;
+
     const canvas = this.canvas.nativeElement;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     const resize = () => {
       canvas.width = window.innerWidth;

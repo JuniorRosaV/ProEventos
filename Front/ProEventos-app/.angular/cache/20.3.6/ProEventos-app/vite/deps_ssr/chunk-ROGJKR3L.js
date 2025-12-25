@@ -14,7 +14,7 @@ import {
   setClassMetadata,
   ɵɵdefineInjectable,
   ɵɵinject
-} from "./chunk-C5VRL43C.js";
+} from "./chunk-LK7CDMWJ.js";
 
 // node_modules/@angular/animations/fesm2022/animations.mjs
 var AnimationBuilder = class _AnimationBuilder {
@@ -193,4 +193,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-3JNH2YZB.js.map
+//# sourceMappingURL=chunk-ROGJKR3L.js.map

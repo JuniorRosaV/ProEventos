@@ -1,30 +1,34 @@
+/* Remova o Bootswatch Cosmo, ele é quem está deixando tudo branco */
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
-@import '../node_modules/bootswatch/dist/cosmo/bootstrap.min.css';
 
-
-$bg-start: #f5f7fa;           
-$bg-end: #e0e4e9;            
-$text-color: #2f3542;         
-$highlight-color: #091122;  
-$transition-speed: 0.3s;
-
+/* Reset total do fundo */
 html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  /* Cor base roxo escuro da imagem */
+  background-color: #0f0624 !important; 
+  color: #ffffff !important;
   overflow-x: hidden;
 }
 
 body {
-  background: none;
-  color: $text-color;
-  font-family: 'Segoe UI', sans-serif;
+  /* Animação de gradiente idêntica ao seu código React */
+  background: linear-gradient(-45deg, #0f0624, #1a0b3d, #12082b, #0f0624) !important;
+  background-size: 400% 400% !important;
+  animation: gradient 15s ease infinite !important;
 }
 
-.modal-dialog-centered {
-  display: flex;
-  align-items: center;
-  min-height: 100vh;
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Remove o fundo branco de qualquer container do bootstrap */
+.container, .container-fluid, .card {
+  background-color: transparent !important;
+  border: none !important;
 }

@@ -3,9 +3,11 @@ import {
   AfterViewInit,
   ElementRef,
   ViewChild,
-  OnInit
+  OnInit,
+  Inject,
+  PLATFORM_ID
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 interface Particle {
@@ -24,18 +26,24 @@ interface Particle {
 export class Login implements OnInit, AfterViewInit {
 
   particles: Particle[] = [];
-
   @ViewChild('network') canvas!: ElementRef<HTMLCanvasElement>;
+  private isBrowser = false;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit() {
-    // Cria partículas com valores fixos (Angular-safe)
+    // Isso é seguro (não usa window/document)
     this.particles = Array.from({ length: 35 }).map(() => ({
       x: Math.random(),
       d: Math.random() * 20,
       s: Math.random()
     }));
 
-    // Mouse glow
+    if (!this.isBrowser) return;
+
+    // Mouse glow (somente no browser)
     window.addEventListener('mousemove', e => {
       const glow = document.querySelector('.mouse-glow') as HTMLElement;
       if (glow) {
@@ -46,10 +54,20 @@ export class Login implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    if (!this.isBrowser) return;
+    if (!this.canvas) return;
+
     const canvas = this.canvas.nativeElement;
-    const ctx = canvas.getContext('2d')!;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
 
     const points = Array.from({ length: 60 }, () => ({
       x: Math.random() * canvas.width,

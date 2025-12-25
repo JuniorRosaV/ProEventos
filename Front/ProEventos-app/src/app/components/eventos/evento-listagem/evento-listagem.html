@@ -1,78 +1,124 @@
 <div class="eventos-container">
-<div class="card rounded shadow-sm p-3">
-    <div class="d-flex justify-content-between mb-3 flex-wrap">
-        <div class="form-group mb-2 w-100 w-md-auto">
-            <input type="text" class="form-control mr-2 rounded w-100" placeholder="Buscar" [(ngModel)]="filtroLista">
+
+  <!-- FUNDO ANIMADO -->
+  <div class="animated-bg"></div>
+  <div class="bg-gradient"></div>
+  <div class="blob blob-purple"></div>
+  <div class="blob blob-blue"></div>
+
+  <!-- PARTÍCULAS -->
+  <div class="particles">
+    <span
+      *ngFor="let p of particles"
+      [style.--x]="p.x"
+      [style.--d]="p.d"
+      [style.--s]="p.s">
+    </span>
+  </div>
+
+  <!-- CANVAS -->
+  <canvas #network class="network-canvas"></canvas>
+
+  <!-- GLOW -->
+  <div class="mouse-glow"></div>
+
+  <!-- CONTEÚDO -->
+  <div class="eventos-content">
+
+    <!-- HEADER -->
+    <header class="eventos-header">
+      <h1>Descubra eventos incríveis</h1>
+      <p>Conecte-se com a comunidade tech e expanda seu networking</p>
+
+      <div class="header-actions">
+        <div class="filtros">
+          <button class="btn-filter active">Todos</button>
+          <button class="btn-filter">Hackathons</button>
+          <button class="btn-filter">Conferências</button>
+          <button class="btn-filter">Workshops</button>
+          <button class="btn-filter">Meetups</button>
         </div>
-        <div>
-            <a class="d-flex btn btn-outline-primary" routerLink="/eventos/detalhe">
-                <i class="fa fa-plus-circle my-1"></i>
-                <b class="ml-1 d-none d-sm-block">Novo</b>
-            </a>
+
+        <a routerLink="/eventos/detalhe" class="btn-novo-evento">
+          <i class="fa fa-plus"></i>
+          Novo evento
+        </a>
+      </div>
+    </header>
+
+    <!-- STATS -->
+    <section class="stats">
+      <div class="stat-card">
+        <h3>{{ eventos.length }}</h3>
+        <span>Eventos disponíveis</span>
+      </div>
+
+      <div class="stat-card">
+        <h3>{{ totalParticipantes }}</h3>
+        <span>Participantes</span>
+      </div>
+
+      <div class="stat-card">
+        <h3>{{ eventosFiltrados.length }}</h3>
+        <span>Resultados</span>
+      </div>
+    </section>
+
+    <!-- LOADING -->
+    <div *ngIf="loading" class="loading">
+      <p>Carregando eventos...</p>
+    </div>
+
+    <!-- GRID -->
+    <section class="event-grid" *ngIf="!loading && eventosFiltrados.length">
+      <article class="event-card" *ngFor="let evento of eventosFiltrados">
+
+        <img
+          *ngIf="mostrarImagem"
+          [src]="'/assets/' + evento.imagemUrl"
+          alt="Evento" />
+
+        <div class="event-content">
+          <h4>{{ evento.tema }}</h4>
+          <p class="local">{{ evento.local }}</p>
+
+          <div class="info">
+            <span>{{ evento.dataEvento | DateTimeFormatPipe }}</span>
+            <span>{{ evento.dataEvento | HoursFormatPipe }}</span>
+          </div>
+
+          <footer class="footer">
+            <span class="people">👥 {{ evento.qtdPessoas }}</span>
+
+            <div class="actions">
+              <button class="btn-icon edit">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button class="btn-icon delete" (click)="openModal(template)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </footer>
         </div>
+
+      </article>
+    </section>
+
+    <!-- EMPTY -->
+    <div *ngIf="!loading && !eventosFiltrados.length" class="empty">
+      <h3>🔍 Nenhum evento encontrado</h3>
+      <p>Tente ajustar os filtros</p>
     </div>
 
-    <div *ngIf="loading" class="text-center mt-3">
-        <p>Carregando eventos...</p>
-    </div>
+  </div>
 
-    <div class="table-responsive">
-        <table *ngIf="!loading && eventosFiltrados.length > 0" class="table table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>
-                        <button type="button" class="btn btn-outline-light btn-sm" (click)="alterarImagem()">
-                            <i class="{{ !mostrarImagem ? 'fa fa-eye' : 'fa fa-eye-slash' }}"></i>
-                            {{ !mostrarImagem ? 'Exibir' : 'Ocultar' }}
-                        </button>
-                    </th>
-                    <th>#</th>
-                    <th>Tema</th>
-                    <th>Local</th>
-                    <th>Data</th>
-                    <th>Horário</th>
-                    <th>Qtd Pessoas</th>
-                    <th>Lote</th>
-                    <th>Opções</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr *ngFor="let evento of eventosFiltrados">
-                    <td data-label="Imagem">
-                        <img *ngIf="mostrarImagem" [src]="'/assets/' + evento.imagemUrl"
-                            [style.width.px]="larguraImagem" [style.margin.px]="margemImagem">
-                    </td>
-                    <td data-label="ID">{{ evento.id }}</td>
-                    <td data-label="Tema">{{ evento.tema }}</td>
-                    <td data-label="Local">{{ evento.local }}</td>
-                    <td data-label="Data">{{ evento.dataEvento | DateTimeFormatPipe }}</td>
-                    <td data-label="Horário">{{ evento.dataEvento | HoursFormatPipe }}</td>
-                    <td data-label="Qtd Pessoas">{{ evento.qtdPessoas }}</td>
-                    <td data-label="Lote">{{ evento.lotes[0].nome }}</td>
-                    <td data-label="Opções">
-                        <button class="btn btn-outline-primary btn-sm" tooltip="Editar">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn btn-outline-danger btn-sm" tooltip="Excluir" (click)="openModal(template)">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <ng-template #semEventos>
-        <h1 class="text-center mt-3" *ngIf="!loading">Nenhum evento encontrado!</h1>
-    </ng-template>
-</div>
-
-<ng-template #template>
+  <!-- MODAL -->
+  <ng-template #template>
     <div class="modal-body text-center">
-        <p>Você deseja Excluir o evento?</p>
-        <button type="button" class="btn btn-default" (click)="confirm()">Sim</button>
-        <button type="button" class="btn btn-primary" (click)="decline()">Não</button>
+      <p>Deseja excluir este evento?</p>
+      <button class="btn btn-danger me-2" (click)="confirm()">Sim</button>
+      <button class="btn btn-secondary" (click)="decline()">Não</button>
     </div>
-</ng-template>
+  </ng-template>
+
 </div>
