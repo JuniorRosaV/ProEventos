@@ -1,74 +1,97 @@
-<div class="registration-container">
-  <div class="registration-card">
+<div class="login-page">
 
-    <!-- Lado esquerdo -->
-    <div class="registration-brand">
-      <img src="../../assets/conventusreg.png" alt="Conventus">
+  <!-- Gradiente animado -->
+  <div class="animated-bg"></div>
+
+  <!-- Partículas -->
+  <div class="particles">
+    <span
+      *ngFor="let p of particles"
+      [style.--x]="p.x"
+      [style.--d]="p.d"
+      [style.--s]="p.s"
+    ></span>
+  </div>
+
+  <!-- Canvas partículas conectadas -->
+  <canvas #network class="network-canvas"></canvas>
+
+  <!-- Glow do mouse -->
+  <div class="mouse-glow"></div>
+
+  <!-- Conteúdo -->
+  <div class="login-container">
+
+    <!-- Logo -->
+    <div class="logo">
+      <h1>Conventus</h1>
+      <span class="line"></span>
     </div>
 
-    <!-- Lado direito -->
-    <div class="registration-form">
+    <!-- Card -->
+    <div class="login-card">
+      <h2>Crie sua conta</h2>
+      <p class="subtitle">
+        Junte-se à comunidade de eventos tech
+      </p>
 
       <form>
 
-        <h2>Cadastro de Usuário</h2>
-
         <!-- Nome -->
         <div class="form-row two-columns">
-          <div class="form-group">
-            <label>Primeiro Nome</label>
-            <input type="text" placeholder="Insira o primeiro nome" />
+          <div class="input-group">
+            <input type="text" placeholder="Primeiro nome" />
           </div>
 
-          <div class="form-group">
-            <label>Último Nome</label>
-            <input type="text" placeholder="Insira o último nome" />
+          <div class="input-group">
+            <input type="text" placeholder="Último nome" />
           </div>
         </div>
 
         <!-- Email -->
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" placeholder="Insira seu email" />
+        <div class="input-group">
+          <input type="email" placeholder="seu@email.com" />
         </div>
 
         <!-- Usuário -->
-        <div class="form-group">
-          <label>Usuário</label>
+        <div class="input-group">
           <input type="text" placeholder="Nome de usuário" />
         </div>
 
         <!-- Senhas -->
         <div class="form-row two-columns">
-          <div class="form-group">
-            <label>Senha</label>
-            <input type="password" placeholder="Digite a senha" />
+          <div class="input-group">
+            <input type="password" placeholder="Senha" />
           </div>
 
-          <div class="form-group">
-            <label>Confirmar Senha</label>
-            <input type="password" placeholder="Confirme a senha" />
+          <div class="input-group">
+            <input type="password" placeholder="Confirmar senha" />
           </div>
         </div>
 
         <!-- Termos -->
         <div class="terms">
-          <input type="checkbox" id="terms">
-          <label for="terms">
-            Eu concordo com os <a href="#">Termos de Uso</a>
+          <label>
+            <input type="checkbox" />
+            Concordo com os <a href="#">Termos de Uso</a>
           </label>
         </div>
 
-        <!-- Botão -->
-        <button type="submit">Registrar</button>
+        <button class="btn-primary" type="submit">
+          Criar conta
+        </button>
 
-        <!-- Link -->
-        <a class="login-link" routerLink="/user/login">
-          Já sou cadastrado
-        </a>
+        <p class="toggle">
+          Já tem uma conta?
+          <a routerLink="/user/login">Entrar</a>
+        </p>
 
       </form>
-
     </div>
+
+    <p class="community">
+      🚀 Comece agora sua jornada no Conventus
+    </p>
+
   </div>
 </div>

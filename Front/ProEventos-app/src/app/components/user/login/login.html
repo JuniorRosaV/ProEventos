@@ -1,46 +1,73 @@
 <div class="login-page">
-  <div class="login-card">
 
-    <form class="form-signin">
-      <img src="../../assets/conventus.png" alt="Logo Conventus">
+  <!-- Gradiente animado -->
+  <div class="animated-bg"></div>
 
-      <h1 class="h3 mb-3">Entrar com</h1>
+  <!-- Partículas -->
+<div class="particles">
+  <span
+    *ngFor="let p of particles"
+    [style.--x]="p.x"
+    [style.--d]="p.d"
+    [style.--s]="p.s"
+  ></span>
+</div>
 
-      <label for="username">Usuário</label>
-      <input
-        type="email"
-        id="username"
-        class="form-control"
-        placeholder="Usuário"
-        name="username"
-        required
-      >
+  <!-- Canvas partículas conectadas -->
+  <canvas #network class="network-canvas"></canvas>
 
-      <label for="password">Senha</label>
-      <input
-        type="password"
-        id="password"
-        class="form-control"
-        placeholder="Senha"
-        name="password"
-        required
-      >
+  <!-- Glow do mouse -->
+  <div class="mouse-glow"></div>
 
-      <button class="btn btn-lg btn-primary w-100" type="submit">
-        Entrar
-      </button>
+  <!-- Conteúdo -->
+  <div class="login-container">
 
-      <p class="mt-4 mb-2 text-muted">
-        Não tem login? Cadastre-se abaixo
+    <!-- Logo -->
+    <div class="logo">
+      <h1>Conventus</h1>
+      <span class="line"></span>
+    </div>
+
+    <!-- Card -->
+    <div class="login-card">
+      <h2>Bem-vindo de volta!</h2>
+      <p class="subtitle">
+        Conecte-se aos principais eventos de tecnologia
       </p>
 
-      <a
-        class="btn btn-link w-100"
-        routerLink="/user/registration"
-      >
-        Quero me cadastrar
-      </a>
-    </form>
+      <form>
+        <div class="input-group">
+          <input type="email" placeholder="seu@email.com" />
+        </div>
+
+        <div class="input-group">
+          <input type="password" placeholder="••••••••" />
+        </div>
+
+        <button class="btn-primary" type="submit">
+          Entrar
+        </button>
+
+        <div class="divider">
+          <span>ou</span>
+        </div>
+
+        <div class="social-login">
+          <button class="social">G</button>
+          <button class="social">GH</button>
+          <button class="social">IN</button>
+        </div>
+
+        <p class="toggle">
+          Não tem uma conta?
+          <a routerLink="/user/registration">Criar conta</a>
+        </p>
+      </form>
+    </div>
+
+    <p class="community">
+      🚀 Faça parte da maior comunidade tech do Brasil
+    </p>
 
   </div>
 </div>

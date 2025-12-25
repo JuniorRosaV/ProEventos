@@ -1,4 +1,15 @@
+<!-- Canvas animado de fundo -->
+<canvas #network class="network-bg"></canvas>
+
+<!-- Glow do mouse -->
+<div class="mouse-glow"></div>
+
 <div class="eventos-container">
-  <app-titulo [titulo]="'Eventos'" [subtitulo]="'Lista de eventos'" [iconClass]="'fa fa-calendar'"></app-titulo>
+  <app-titulo
+    [titulo]="'Eventos'"
+    [subtitulo]="'Lista de eventos'"
+    [iconClass]="'fa fa-calendar'">
+  </app-titulo>
+
   <router-outlet></router-outlet>
 </div>
