@@ -8,11 +8,7 @@
 
   <!-- PARTÍCULAS -->
   <div class="particles">
-    <span
-      *ngFor="let p of particles"
-      [style.--x]="p.x"
-      [style.--d]="p.d"
-      [style.--s]="p.s">
+    <span *ngFor="let p of particles" [style.--x]="p.x" [style.--d]="p.d" [style.--s]="p.s">
     </span>
   </div>
 
@@ -39,10 +35,15 @@
           <button class="btn-filter">Meetups</button>
         </div>
 
-        <a routerLink="/eventos/detalhe" class="btn-novo-evento">
-          <i class="fa fa-plus"></i>
-          Novo evento
-        </a>
+        <div class="header-right">
+          <!-- INPUT FILTRO -->
+          <input type="text" class="input-filter" placeholder="Buscar evento..." (input)="filtrarEventos($event)" />
+
+          <a routerLink="/eventos/detalhe" class="btn-novo-evento">
+            <i class="fa fa-plus"></i>
+            Novo evento
+          </a>
+        </div>
       </div>
     </header>
 
@@ -73,18 +74,26 @@
     <section class="event-grid" *ngIf="!loading && eventosFiltrados.length">
       <article class="event-card" *ngFor="let evento of eventosFiltrados">
 
-        <img
-          *ngIf="mostrarImagem"
-          [src]="'/assets/' + evento.imagemUrl"
-          alt="Evento" />
+        <img *ngIf="mostrarImagem" [src]="'/assets/' + evento.imagemUrl" alt="Evento" />
 
         <div class="event-content">
           <h4>{{ evento.tema }}</h4>
-          <p class="local">{{ evento.local }}</p>
 
-          <div class="info">
-            <span>{{ evento.dataEvento | DateTimeFormatPipe }}</span>
-            <span>{{ evento.dataEvento | HoursFormatPipe }}</span>
+          <div class="meta">
+            <div class="meta-item">
+              <i class="fa fa-calendar"></i>
+              <span>{{ evento.dataEvento | DateTimeFormatPipe }}</span>
+            </div>
+
+            <div class="meta-item">
+              <i class="fa fa-clock"></i>
+              <span>{{ evento.dataEvento | HoursFormatPipe }}</span>
+            </div>
+
+            <div class="meta-item">
+              <i class="fa fa-map-marker-alt"></i>
+              <span>{{ evento.local }}</span>
+            </div>
           </div>
 
           <footer class="footer">
@@ -100,6 +109,7 @@
             </div>
           </footer>
         </div>
+
 
       </article>
     </section>

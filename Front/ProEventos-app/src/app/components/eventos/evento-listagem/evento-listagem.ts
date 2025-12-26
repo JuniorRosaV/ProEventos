@@ -75,7 +75,7 @@ export class EventoListagem
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   /* =======================
      CICLO DE VIDA
@@ -177,6 +177,17 @@ export class EventoListagem
       d: `${Math.random() * 20 + 10}s`,
       s: `${Math.random() * 4 + 2}px`
     }));
+  }
+
+  /* FILTRO DE EVENTOS */
+
+  filtrarEventos(event: Event) {
+    const valor = (event.target as HTMLInputElement).value.toLowerCase();
+
+    this.eventosFiltrados = this.eventos.filter(e =>
+      e.tema.toLowerCase().includes(valor) ||
+      e.local.toLowerCase().includes(valor)
+    );
   }
 
   /** 🔥 Glow seguindo o mouse */

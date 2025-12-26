@@ -1,115 +1,81 @@
-// nav.scss
-$primary-color: #f5f7fa;       
-$secondary-color: #dfe4ea;     
-$dark-bg: #2f3542;             
-$text-color: #2f3542;          
-$hover-color: #1e272e;         
-$transition-speed: 0.3s;
+$bg-color: rgba(15, 6, 36, 0.92);
+$text-color: #ffffff;
+$hover-color: #a855f7;
 
 .navbar {
-  background-color: $primary-color;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: $bg-color;
+  backdrop-filter: blur(14px);
+  padding: 0.55rem 1.5rem; // 🔥 PROPORÇÃO AJUSTADA
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1050;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
 
-  img {
-      width: 160px;
-      height: auto;
-      // margin-bottom: 1.5rem;
-    }
-  .navbar-brand {
-    font-weight: 800;
-    font-size: 1.6rem;
-    color: $text-color;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    transition: color $transition-speed, transform $transition-speed;
+/* LOGO TEXTO */
+.brand-text {
+  font-size: 1.55rem; // 🔥 NÃO CORTA EM 100%
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #a855f7, #3b82f6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-    &:hover {
-      color: $hover-color;
-      transform: scale(1.05);
-    }
+/* LINKS */
+.nav-link {
+  color: $text-color;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-left: 1rem;
+  position: relative;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $hover-color;
   }
 
-  .navbar-toggler {
-    border: none;
-    background-color: transparent;
-    padding: 0.5rem;
-    transition: all $transition-speed;
+  &.active {
+    color: $hover-color;
+    font-weight: 700;
+  }
+}
+
+/* USUÁRIO */
+.user-name {
+  font-weight: 600;
+}
+
+/* DROPDOWN */
+.dropdown-menu {
+  background: rgba(15, 6, 36, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+
+  .dropdown-item {
+    color: #fff;
+    font-size: 0.95rem;
 
     &:hover {
-      transform: rotate(5deg);
-    }
-
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='%232f3542' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-    }
-  }
-
-  .navbar-collapse {
-    justify-content: flex-end;
-
-    .navbar-nav {
-      .nav-item {
-        margin-left: 1.2rem;
-
-        .nav-link {
-          color: $text-color;
-          font-weight: 500;
-          font-size: 1.05rem;
-          position: relative;
-          transition: color $transition-speed;
-
-          &:after {
-            content: '';
-            display: block;
-            width: 0%;
-            height: 2px;
-            background: $hover-color;
-            transition: width $transition-speed;
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-          }
-
-          &:hover {
-            color: $hover-color;
-
-            &:after {
-              width: 100%;
-            }
-          }
-
-          &.active {
-            font-weight: 700;
-            color: $hover-color;
-
-            &:after {
-              width: 100%;
-            }
-          }
-        }
-      }
+      background: rgba(168, 85, 247, 0.15);
     }
   }
 }
 
-// Responsivo
+/* MOBILE */
 @media (max-width: 992px) {
   .navbar-collapse {
-    background: $secondary-color;
+    background: rgba(15, 6, 36, 0.98);
     padding: 1rem;
-    border-radius: 0.5rem;
+    border-radius: 14px;
+    margin-top: 0.8rem;
+  }
 
-    .nav-item {
-      margin: 0.7rem 0;
-
-      .nav-link {
-        font-size: 1.1rem;
-      }
-    }
+  .nav-link {
+    margin: 0.6rem 0;
+    font-size: 1rem;
   }
 }
