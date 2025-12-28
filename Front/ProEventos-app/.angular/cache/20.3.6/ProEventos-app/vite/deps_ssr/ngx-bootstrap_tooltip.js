@@ -7,10 +7,10 @@ import {
   getBsVer,
   parseTriggers,
   warnOnce
-} from "./chunk-67UXAICZ.js";
+} from "./chunk-RYXGZ32U.js";
 import {
   CommonModule
-} from "./chunk-LKRMQKXY.js";
+} from "./chunk-R4L4IWPT.js";
 import "./chunk-DESF4QXN.js";
 import {
   ChangeDetectionStrategy,
@@ -39,12 +39,10 @@ import {
   ɵɵdomElementStart,
   ɵɵprojection,
   ɵɵprojectionDef
-} from "./chunk-LK7CDMWJ.js";
-import "./chunk-2UVUUPPC.js";
+} from "./chunk-C5VRL43C.js";
 import {
   require_cjs
-} from "./chunk-C27DBZK2.js";
-import "./chunk-K54IFBYX.js";
+} from "./chunk-O5J3CNTX.js";
 import {
   __toESM
 } from "./chunk-6DU2HRTW.js";

@@ -1,158 +1,146 @@
 <div class="pagina-container">
-    <app-titulo [titulo]="'Perfil'"></app-titulo>
 
-    <form>
-        <div class="row p-3">
+  <!-- Fundo -->
+  <div class="bg-radial"></div>
+  <div class="bg-gradient-animated"></div>
 
-            <!-- COLUNA ESQUERDA - PERFIL -->
-            <div class="col-lg-3 pt-1">
-                <div class="card mb-3">
-                    <div class="card-header"></div>
 
-                    <div class="d-flex justify-content-center pt-3">
-                        <img
-                            src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
-                            width="120"
-                            height="120"
-                            class="rounded-circle"
-                            alt="Foto do usuário"
-                        />
-                    </div>
+  <form [@fadeUp]>
+    <div class="row p-3">
 
-                    <div class="card-body text-center">
-                        <div class="h4 mb-3">@UserName</div>
+      <!-- COLUNA ESQUERDA -->
+      <div class="col-lg-3 pt-1" [@slideLeft]>
+        <div class="card glass-strong glow-purple">
 
-                        <div class="mb-2">
-                            <strong>Nome:</strong> Miracles Lee Cross
-                        </div>
+          <!-- Avatar -->
+          <div class="d-flex justify-content-center pt-4">
+            <div class="avatar-wrapper">
+              <img
+                src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
+                alt="Foto do usuário"
+              />
+              <span class="status"></span>
+            </div>
+          </div>
 
-                        <div class="text-muted small">
-                            Developer of web applications, JavaScript, PHP, Java,
-                            Python, Ruby, Node.js, etc.
-                        </div>
-                    </div>
+          <!-- Info -->
+          <div class="card-body text-center">
+            <div class="username">@UserName</div>
 
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="row text-center">
-                                <div class="col-6 border-end">
-                                    <div class="h5 mb-0">1342</div>
-                                    <small class="text-muted">Eventos Ministrados</small>
-                                </div>
-                                <div class="col-6">
-                                    <div class="h5 mb-0">1342</div>
-                                    <small class="text-muted">Eventos Participados</small>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <div class="card-footer"></div>
-                </div>
+            <div class="mb-2 text-light">
+              <strong>Miracles Lee Cross</strong>
             </div>
 
-            <!-- COLUNA DIREITA - FORMULÁRIO -->
-            <div class="col-lg-9">
+            <p class="text-muted small">
+              Desenvolvedor de aplicações web com foco em Angular, React e
+              TypeScript.
+            </p>
+          </div>
 
-                <!-- DETALHES DO PERFIL -->
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <h3 class="border-bottom pb-2">Detalhes do Perfil</h3>
-                    </div>
+          <!-- Estatísticas -->
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item bg-transparent">
+              <div class="row text-center">
+                <div class="col-6 border-end">
+                  <div class="stat">12</div>
+                  <small>Eventos Ministrados</small>
                 </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-2">
-                        <label class="form-label">Título</label>
-                        <select class="form-control">
-                            <option value=""></option>
-                            <option value="0">Não Quero</option>
-                            <option>Tecnólogo(a)</option>
-                            <option>Bacharel</option>
-                            <option>Especialista</option>
-                            <option>Pós Graduado(a)</option>
-                            <option>Mestre</option>
-                            <option>Doutor(a)</option>
-                            <option>Pós Doc</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-5">
-                        <label class="form-label">Primeiro Nome</label>
-                        <input type="text" class="form-control" />
-                    </div>
-
-                    <div class="col-md-5">
-                        <label class="form-label">Último Nome</label>
-                        <input type="text" class="form-control" />
-                    </div>
+                <div class="col-6">
+                  <div class="stat">28</div>
+                  <small>Eventos Participados</small>
                 </div>
+              </div>
+            </li>
+          </ul>
 
-                <div class="row mb-3">
-                    <div class="col-md-5">
-                        <label class="form-label">E-mail</label>
-                        <input type="email" class="form-control" />
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Telefone</label>
-                        <input type="text" class="form-control" />
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label">Função</label>
-                        <select class="form-control">
-                            <option value=""></option>
-                            <option value="Participante">Participante</option>
-                            <option value="Palestrante">Palestrante</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <label class="form-label">Descrição</label>
-                        <input type="text" class="form-control" />
-                    </div>
-                </div>
-
-                <!-- MUDAR SENHA -->
-                <div class="row mb-2">
-                    <div class="col-12">
-                        <h3 class="border-bottom pb-2">Mudar Senha</h3>
-                        <p class="text-muted">
-                            Caso mude de senha, preencha os campos abaixo:
-                        </p>
-                    </div>
-                </div>
-
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <label class="form-label">Senha</label>
-                        <input type="password" class="form-control" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Confirmar Senha</label>
-                        <input type="password" class="form-control" />
-                    </div>
-                </div>
-
-            </div>
         </div>
+      </div>
 
-        <!-- BOTÕES -->
-        <div class="card-footer">
-            <div class="d-flex justify-content-between">
-                <button type="button" class="btn btn-outline-secondary">
-                    Cancelar Alteração
-                </button>
+      <!-- COLUNA DIREITA -->
+      <div class="col-lg-9" [@slideRight]>
 
-                <button type="submit" class="btn btn-success">
-                    <span class="spinner-border spinner-border-sm me-1"></span>
-                    Salvar Alteração
-                </button>
+        <div class="card glass-strong glow-purple p-4">
+
+          <h3 class="section-title">Detalhes do Perfil</h3>
+
+          <div class="row mb-3">
+            <div class="col-md-2">
+              <label>Título</label>
+              <select class="form-control glass">
+                <option></option>
+                <option>Dr.</option>
+                <option>Prof.</option>
+              </select>
             </div>
+
+            <div class="col-md-5">
+              <label>Primeiro Nome</label>
+              <input class="form-control glass" />
+            </div>
+
+            <div class="col-md-5">
+              <label>Último Nome</label>
+              <input class="form-control glass" />
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-5">
+              <label>E-mail</label>
+              <input type="email" class="form-control glass" />
+            </div>
+
+            <div class="col-md-4">
+              <label>Telefone</label>
+              <input class="form-control glass" />
+            </div>
+
+            <div class="col-md-3">
+              <label>Função</label>
+              <select class="form-control glass">
+                <option>Participante</option>
+                <option>Palestrante</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label>Descrição</label>
+            <textarea rows="3" class="form-control glass"></textarea>
+          </div>
+
+          <hr />
+
+          <h3 class="section-title">Mudar Senha</h3>
+          <p class="text-muted small">
+            Preencha apenas se desejar alterar a senha.
+          </p>
+
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <label>Senha</label>
+              <input type="password" class="form-control glass" />
+            </div>
+
+            <div class="col-md-6">
+              <label>Confirmar Senha</label>
+              <input type="password" class="form-control glass" />
+            </div>
+          </div>
+
+          <!-- BOTÕES -->
+          <div class="d-flex justify-content-between pt-3">
+            <button type="button" class="btn btn-outline-light">
+              Cancelar Alteração
+            </button>
+
+            <button type="submit" class="btn btn-gradient">
+              Salvar Alteração
+            </button>
+          </div>
+
         </div>
-    </form>
+      </div>
+    </div>
+  </form>
 </div>
