@@ -1,13 +1,13 @@
 import {
+  ComponentLoaderFactory
+} from "./chunk-P4WDLOMQ.js";
+import {
   AnimationBuilder
 } from "./chunk-FTECPK5G.js";
 import {
   animate,
   style
 } from "./chunk-RT3RTPYJ.js";
-import {
-  ComponentLoaderFactory
-} from "./chunk-P4WDLOMQ.js";
 import {
   NgClass
 } from "./chunk-JDQEZ7D2.js";

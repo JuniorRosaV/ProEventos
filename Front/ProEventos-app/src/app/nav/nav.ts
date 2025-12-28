@@ -1,25 +1,41 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [CollapseModule, BsDropdownModule, RouterModule, NgIf],
+  imports: [
+    RouterModule,
+    NgIf,
+    FormsModule,
+    BsDropdownModule
+  ],
   templateUrl: './nav.html',
   styleUrls: ['./nav.scss']
 })
 export class Nav {
-  isCollapsed = true;
 
-  constructor(private router: Router) {}
+  searchValue = '';
+  showProfile = false;
+  showMenu = true;
 
-  showMenu(): boolean {
-    return (
-      this.router.url !== '/user/login' &&
-      this.router.url !== '/user/registration'
-    );
+  constructor(private router: Router) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.showMenu = !this.router.url.startsWith('/user');
+      });
+  }
+
+  toggleProfile(): void {
+    this.showProfile = !this.showProfile;
+  }
+
+  logout(): void {
+    this.router.navigate(['/user/login']);
   }
 }

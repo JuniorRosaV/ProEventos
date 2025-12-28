@@ -1,62 +1,97 @@
-<nav class="navbar navbar-expand-lg" *ngIf="showMenu()">
-  <div class="container-fluid">
+<nav class="navbar" *ngIf="showMenu">
+  <div class="nav-container">
 
-    <!-- LOGO TEXTO -->
-    <a class="navbar-brand" routerLink="/dashboards">
-      <span class="brand-text">Conventus</span>
-    </a>
+    <!-- LOGO -->
+    <div class="logo" routerLink="/dashboards">
+      <div class="logo-icon">
+        <i class="bi bi-calendar-event"></i>
+      </div>
+      <span>Conventus</span>
+    </div>
 
-    <!-- BOTÃO MOBILE -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      (click)="isCollapsed = !isCollapsed"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- BUSCA -->
+    <div class="search">
+      <i class="bi bi-search"></i>
+      <input
+        type="text"
+        placeholder="Buscar eventos..."
+        [(ngModel)]="searchValue"
+      />
+    </div>
 
-    <!-- MENU -->
-    <div
-      class="collapse navbar-collapse"
-      [collapse]="isCollapsed"
-      [isAnimated]="true"
-    >
-      <ul class="navbar-nav ms-auto align-items-center">
+    <!-- MENU CENTRAL -->
+    <div class="menu">
+      <a
+        routerLink="/eventos/lista"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-calendar"></i>
+        Eventos
+      </a>
 
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/eventos/lista">Eventos</a>
-        </li>
+      <a
+        routerLink="/palestrantes"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-people"></i>
+        Palestrantes
+      </a>
 
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/palestrantes">Palestrantes</a>
-        </li>
+      <a
+        routerLink="/contatos"
+        routerLinkActive="active"
+      >
+        <i class="bi bi-telephone"></i>
+        Contatos
+      </a>
+    </div>
 
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/contatos">Contatos</a>
-        </li>
+    <!-- AÇÕES -->
+    <div class="actions">
 
-        <!-- USUÁRIO -->
-        <li class="nav-item dropdown ms-3" dropdown>
-          <a
-            class="nav-link dropdown-toggle user-name"
-            dropdownToggle
-            href="javascript:void(0)"
-          >
-            Junior Rosa
-          </a>
+      <!-- NOTIFICAÇÕES -->
+      <button class="notify" type="button">
+        <i class="bi bi-bell"></i>
+        <span class="badge">3</span>
+      </button>
 
-          <ul *dropdownMenu class="dropdown-menu dropdown-menu-end">
-            <li>
-              <a class="dropdown-item" routerLink="/perfil">Perfil</a>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <a class="dropdown-item text-danger">Sair</a>
-            </li>
-          </ul>
-        </li>
+      <!-- PERFIL -->
+      <div class="dropdown" dropdown>
+        <button
+          type="button"
+          dropdownToggle
+          class="profile"
+        >
+          <i class="bi bi-person"></i>
+        </button>
 
-      </ul>
+        <ul
+          *dropdownMenu
+          class="dropdown-menu dropdown-menu-end"
+        >
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/perfil"
+            >
+              Perfil
+            </a>
+          </li>
+
+          <li><hr class="dropdown-divider" /></li>
+
+          <li>
+            <button
+              type="button"
+              class="dropdown-item text-danger"
+              (click)="logout()"
+            >
+              Sair
+            </button>
+          </li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </nav>

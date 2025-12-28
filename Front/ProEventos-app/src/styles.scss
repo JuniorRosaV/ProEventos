@@ -1,5 +1,6 @@
 /* Remova o Bootswatch Cosmo, ele é quem está deixando tudo branco */
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 @import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
 
 /* Reset total do fundo */
@@ -31,4 +32,20 @@ body {
 .container, .container-fluid, .card {
   background-color: transparent !important;
   border: none !important;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: none;
+}
+
+/* IE / Edge antigo */
+* {
+  -ms-overflow-style: none;
 }

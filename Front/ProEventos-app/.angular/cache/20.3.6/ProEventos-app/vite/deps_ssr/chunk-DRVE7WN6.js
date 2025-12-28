@@ -4,7 +4,10 @@ import {
   ROUTES,
   Router,
   loadChildren
-} from "./chunk-3YNBQDB3.js";
+} from "./chunk-WWLMA4YF.js";
+import {
+  HTTP_ROOT_INTERCEPTOR_FNS
+} from "./chunk-NHP44R45.js";
 import {
   BrowserDomAdapter,
   BrowserModule,
@@ -20,9 +23,6 @@ import {
   getDOM,
   setRootDomAdapter
 } from "./chunk-R4L4IWPT.js";
-import {
-  HTTP_ROOT_INTERCEPTOR_FNS
-} from "./chunk-NHP44R45.js";
 import {
   XhrFactory
 } from "./chunk-DESF4QXN.js";
@@ -29533,4 +29533,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-B5AKNNLI.js.map
+//# sourceMappingURL=chunk-DRVE7WN6.js.map
