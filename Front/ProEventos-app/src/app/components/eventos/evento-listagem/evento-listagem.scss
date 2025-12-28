@@ -124,14 +124,14 @@
 
   h3 {
     font-size: 2.4rem;
-    background: linear-gradient(90deg, #a855f7, #3b82f6);
+    background: linear-gradient(90deg, #ffa667, #ff5100);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
   }
 
   span {
-    color: #9ca3af;
+    color: #ffa55b;
     font-size: .85rem;
   }
 }
@@ -171,8 +171,8 @@
   padding: 14px 22px;
   border-radius: 16px;
   background: linear-gradient(135deg,
-      #9333ea,
-      color.adjust(#9333ea, $lightness: -12%));
+      #f97316,
+      color.adjust(#ff5100, $lightness: -12%));
   color: #fff;
   text-decoration: none;
   display: flex;
@@ -354,8 +354,8 @@
   height: 44px;
   padding: 0 16px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(168, 85, 247, 0.35);
+  background: rgba(247, 99, 0, 0.35);
+  border: 1px solid rgba(247, 99, 0, 0.596);
   color: #fff;
   outline: none;
   min-width: 220px;
