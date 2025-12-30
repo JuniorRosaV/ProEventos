@@ -37,7 +37,11 @@
 
         <div class="header-right">
           <!-- INPUT FILTRO -->
-          <input type="text" class="input-filter" placeholder="Buscar evento..." (input)="filtrarEventos($event)" />
+
+          <div class="search">
+            <i class="bi bi-search"></i>
+            <input type="text" class="input-filter" placeholder="Buscar eventos..." (input)="filtrarEventos($event)" />
+          </div>
 
           <a routerLink="/eventos/detalhe" class="btn-novo-evento">
             <i class="fa fa-plus"></i>

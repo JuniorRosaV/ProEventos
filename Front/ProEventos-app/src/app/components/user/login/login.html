@@ -4,14 +4,9 @@
   <div class="animated-bg"></div>
 
   <!-- Partículas -->
-<div class="particles">
-  <span
-    *ngFor="let p of particles"
-    [style.--x]="p.x"
-    [style.--d]="p.d"
-    [style.--s]="p.s"
-  ></span>
-</div>
+  <div class="particles">
+    <span *ngFor="let p of particles" [style.--x]="p.x" [style.--d]="p.d" [style.--s]="p.s"></span>
+  </div>
 
   <!-- Canvas partículas conectadas -->
   <canvas #network class="network-canvas"></canvas>
@@ -53,10 +48,19 @@
         </div>
 
         <div class="social-login">
-          <button class="social">G</button>
-          <button class="social">GH</button>
-          <button class="social">IN</button>
+          <button class="social google" aria-label="Login com Google">
+            <i class="bi bi-google"></i>
+          </button>
+
+          <button class="social github" aria-label="Login com GitHub">
+            <i class="bi bi-github"></i>
+          </button>
+
+          <button class="social linkedin" aria-label="Login com LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </button>
         </div>
+
 
         <p class="toggle">
           Não tem uma conta?

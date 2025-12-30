@@ -115,6 +115,38 @@
   gap: 20px;
 }
 
+.search {
+  flex: 0 0 380px; // largura fixa elegante
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color:#f97316;
+    font-size: 0.9rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.6rem 0.75rem 0.6rem 2.4rem;
+    background: rgba(146, 57, 5, 0.274);
+    border: 1px solid rgba(249, 115, 22, 0.35);
+    border-radius: 14px;
+    color: #ffffff;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #f97316;
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+}
 .stat-card {
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(16px);

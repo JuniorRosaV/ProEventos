@@ -1,5 +1,7 @@
 $purple: #8b5cf6;
 $blue: #3b82f6;
+$orange: #f97316;
+$orange-soft: rgba(249, 115, 22, 0.35);
 $dark: #0f0624;
 
 .pagina-container {
@@ -16,7 +18,6 @@ $dark: #0f0624;
     color: #fff;
   }
 
-  /* Corrige textos que usam opacidade/cinza */
   .text-muted,
   .text-light,
   small,
@@ -26,28 +27,31 @@ $dark: #0f0624;
     color: #fff !important;
   }
 
-  /* Placeholders */
   input::placeholder,
   textarea::placeholder {
     color: rgba(255, 255, 255, 0.7);
   }
 
-  /* Select options */
   option {
     color: #000;
   }
 
-  /* HR */
   hr {
     border-color: rgba(255, 255, 255, 0.15);
   }
 }
 
-/* Fundos */
+/* =====================
+   FUNDOS
+===================== */
 .bg-radial {
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse at top, #1a0b3d 0%, $dark 100%);
+  background: radial-gradient(
+    ellipse at top,
+    #1a0b3d 0%,
+    $dark 100%
+  );
   z-index: -3;
 }
 
@@ -57,14 +61,16 @@ $dark: #0f0624;
   background: linear-gradient(
     120deg,
     rgba($purple, 0.2),
-    transparent,
+    rgba($orange, 0.12),
     rgba($blue, 0.2)
   );
   animation: gradient 12s ease infinite;
   z-index: -2;
 }
 
-/* Glass */
+/* =====================
+   GLASS
+===================== */
 .glass {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(14px);
@@ -74,14 +80,23 @@ $dark: #0f0624;
 .glass-strong {
   @extend .glass;
   border-radius: 20px;
+  border-color: rgba($orange, 0.25);
 }
 
-/* Glow */
+/* =====================
+   GLOW
+===================== */
 .glow-purple {
   box-shadow: 0 0 40px rgba($purple, 0.35);
 }
 
-/* Avatar */
+.glow-orange {
+  box-shadow: 0 0 45px rgba($orange, 0.45);
+}
+
+/* =====================
+   AVATAR
+===================== */
 .avatar-wrapper {
   position: relative;
 
@@ -91,6 +106,7 @@ $dark: #0f0624;
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid rgba($purple, 0.6);
+    box-shadow: 0 0 25px rgba($orange, 0.35);
   }
 
   .status {
@@ -99,16 +115,18 @@ $dark: #0f0624;
     right: 6px;
     width: 14px;
     height: 14px;
-    background: #22c55e;
+    background: $orange;
     border-radius: 50%;
-    box-shadow: 0 0 12px #22c55e;
+    box-shadow: 0 0 14px $orange;
   }
 }
 
-/* Texto */
+/* =====================
+   TEXTO
+===================== */
 .username {
   font-size: 1.2rem;
-  background: linear-gradient(90deg, $purple, $blue);
+  background: linear-gradient(90deg, $purple, $orange, $blue);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -117,39 +135,61 @@ $dark: #0f0624;
 .stat {
   font-size: 1.6rem;
   font-weight: 700;
+  color: $orange;
 }
 
-/* Inputs */
+/* =====================
+   INPUTS
+===================== */
 .form-control {
   border-radius: 14px;
   background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
 
   &:focus {
-    box-shadow: 0 0 0 3px rgba($purple, 0.35);
+    border-color: $orange;
+    box-shadow: 0 0 0 3px rgba($orange, 0.35);
   }
 }
 
-/* Botão */
+/* =====================
+   BOTÕES
+===================== */
 .btn-gradient {
   background: linear-gradient(90deg, $purple, $blue);
   border: none;
   font-weight: 600;
+  transition: all 0.35s ease;
+  box-shadow: 0 10px 30px rgba($purple, 0.35);
 
   &:hover {
+    background: linear-gradient(135deg, $orange, darken($orange, 8%));
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba($purple, 0.6);
+    box-shadow: 0 14px 36px rgba($orange, 0.55);
+  }
+
+  &:active {
+    transform: scale(0.98);
   }
 }
 
-/* Animação */
+/* =====================
+   ACENTOS EXTRAS
+===================== */
+.highlight-orange {
+  color: $orange !important;
+}
+
+.border-orange {
+  border-color: rgba($orange, 0.4) !important;
+}
+
+/* =====================
+   ANIMAÇÃO
+===================== */
 @keyframes gradient {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-30px);
-  }
-  100% {
-    transform: translateX(0);
-  }
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(-30px); }
+  100% { transform: translateX(0); }
 }

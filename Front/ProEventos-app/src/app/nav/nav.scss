@@ -203,3 +203,74 @@ $text: #ffffff;
     gap: 1.5rem;
   }
 }
+.dropdown-menu {
+  background: rgba(15, 6, 36, 0.95);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  border-radius: 16px;
+  padding: 0.5rem;
+  min-width: 180px;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+
+  animation: dropdownFade 0.25s ease;
+}
+
+/* =========================
+   ITENS
+========================= */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 12px;
+  color: #e5e7eb;
+  background: transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(249, 115, 22, 0.18);
+    color: $orange;
+  }
+
+  &:active {
+    background: rgba(249, 115, 22, 0.28);
+  }
+}
+
+/* =========================
+   DIVISOR
+========================= */
+.dropdown-divider {
+  margin: 0.4rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* =========================
+   ITEM PERIGO (SAIR)
+========================= */
+.dropdown-item.text-danger {
+  color: #f87171;
+
+  &:hover {
+    background: rgba(248, 113, 113, 0.15);
+    color: #f87171;
+  }
+}
+
+/* =========================
+   ANIMAÇÃO
+========================= */
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
