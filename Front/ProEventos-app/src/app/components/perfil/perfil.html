@@ -4,7 +4,6 @@
   <div class="bg-radial"></div>
   <div class="bg-gradient-animated"></div>
 
-
   <form [@fadeUp]>
     <div class="row p-3">
 
@@ -12,7 +11,6 @@
       <div class="col-lg-3 pt-1" [@slideLeft]>
         <div class="card glass-strong glow-purple">
 
-          <!-- Avatar -->
           <div class="d-flex justify-content-center pt-4">
             <div class="avatar-wrapper">
               <img
@@ -23,21 +21,16 @@
             </div>
           </div>
 
-          <!-- Info -->
           <div class="card-body text-center">
             <div class="username">@UserName</div>
-
             <div class="mb-2 text-light">
               <strong>Miracles Lee Cross</strong>
             </div>
-
             <p class="text-muted small">
-              Desenvolvedor de aplicações web com foco em Angular, React e
-              TypeScript.
+              Desenvolvedor de aplicações web com foco em Angular, React e TypeScript.
             </p>
           </div>
 
-          <!-- Estatísticas -->
           <ul class="list-group list-group-flush">
             <li class="list-group-item bg-transparent">
               <div class="row text-center">
@@ -63,14 +56,26 @@
 
           <h3 class="section-title">Detalhes do Perfil</h3>
 
+          <!-- LINHA 1 -->
           <div class="row mb-3">
+
+            <!-- TÍTULO -->
             <div class="col-md-2">
               <label>Título</label>
-              <select class="form-control glass">
-                <option></option>
-                <option>Dr.</option>
-                <option>Prof.</option>
-              </select>
+
+              <div class="custom-select" [class.open]="tituloOpen">
+                <button type="button"
+                        class="select-trigger"
+                        (click)="toggleTitulo($event)">
+                  <span>{{ tituloSelecionado || 'Selecionar' }}</span>
+                  <i class="bi bi-chevron-down"></i>
+                </button>
+
+                <ul class="custom-dropdown">
+                  <li class="dropdown-item" (click)="selectTitulo('Dr.')">Dr.</li>
+                  <li class="dropdown-item" (click)="selectTitulo('Prof.')">Prof.</li>
+                </ul>
+              </div>
             </div>
 
             <div class="col-md-5">
@@ -84,7 +89,9 @@
             </div>
           </div>
 
+          <!-- LINHA 2 -->
           <div class="row mb-3">
+
             <div class="col-md-5">
               <label>E-mail</label>
               <input type="email" class="form-control glass" />
@@ -95,12 +102,29 @@
               <input class="form-control glass" />
             </div>
 
+            <!-- FUNÇÃO -->
             <div class="col-md-3">
               <label>Função</label>
-              <select class="form-control glass">
-                <option>Participante</option>
-                <option>Palestrante</option>
-              </select>
+
+              <div class="custom-select" [class.open]="funcaoOpen">
+                <button type="button"
+                        class="select-trigger"
+                        (click)="toggleFuncao($event)">
+                  <span>{{ funcaoSelecionada }}</span>
+                  <i class="bi bi-chevron-down"></i>
+                </button>
+
+                <ul class="custom-dropdown">
+                  <li class="dropdown-item"
+                      (click)="selectFuncao('Participante')">
+                    Participante
+                  </li>
+                  <li class="dropdown-item"
+                      (click)="selectFuncao('Palestrante')">
+                    Palestrante
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -128,7 +152,6 @@
             </div>
           </div>
 
-          <!-- BOTÕES -->
           <div class="d-flex justify-content-between pt-3">
             <button type="button" class="btn btn-outline-light">
               Cancelar Alteração

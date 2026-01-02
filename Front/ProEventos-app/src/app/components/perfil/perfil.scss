@@ -9,7 +9,8 @@ $dark: #0f0624;
   min-height: 100vh;
   padding-top: 100px;
   color: #fff;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   /* FORÇA TODO TEXTO PARA BRANCO */
   *,
@@ -173,7 +174,18 @@ $dark: #0f0624;
     transform: scale(0.98);
   }
 }
+.btn-outline-light {
+  border-radius: 14px;
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  transition: all 0.3s ease;
 
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: $orange;
+    color: $orange;
+  }
+}
 /* =====================
    ACENTOS EXTRAS
 ===================== */
@@ -193,3 +205,99 @@ $dark: #0f0624;
   50%  { transform: translateX(-30px); }
   100% { transform: translateX(0); }
 }
+
+.custom-select {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  z-index: 20;
+}
+
+.select-trigger {
+  width: 100%;
+  height: 42px;
+  padding: 0 0.9rem;
+  border-radius: 14px;
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  background: rgba(15, 6, 36, 0.75);
+  backdrop-filter: blur(14px);
+  color: #e5e7eb;
+  font-size: 0.85rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  i {
+    font-size: 0.85rem;
+    transition: transform 0.25s ease;
+  }
+
+  &:hover {
+    border-color: rgba(249, 115, 22, 0.7);
+  }
+}
+
+.custom-select.open {
+  .select-trigger i {
+    transform: rotate(180deg);
+  }
+
+  .custom-dropdown {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(6px) scale(1);
+  }
+}
+/* =========================
+   DROPDOWN (MESMO DO NAV)
+========================= */
+.custom-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: 6px;
+
+  background: rgba(15, 6, 36, 0.95);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  border-radius: 16px;
+  padding: 0.5rem;
+
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px) scale(0.98);
+  transition: all 0.25s ease;
+  z-index: 9999;
+}
+
+
+/* =========================
+   ITENS
+========================= */
+.dropdown-item {
+  padding: 0.55rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(249, 115, 22, 0.18);
+    color: #f97316;
+  }
+}
+
+.card {
+  overflow: visible !important;
+}
+
