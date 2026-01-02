@@ -5,12 +5,7 @@
 
   <!-- Partículas -->
   <div class="particles">
-    <span
-      *ngFor="let p of particles"
-      [style.--x]="p.x"
-      [style.--d]="p.d"
-      [style.--s]="p.s"
-    ></span>
+    <span *ngFor="let p of particles" [style.--x]="p.x" [style.--d]="p.d" [style.--s]="p.s"></span>
   </div>
 
   <!-- Canvas partículas conectadas -->
@@ -35,38 +30,72 @@
         Junte-se à comunidade de eventos tech
       </p>
 
-      <form>
+      <form [formGroup]="form">
 
         <!-- Nome -->
         <div class="form-row two-columns">
           <div class="input-group">
-            <input type="text" placeholder="Primeiro nome" />
+            <input type="text" [ngClass]="{'is-invalid': f.primeiroNome.errors && f.primeiroNome.touched}"
+              formControlName="primeiroNome" placeholder="Primeiro nome" />
+            <div class="invalid-feedback" *ngIf="f.primeiroNome?.errors?.['required'] && f.primeiroNome?.touched">
+              É obrigatório preencher o Primeiro nome.
+            </div>
           </div>
 
           <div class="input-group">
-            <input type="text" placeholder="Último nome" />
+            <input type="text" [ngClass]="{'is-invalid': f.ultimoNome.errors && f.ultimoNome.touched}"
+              formControlName="ultimoNome" placeholder="Último nome" />
+            <div class="invalid-feedback" *ngIf="f.ultimoNome?.errors?.['required'] && f.ultimoNome?.touched">
+              É obrigatório preencher o Último nome.
+            </div>
           </div>
         </div>
 
         <!-- Email -->
         <div class="input-group">
-          <input type="email" placeholder="seu@email.com" />
+          <input type="email" [ngClass]="{'is-invalid': f.email.errors && f.email.touched}" formControlName="email"
+            placeholder="seu@email.com" />
+          <div class="invalid-feedback" *ngIf="f.email?.errors?.['required'] && f.email?.touched">
+            É obrigatório preencher o Email.
+          </div>
+          <div class="invalid-feedback" *ngIf="f.email?.errors?.['email'] && f.email?.touched">Email inválido.</div>
         </div>
 
         <!-- Usuário -->
         <div class="input-group">
-          <input type="text" placeholder="Nome de usuário" />
+          <input type="text" [ngClass]="{'is-invalid': f.userName.errors && f.userName.touched}"
+            formControlName="userName" placeholder="Nome de usuário" />
+          <div class="invalid-feedback" *ngIf="f.userName?.errors?.['required'] && f.userName?.touched">
+            É obrigatório preencher o Nome de usuário.
+          </div>
         </div>
 
         <!-- Senhas -->
         <div class="form-row two-columns">
           <div class="input-group">
-            <input type="password" placeholder="Senha" />
+            <input type="password" [ngClass]="{'is-invalid': f.password.errors && f.password.touched}"
+              formControlName="password" placeholder="Senha" />
+            <div class="invalid-feedback" *ngIf="f.password?.errors?.['required'] && f.password?.touched">
+              É obrigatório preencher a Senha.
+            </div>
+            <div class="invalid-feedback" *ngIf="f.password.errors?.['minlength'] && f.password.touched">A senha deve
+              ter no mínimo 6 caracteres.</div>
           </div>
 
           <div class="input-group">
-            <input type="password" placeholder="Confirmar senha" />
+            <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirmar senha"
+              [ngClass]="{'is-invalid': f.confirmPassword.errors && f.confirmPassword.touched}" />
+
+            <div class="invalid-feedback" *ngIf="f.confirmPassword?.errors?.['required'] && f.confirmPassword?.touched">
+              É obrigatório preencher o Confirmar senha.
+            </div>
+
+            <div class="invalid-feedback"
+              *ngIf="f.confirmPassword?.errors?.['mustMatch'] && f.confirmPassword?.touched">
+              As senhas não coincidem.
+            </div>
           </div>
+
         </div>
 
         <!-- Termos -->

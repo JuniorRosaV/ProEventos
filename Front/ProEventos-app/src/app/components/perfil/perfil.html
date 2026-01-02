@@ -4,33 +4,39 @@
   <div class="bg-radial"></div>
   <div class="bg-gradient-animated"></div>
 
-  <form [@fadeUp]>
+
+  <form [formGroup]="form" [@fadeUp]>
     <div class="row p-3">
 
       <!-- COLUNA ESQUERDA -->
       <div class="col-lg-3 pt-1" [@slideLeft]>
         <div class="card glass-strong glow-purple">
 
+          <!-- Avatar -->
           <div class="d-flex justify-content-center pt-4">
             <div class="avatar-wrapper">
               <img
                 src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R"
-                alt="Foto do usuário"
-              />
+                alt="Foto do usuário" />
               <span class="status"></span>
             </div>
           </div>
 
+          <!-- Info -->
           <div class="card-body text-center">
             <div class="username">@UserName</div>
+
             <div class="mb-2 text-light">
               <strong>Miracles Lee Cross</strong>
             </div>
+
             <p class="text-muted small">
-              Desenvolvedor de aplicações web com foco em Angular, React e TypeScript.
+              Desenvolvedor de aplicações web com foco em Angular, React e
+              TypeScript.
             </p>
           </div>
 
+          <!-- Estatísticas -->
           <ul class="list-group list-group-flush">
             <li class="list-group-item bg-transparent">
               <div class="row text-center">
@@ -56,45 +62,46 @@
 
           <h3 class="section-title">Detalhes do Perfil</h3>
 
-          <!-- LINHA 1 -->
           <div class="row mb-3">
-
-            <!-- TÍTULO -->
             <div class="col-md-2">
               <label>Título</label>
-
-              <div class="custom-select" [class.open]="tituloOpen">
-                <button type="button"
-                        class="select-trigger"
-                        (click)="toggleTitulo($event)">
-                  <span>{{ tituloSelecionado || 'Selecionar' }}</span>
-                  <i class="bi bi-chevron-down"></i>
-                </button>
-
-                <ul class="custom-dropdown">
-                  <li class="dropdown-item" (click)="selectTitulo('Dr.')">Dr.</li>
-                  <li class="dropdown-item" (click)="selectTitulo('Prof.')">Prof.</li>
-                </ul>
-              </div>
+              <select class="form-control glass" formControlName="titulo">
+                <option></option>
+                <option>Dr.</option>
+                <option>Prof.</option>
+              </select>
             </div>
 
             <div class="col-md-5">
               <label>Primeiro Nome</label>
-              <input class="form-control glass" />
+              <input class="form-control glass" formControlName="primeiroNome"
+                [ngClass]="{'is-invalid': f.primeiroNome.touched && f.primeiroNome.invalid}" />
+              <div class="invalid-feedback" *ngIf="f.primeiroNome.errors?.['required']">
+                Primeiro nome é obrigatório
+              </div>
             </div>
 
             <div class="col-md-5">
               <label>Último Nome</label>
-              <input class="form-control glass" />
+              <input class="form-control glass" formControlName="ultimoNome"
+                [ngClass]="{'is-invalid': f.ultimoNome.touched && f.ultimoNome.invalid}" />
+              <div class="invalid-feedback" *ngIf="f.ultimoNome.errors?.['required']">
+                Ultimo nome é obrigatório
+              </div>
             </div>
           </div>
 
-          <!-- LINHA 2 -->
           <div class="row mb-3">
-
             <div class="col-md-5">
               <label>E-mail</label>
-              <input type="email" class="form-control glass" />
+              <input type="email" class="form-control glass" formControlName="email"
+                [ngClass]="{'is-invalid': f.email.touched && f.email.invalid}" />
+              <div class="invalid-feedback" *ngIf="f.email.errors?.['required']">
+                E-mail é obrigatório
+              </div>
+              <div class="invalid-feedback" *ngIf="f.email.errors?.['email']">
+                E-mail inválido
+              </div>
             </div>
 
             <div class="col-md-4">
@@ -102,35 +109,18 @@
               <input class="form-control glass" />
             </div>
 
-            <!-- FUNÇÃO -->
             <div class="col-md-3">
               <label>Função</label>
-
-              <div class="custom-select" [class.open]="funcaoOpen">
-                <button type="button"
-                        class="select-trigger"
-                        (click)="toggleFuncao($event)">
-                  <span>{{ funcaoSelecionada }}</span>
-                  <i class="bi bi-chevron-down"></i>
-                </button>
-
-                <ul class="custom-dropdown">
-                  <li class="dropdown-item"
-                      (click)="selectFuncao('Participante')">
-                    Participante
-                  </li>
-                  <li class="dropdown-item"
-                      (click)="selectFuncao('Palestrante')">
-                    Palestrante
-                  </li>
-                </ul>
-              </div>
+              <select class="form-control glass" formControlName="funcao">
+                <option>Participante</option>
+                <option>Palestrante</option>
+              </select>
             </div>
           </div>
 
           <div class="mb-4">
             <label>Descrição</label>
-            <textarea rows="3" class="form-control glass"></textarea>
+            <textarea rows="3" class="form-control glass" formControlName="descricao"></textarea>
           </div>
 
           <hr />
@@ -143,15 +133,33 @@
           <div class="row mb-4">
             <div class="col-md-6">
               <label>Senha</label>
-              <input type="password" class="form-control glass" />
+              <input type="password" class="form-control glass" formControlName="password"
+                [ngClass]="{'is-invalid': f.password.touched && f.password.invalid}" />
+              <div class="invalid-feedback" *ngIf="f.password?.errors?.['required'] && f.password?.touched">
+                É obrigatório preencher a Senha.
+              </div>
+              <div class="invalid-feedback" *ngIf="f.password.errors?.['minlength'] && f.password.touched">A senha deve
+                ter no mínimo 6 caracteres.</div>
             </div>
 
             <div class="col-md-6">
               <label>Confirmar Senha</label>
-              <input type="password" class="form-control glass" />
+              <input type="password" class="form-control glass" formControlName="confirmPassword"
+                [ngClass]="{'is-invalid': f.confirmPassword.touched && f.confirmPassword.invalid}" />
+              <div class="invalid-feedback"
+                *ngIf="f.confirmPassword?.errors?.['required'] && f.confirmPassword?.touched">
+                É obrigatório preencher o Confirmar senha.
+              </div>
+
+              <div class="invalid-feedback"
+                *ngIf="f.confirmPassword?.errors?.['mustMatch'] && f.confirmPassword?.touched">
+                As senhas não coincidem.
+              </div>
             </div>
+
           </div>
 
+          <!-- BOTÕES -->
           <div class="d-flex justify-content-between pt-3">
             <button type="button" class="btn btn-outline-light">
               Cancelar Alteração

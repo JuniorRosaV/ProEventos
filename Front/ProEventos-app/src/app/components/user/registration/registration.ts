@@ -7,6 +7,9 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import e from 'express';
+import { ValidadorField } from '../../../helpers/validators-field';
 
 interface Particle {
   x: number;
@@ -17,7 +20,7 @@ interface Particle {
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,ReactiveFormsModule],
   templateUrl: './registration.html',
   styleUrls: ['./registration.scss']
 })
@@ -27,7 +30,13 @@ export class Registration implements OnInit, AfterViewInit {
 
   @ViewChild('network') canvas!: ElementRef<HTMLCanvasElement>;
 
+  form!: FormGroup;
+  constructor(public fb: FormBuilder) { }
+
   ngOnInit(): void {
+
+    this.validation();
+
     /* Partículas (Angular-safe) */
     this.particles = Array.from({ length: 35 }).map(() => ({
       x: Math.random(),
@@ -44,7 +53,26 @@ export class Registration implements OnInit, AfterViewInit {
       }
     });
   }
+  private validation(): void {
 
+    const formOptions: AbstractControlOptions = {
+       validators: ValidadorField.mustMatch('password', 'confirmPassword')
+    };
+
+    this.form = this.fb.group({
+      primeiroNome: ['', Validators.required],
+      ultimoNome: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      userName: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+    }, formOptions);
+  }
+
+  get f(): any {
+    return this.form.controls;
+  }
+  
   ngAfterViewInit(): void {
     const canvas = this.canvas.nativeElement;
     const ctx = canvas.getContext('2d')!;
