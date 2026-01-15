@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProEventos.Domain.Models;
 using ProEventos.Repository.Context;
+using ProEventos.Service.Dtos;
 using ProEventos.Service.Interfaces;
 
 
@@ -44,7 +45,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpPost("batch")]
-        public async Task<IActionResult> Post([FromBody] Evento evento)
+        public async Task<IActionResult> Post([FromBody] EventoDto evento)
         {
             if (evento == null) return BadRequest("Nenhum evento informado.");
 
@@ -57,7 +58,7 @@ namespace ProEventos.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put( [FromBody] Evento passarEvento)
+        public async Task<ActionResult> Put( [FromBody] EventoDto passarEvento)
         {
             var Evento = await _eventoService.GetEventoByIdAsync(passarEvento.Id);
             if (Evento == null)

@@ -8,9 +8,10 @@ using ProEventos.Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddScoped<IEventoService, EventoService>();
-
-
 builder.Services.AddScoped<IEventoRepository, EventoRepository>();
 builder.Services.AddScoped<IGeralRepository, GeralRepository>();
 builder.Services.AddScoped<IPalestranteRepository, PalestranteRepository>();

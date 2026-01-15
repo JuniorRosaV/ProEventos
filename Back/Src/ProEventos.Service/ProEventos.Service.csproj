@@ -1,8 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\proeventos.domain\ProEventos.Domain.csproj" />
-    <ProjectReference Include="..\proeventos.Repository\ProEventos.Repository.csproj" />
+    <ProjectReference Include="..\ProEventos.Domain\ProEventos.Domain.csproj" />
+    <ProjectReference Include="..\ProEventos.Repository\ProEventos.Repository.csproj" />
+     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
   </ItemGroup>
 
   <PropertyGroup>

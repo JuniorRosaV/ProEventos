@@ -8,6 +8,6 @@ public class Lote
     public DateTime DataInicio { get; set; }
     public DateTime DataFim { get; set; }
     public int Quantidade { get; set; }
-    public int? IdEvento { get; set; }
+    public int? EventoId { get; set; }
     public Evento? Evento { get; set; }
 }

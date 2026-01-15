@@ -17,12 +17,12 @@ namespace ProEventos.Repository.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configuração decimal para Preço do Lote
+            // Decimal Lote.Preco
             modelBuilder.Entity<Lote>()
                 .Property(l => l.Preco)
                 .HasColumnType("decimal(18,2)");
 
-            // Chave composta para a tabela N:N PalestranteEvento
+            // Chave composta (N:N)
             modelBuilder.Entity<PalestranteEvento>()
                 .HasKey(pe => new { pe.EventoId, pe.PalestranteId });
 
@@ -30,7 +30,7 @@ namespace ProEventos.Repository.Context
             modelBuilder.Entity<Evento>()
                 .HasMany(e => e.Lotes)
                 .WithOne(l => l.Evento)
-                .HasForeignKey(l => l.IdEvento)
+                .HasForeignKey(l => l.EventoId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Evento -> RedesSociais (1:N)
@@ -47,7 +47,7 @@ namespace ProEventos.Repository.Context
                 .HasForeignKey(pe => pe.PalestranteId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // PalestranteEvento -> Evento (N:1)
+            // Evento -> PalestranteEvento (1:N)
             modelBuilder.Entity<PalestranteEvento>()
                 .HasOne(pe => pe.Evento)
                 .WithMany(e => e.PalestrantesEventos)

@@ -1,6 +1,9 @@
 ﻿using ProEventos.Service.Interfaces;
 using ProEventos.Repository.Interfaces;
 using ProEventos.Domain.Models;
+using ProEventos.Service.Dtos;
+using AutoMapper;
+
 
 namespace ProEventos.Service.Services;
 
@@ -8,63 +11,49 @@ public class EventoService : IEventoService
 {
     private readonly IGeralRepository _geralRepository;
     private readonly IEventoRepository _eventoRepository;
+    private readonly IMapper _mapper;
 
-    public EventoService(IGeralRepository geralRepository, IEventoRepository eventoRepository)
+    public EventoService(IGeralRepository geralRepository,
+                         IEventoRepository eventoRepository,
+                         IMapper mapper)
     {
         _geralRepository = geralRepository;
         _eventoRepository = eventoRepository;
+        _mapper = mapper;
     }
 
 
-    public async Task<Evento> AddEvento(Evento Model)
+    public async Task<EventoDto> AddEvento(EventoDto model)
     {
-        try
-        {
-            _geralRepository.Add<Evento>(Model);
-            if (await _geralRepository.SaveChangesAsync())
-            {
-                return await _eventoRepository.GetEventoByIdAsync(Model.Id, false);
-            }
+        var evento = _mapper.Map<Evento>(model);
 
-            throw new Exception("Erro ao adicionar evento.");
-        }
-        catch (Exception ex)
+        _geralRepository.Add<Evento>(evento);
+        if (await _geralRepository.SaveChangesAsync())
         {
-            throw new Exception(ex.Message);
-        }
 
+            var eventoRetorno = await _eventoRepository.GetEventoByIdAsync(evento.Id, false, false);
+
+            return _mapper.Map<EventoDto>(eventoRetorno);
+        }
+        return null;
     }
-    public async Task<Evento> UpdateEvento(int eventoId, Evento model)
+
+    public async Task<EventoDto> UpdateEvento(int eventoId, EventoDto model)
     {
-        var eventoBanco = await _eventoRepository.GetEventoByIdAsync(eventoId, true, false);
-        if (eventoBanco == null) throw new Exception("Evento para update não encontrado.");
+        var evento = await _eventoRepository.GetEventoByIdAsync(eventoId, false, false);
+        if (evento == null) throw new Exception("Evento para update não encontrado.");
 
-        eventoBanco.Tema = model.Tema;
-        eventoBanco.Local = model.Local;
-        eventoBanco.DataEvento = model.DataEvento;
-        eventoBanco.QtdPessoas = model.QtdPessoas;
-        eventoBanco.ImagemUrl = model.ImagemUrl;
+        _mapper.Map(model, evento);
 
-        foreach (var lote in model.Lotes)
+        _geralRepository.Update<Evento>(evento);
+
+        if (await _geralRepository.SaveChangesAsync())
         {
-            var loteExistente = eventoBanco.Lotes.FirstOrDefault(x => x.Id == lote.Id);
-            if (loteExistente != null)
-            {
-                loteExistente.Nome = lote.Nome;
-                loteExistente.Preco = lote.Preco;
-                loteExistente.DataInicio = lote.DataInicio;
-                loteExistente.DataFim = lote.DataFim;
-                loteExistente.Quantidade = lote.Quantidade;
-            }
-            else
-            {
-                eventoBanco.Lotes.Add(lote);
-            }
-        }        
-        await _geralRepository.SaveChangesAsync();
-        return await _eventoRepository.GetEventoByIdAsync(eventoId, true, false);
+            var eventoRetorno = await _eventoRepository.GetEventoByIdAsync(evento.Id, false, false);
+            return _mapper.Map<EventoDto>(eventoRetorno);
+        }
+        return null;
     }
-
 
     public Task<bool> DeleteEvento(int EventoId)
     {
@@ -84,28 +73,14 @@ public class EventoService : IEventoService
         }
     }
 
-    public async Task<Evento[]> GetAllEventosAsync(bool includePalestrantes = false)
-    {
-            try
-            {
-                var eventos = await _eventoRepository.GetAllEventosAsync(includePalestrantes);
-
-                return eventos;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-    }
-
-    public async Task<Evento[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes)
+    public async Task<EventoDto[]> GetAllEventosAsync(bool includePalestrantes = false)
     {
         try
         {
-            var eventos = await _eventoRepository.GetAllEventosByTemaAsync(tema, includePalestrantes);
-            if (eventos == null) throw new Exception("Nenhum evento encontrado para o tema informado.");
+            var eventos = await _eventoRepository.GetAllEventosAsync(includePalestrantes);
+            if (eventos == null) throw new Exception("Nenhum evento encontrado.");
 
-            return eventos;
+            return _mapper.Map<EventoDto[]>(eventos);
         }
         catch (Exception ex)
         {
@@ -113,19 +88,19 @@ public class EventoService : IEventoService
         }
     }
 
-    
-
-    public async Task<Evento> GetEventoByIdAsync(int eventoId, bool includePalestrantes)
+    public async Task<EventoDto[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes)
     {
-            try
-            {
-                var evento = await _eventoRepository.GetEventoByIdAsync(eventoId, includePalestrantes);
-                if (evento == null) throw new Exception("Evento não encontrado.");
-                return evento;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+        var eventos = await _eventoRepository.GetAllEventosByTemaAsync(tema, includePalestrantes);
+        if (eventos == null) throw new Exception("Nenhum evento encontrado para o tema informado.");
+
+        return _mapper.Map<EventoDto[]>(eventos);
+    }
+
+    public async Task<EventoDto> GetEventoByIdAsync(int eventoId, bool includePalestrantes)
+    {
+        var evento = await _eventoRepository.GetEventoByIdAsync(eventoId, includePalestrantes);
+        if (evento == null) throw new Exception("Evento não encontrado por Id informado.");
+
+        return _mapper.Map<EventoDto>(evento);
     }
 }
