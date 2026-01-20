@@ -29,7 +29,7 @@ namespace ProEventos.Repository.Context
             // Evento -> Lotes (1:N)
             modelBuilder.Entity<Evento>()
                 .HasMany(e => e.Lotes)
-                .WithOne(l => l.Evento)
+                .WithOne()
                 .HasForeignKey(l => l.EventoId)
                 .OnDelete(DeleteBehavior.Cascade);
 

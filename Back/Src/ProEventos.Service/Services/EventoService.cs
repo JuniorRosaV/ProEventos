@@ -28,14 +28,16 @@ public class EventoService : IEventoService
         var evento = _mapper.Map<Evento>(model);
 
         _geralRepository.Add<Evento>(evento);
-        if (await _geralRepository.SaveChangesAsync())
-        {
 
-            var eventoRetorno = await _eventoRepository.GetEventoByIdAsync(evento.Id, false, false);
+        var sucesso = await _geralRepository.SaveChangesAsync();
+        if (!sucesso)
+            throw new Exception("Erro ao salvar alterações do evento.");
 
-            return _mapper.Map<EventoDto>(eventoRetorno);
-        }
-        return null;
+        var eventoRetorno = await _eventoRepository
+            .GetEventoByIdAsync(evento.Id, false, false);
+
+        return _mapper.Map<EventoDto>(eventoRetorno);
+
     }
 
     public async Task<EventoDto> UpdateEvento(int eventoId, EventoDto model)
@@ -47,45 +49,32 @@ public class EventoService : IEventoService
 
         _geralRepository.Update<Evento>(evento);
 
-        if (await _geralRepository.SaveChangesAsync())
-        {
-            var eventoRetorno = await _eventoRepository.GetEventoByIdAsync(evento.Id, false, false);
-            return _mapper.Map<EventoDto>(eventoRetorno);
-        }
-        return null;
+        var sucesso = await _geralRepository.SaveChangesAsync();
+        if (!sucesso)
+            throw new Exception("Erro ao salvar alterações do evento.");
+
+        var eventoRetorno = await _eventoRepository
+            .GetEventoByIdAsync(evento.Id, false, false);
+
+        return _mapper.Map<EventoDto>(eventoRetorno);
     }
 
     public Task<bool> DeleteEvento(int EventoId)
     {
-        try
-        {
-            var evento = _eventoRepository.GetEventoByIdAsync(EventoId, false).Result;
-            if (evento == null) throw new Exception("Evento para delete não encontrado.");
+        var evento = _eventoRepository.GetEventoByIdAsync(EventoId, false).Result;
+        if (evento == null) throw new Exception("Evento para delete não encontrado.");
 
-            _geralRepository.Delete<Evento>(evento);
+        _geralRepository.Delete<Evento>(evento);
 
-            return _geralRepository.SaveChangesAsync();
-
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+        return _geralRepository.SaveChangesAsync();
     }
 
     public async Task<EventoDto[]> GetAllEventosAsync(bool includePalestrantes = false)
     {
-        try
-        {
-            var eventos = await _eventoRepository.GetAllEventosAsync(includePalestrantes);
-            if (eventos == null) throw new Exception("Nenhum evento encontrado.");
+        var eventos = await _eventoRepository.GetAllEventosAsync(includePalestrantes);
+        if (eventos == null) throw new Exception("Nenhum evento encontrado.");
 
-            return _mapper.Map<EventoDto[]>(eventos);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+        return _mapper.Map<EventoDto[]>(eventos);
     }
 
     public async Task<EventoDto[]> GetAllEventosByTemaAsync(string tema, bool includePalestrantes)

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using ProEventos.Domain.Models;
 using ProEventos.Repository.Context;
 using ProEventos.Service.Dtos;
 using ProEventos.Service.Interfaces;
@@ -29,14 +28,14 @@ namespace ProEventos.API.Controllers
             return Ok(eventos);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetId(int id)
         {
             var evento = await _eventoService.GetEventoByIdAsync(id);
             if (evento == null) return NoContent();
             return Ok(evento);
         }
-        [HttpGet("tema/{tema}")]
+        [HttpGet("{tema}")]
         public async Task<IActionResult> GetByTema(string tema)
         {
             var eventos = await _eventoService.GetAllEventosByTemaAsync(tema);
@@ -44,7 +43,7 @@ namespace ProEventos.API.Controllers
             return Ok(eventos);
         }
 
-        [HttpPost("batch")]
+        [HttpPost()]
         public async Task<IActionResult> Post([FromBody] EventoDto evento)
         {
             if (evento == null) return BadRequest("Nenhum evento informado.");
@@ -60,12 +59,9 @@ namespace ProEventos.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put( [FromBody] EventoDto passarEvento)
         {
+            
             var Evento = await _eventoService.GetEventoByIdAsync(passarEvento.Id);
-            if (Evento == null)
-            {
-
-                return NotFound();
-            }
+            if (Evento == null) return NoContent();
             await _eventoService.UpdateEvento(Evento.Id, passarEvento);
             await _context.SaveChangesAsync();
 
@@ -76,15 +72,11 @@ namespace ProEventos.API.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var Evento = await _eventoService.GetEventoByIdAsync(id);
-            if (Evento == null)
-            {
-                
-                return NotFound();
-            }
+            if (Evento == null) return NoContent();
             await _eventoService.DeleteEvento(Evento.Id);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
     }
 

@@ -1,16 +1,20 @@
-﻿using ProEventos.Domain.Models;
-
+﻿using System.ComponentModel.DataAnnotations;    
 namespace ProEventos.Service.Dtos;
-
 public class EventoDto
 {
-    public string Local { get; set; } = string.Empty;
-    public string DataEvento { get; set; } = string.Empty;
-    public string Tema { get; set; } = string.Empty;
-    public int QtdPessoas { get; set; }
-    public string ImagemUrl { get; set; } = string.Empty;
-    public string Telefone { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
+    public int Id { get; set; }
 
-    public Lote[] Lotes { get; set; } = Array.Empty<Lote>();
+    [Required(ErrorMessage = "O campo {0} é obrigatório.")]
+    public required string Local { get; set; } 
+    public required string DataEvento { get; set; } 
+    public required string Tema { get; set; }
+    public required int QtdPessoas { get; set; }
+    public required string ImagemUrl { get; set; }
+    [Phone(ErrorMessage = "O campo {0} está em formato inválido.")]
+    public string Telefone { get; set; } = string.Empty;
+    [EmailAddress(ErrorMessage = "O campo {0} está em formato inválido.")]
+    public string Email { get; set; } = string.Empty;
+    public RedeSocialDto[] RedesSociais { get; set; } = Array.Empty<RedeSocialDto>();
+    public LotesDto[] Lotes { get; set; } = Array.Empty<LotesDto>();
+    public PalestranteDto[] Palestrantes { get; set; } = Array.Empty<PalestranteDto>();
 }

@@ -9,5 +9,8 @@ public class ConventosProfile : Profile
     public ConventosProfile()
     {
         CreateMap<Evento, EventoDto>().ReverseMap();
+        CreateMap<Palestrante, PalestranteDto>().ReverseMap();
+        CreateMap<RedeSocial, RedeSocialDto>().ReverseMap();
+        CreateMap<Lote, LotesDto>().ReverseMap();
     }
 }

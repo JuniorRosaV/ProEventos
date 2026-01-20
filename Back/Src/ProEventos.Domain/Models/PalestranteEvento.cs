@@ -3,8 +3,8 @@
 public class PalestranteEvento
 {
     public int EventoId { get; set; }
-    public Evento Evento { get; set; }
+    public required Evento Evento { get; set; }
     public int PalestranteId { get; set; }
-    public Palestrante Palestrante { get; set; }
+    public required Palestrante Palestrante { get; set; }
 
 }
