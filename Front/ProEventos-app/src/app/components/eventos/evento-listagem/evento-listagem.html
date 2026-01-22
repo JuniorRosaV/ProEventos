@@ -86,12 +86,16 @@
           <div class="meta">
             <div class="meta-item">
               <i class="fa fa-calendar"></i>
-              <span>{{ evento.dataEvento | DateTimeFormatPipe }}</span>
+              <span *ngIf="evento.dataEventoDate">
+                {{ evento.dataEventoDate | DateTimeFormatPipe }}
+              </span>
             </div>
 
             <div class="meta-item">
               <i class="fa fa-clock"></i>
-              <span>{{ evento.dataEvento | HoursFormatPipe }}</span>
+              <span *ngIf="evento.dataEventoDate">
+                {{ evento.dataEventoDate | HoursFormatPipe }}
+              </span>
             </div>
 
             <div class="meta-item">

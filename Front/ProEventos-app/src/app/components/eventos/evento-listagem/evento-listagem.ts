@@ -136,9 +136,14 @@ export class EventoListagem
       )
       .subscribe({
         next: eventos => {
-          this.eventos = eventos ?? [];
+          this.eventos = (eventos ?? []).map(evento => ({
+            ...evento,
+            dataEventoDate: this.converterParaDate(evento.dataEvento)
+          }));
+
           this.eventosFiltrados = [...this.eventos];
         },
+
         error: () => {
           this.eventos = [];
           this.eventosFiltrados = [];
@@ -177,6 +182,14 @@ export class EventoListagem
       d: `${Math.random() * 20 + 10}s`,
       s: `${Math.random() * 4 + 2}px`
     }));
+  }
+
+  converterParaDate(data: string): Date {
+    const [dataParte, horaParte] = data.split(' ');
+    const [dia, mes, ano] = dataParte.split('/').map(Number);
+    const [hora, minuto, segundo] = horaParte.split(':').map(Number);
+
+    return new Date(ano, mes - 1, dia, hora, minuto, segundo);
   }
 
   /* FILTRO DE EVENTOS */
