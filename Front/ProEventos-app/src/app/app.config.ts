@@ -10,6 +10,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -34,6 +35,7 @@ export const appConfig: ApplicationConfig = {
       TooltipModule.forRoot(),
       BsDropdownModule.forRoot(),
       ModalModule.forRoot(),
+      BsDatepickerModule.forRoot(),
       ToastrModule.forRoot({
         timeOut: 3000,
         positionClass: 'toast-bottom-right',

@@ -1,6 +1,9 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, OnInit, Inject, PLATFORM_ID, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { EventoService } from '../../../services/evento-service';
+import { Evento } from '../../../models/Evento';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -13,21 +16,41 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
   form!: FormGroup;
   particles: Array<{ x: string; d: string; s: string }> = [];
 
+  evento = {} as Evento;
+
   @ViewChild('network') canvas!: ElementRef<HTMLCanvasElement>;
   private animationFrameId?: number;
 
   constructor(
     private fb: FormBuilder,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router : ActivatedRoute,
+    private eventoService : EventoService
   ) {}
 
   get f(): any {
     return this.form.controls;
   }
 
+
+  public carregarEvento(): void {
+    const EventoIdParam = this.router.snapshot.paramMap.get('id');
+
+    if(EventoIdParam !== null){
+      this.eventoService.getEventoById(+EventoIdParam).subscribe({
+        next: (evento) => {
+          this.form.patchValue(evento);
+        },
+        error: (err) => console.error('Erro ao carregar evento:', err)
+      });
+    }
+
+  }
+
   ngOnInit(): void {
     this.validation();
     if (isPlatformBrowser(this.platformId)) this.initParticles();
+    this.carregarEvento();
   }
 
   ngAfterViewInit(): void {
@@ -49,6 +72,15 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
       imagemUrl: ['', Validators.required],
     });
   }
+
+
+
+    public cssValidator(campoForm: FormControl): any 
+    { 
+      return {
+        'is-invalid': campoForm?.errors && campoForm?.touched
+      };
+    }
 
   private initParticles(): void {
     this.particles = Array.from({ length: 30 }).map(() => ({
@@ -105,7 +137,6 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
       this.animationFrameId = requestAnimationFrame(animate);
     };
-
     animate();
   }
 }
