@@ -9,6 +9,7 @@ import { EventoListagem } from './components/eventos/evento-listagem/evento-list
 import { User } from './components/user/user';
 import { Registration } from './components/user/registration/registration';
 import { Login } from './components/user/login/login';
+import { EventoCarregar } from './components/eventos/evento-carregar/evento-carregar';
 
 export const routes: Routes = [
     {
@@ -28,7 +29,7 @@ export const routes: Routes = [
         path: 'eventos', component: Eventos,
         children: [
             { path: '', redirectTo: 'lista', pathMatch: 'full' },
-            { path: 'detalhe/:id', component: EventoDetalhe },
+            { path: 'detalhe/:id', component: EventoCarregar },
             { path: 'detalhe', component: EventoDetalhe },
             { path: 'lista', component: EventoListagem },
         ]

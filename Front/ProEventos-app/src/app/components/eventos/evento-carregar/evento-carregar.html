@@ -1,0 +1,194 @@
+<div class="eventos-container" *ngIf="evento">
+    <div class="eventos-header">
+
+      <button class="icon-btn" (click)="goBack()">
+        ←
+      </button>
+  
+      <h1>{{evento?.tema}}</h1>
+  
+      <div class="header-actions">
+  
+        <button class="icon-btn" (click)="share()">
+          ⤴
+        </button>
+  
+        <button class="icon-btn"
+                (click)="toggleFavorite()"
+                [class.active]="Favorito">
+          ♥
+        </button>
+  
+      </div>
+    </div>
+
+  <!-- BANNER -->
+  <div class="banner">
+
+    <img [src]="evento?.imagemUrl">
+
+    <div class="banner-overlay"></div>
+
+    <div class="banner-content">
+
+      <span class="badge">
+        {{evento?.categoria}}
+      </span>
+
+      <h2>{{evento?.tema}}</h2>
+
+      <p>{{evento?.descricao}}</p>
+
+    </div>
+
+  </div>
+
+
+  <!-- CONTENT -->
+  <div class="content-grid">
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- INFO -->
+      <div class="card">
+
+        <h3>Informações do Evento</h3>
+
+        <div class="info-grid">
+
+          <div class="info">
+            <span>📅</span>
+            <div>
+              <small>Data</small>
+              <p>{{evento?.dataEvento}}</p>
+            </div>
+          </div>
+
+          <div class="info">
+            <span>⏰</span>
+            <div>
+              <small>Hora</small>
+              <p>{{evento?.horario}}</p>
+            </div>
+          </div>
+
+          <div class="info">
+            <span>📍</span>
+            <div>
+              <small>Local</small>
+              <p>{{evento?.local}}</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- DESCRIPTION -->
+      <div class="card">
+
+        <h3>Sobre o Evento</h3>
+
+        <p>{{evento?.TodaDescricao}}</p>
+
+      </div>
+
+
+      <!-- COMMENTS -->
+      <div class="card">
+
+        <h3>Comentários</h3>
+
+        <textarea
+          [(ngModel)]="Comentario"
+          placeholder="Digite um comentário">
+        </textarea>
+
+        <div class="comment"
+             *ngFor="let c of comments">
+
+          <div class="avatar">
+            {{c.avatar}}
+          </div>
+
+          <div>
+            <b>{{c.author}}</b>
+            <small>{{c.timestamp}}</small>
+            <p>{{c.content}}</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <div class="card">
+
+        <h3>Estatísticas</h3>
+
+        <div class="stat">
+          <span>Inscritos</span>
+          <b>{{evento?.qtdPessoas}}</b>
+        </div>
+
+        <div class="stat">
+          <span>Vagas restantes</span>
+          <b>{{spotsLeft}}</b>
+        </div>
+
+        <div class="stat">
+          <span>Visualizações</span>
+          <b>{{evento?.visualizacoes}}</b>
+        </div>
+
+        <div class="progress">
+          <div class="bar"
+               [style.width.%]="occupationPercent">
+          </div>
+        </div>
+
+      </div>
+
+
+      <button class="register-btn"
+              [class.registered]="Registro"
+              (click)="toggleRegister()">
+
+        {{Registro
+          ? '✓ Inscrito'
+          : 'Inscrever-se agora'}}
+
+      </button>
+
+
+      <div class="card">
+
+        <h3>Organizador</h3>
+
+        <div class="organizer">
+
+          <div class="avatar big">
+            {{evento?.tema?.charAt(0)}}
+          </div>
+
+          <div>
+            <p>{{evento.tema}}</p>
+            <small>Evento</small>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

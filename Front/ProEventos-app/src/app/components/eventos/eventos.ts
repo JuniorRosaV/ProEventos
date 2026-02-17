@@ -10,12 +10,11 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-import { Titulo } from '../../shared/titulo/titulo';
 
 @Component({
   selector: 'app-eventos',
   standalone: true,
-  imports: [RouterModule, Titulo],
+  imports: [RouterModule],
   templateUrl: './eventos.html',
   styleUrls: ['./eventos.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

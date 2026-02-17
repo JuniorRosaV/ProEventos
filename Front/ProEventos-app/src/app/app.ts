@@ -1,6 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { Nav } from './nav/nav';
+
 @Component({
   selector: 'app-root',
   standalone: true,

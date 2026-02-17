@@ -76,7 +76,11 @@
 
     <!-- GRID -->
     <section class="event-grid" *ngIf="!loading && eventosFiltrados.length">
-      <article class="event-card" *ngFor="let evento of eventosFiltrados">
+      <article 
+      class="event-card" 
+      *ngFor="let evento of eventosFiltrados" 
+      [routerLink]="['/eventos/detalhe', evento.id]"
+      style="cursor: pointer;">
 
         <img *ngIf="mostrarImagem" [src]="'/assets/' + evento.imagemUrl" alt="Evento" />
 
