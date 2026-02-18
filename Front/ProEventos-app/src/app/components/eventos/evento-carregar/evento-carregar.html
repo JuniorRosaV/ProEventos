@@ -5,7 +5,7 @@
         ←
       </button>
   
-      <h1>{{evento?.tema}}</h1>
+      <h1>{{evento.tema}}</h1>
   
       <div class="header-actions">
   
@@ -25,19 +25,19 @@
   <!-- BANNER -->
   <div class="banner">
 
-    <img [src]="evento?.imagemUrl">
+     <img [src]="'/assets/' + evento.imagemUrl" alt="Evento" />
 
     <div class="banner-overlay"></div>
 
     <div class="banner-content">
 
       <span class="badge">
-        {{evento?.categoria}}
+        {{evento.categoria}}
       </span>
 
-      <h2>{{evento?.tema}}</h2>
+      <h2>{{evento.tema}}</h2>
 
-      <p>{{evento?.descricao}}</p>
+      <p>{{evento.descricao}}</p>
 
     </div>
 
@@ -61,7 +61,7 @@
             <span>📅</span>
             <div>
               <small>Data</small>
-              <p>{{evento?.dataEvento}}</p>
+              <p>{{evento.dataEvento}}</p>
             </div>
           </div>
 
@@ -69,7 +69,7 @@
             <span>⏰</span>
             <div>
               <small>Hora</small>
-              <p>{{evento?.horario}}</p>
+              <p>{{evento.horario}}</p>
             </div>
           </div>
 
@@ -77,7 +77,7 @@
             <span>📍</span>
             <div>
               <small>Local</small>
-              <p>{{evento?.local}}</p>
+              <p>{{evento.local}}</p>
             </div>
           </div>
 
@@ -91,7 +91,7 @@
 
         <h3>Sobre o Evento</h3>
 
-        <p>{{evento?.TodaDescricao}}</p>
+        <p>{{evento.TodaDescricao}}</p>
 
       </div>
 
@@ -135,7 +135,7 @@
 
         <div class="stat">
           <span>Inscritos</span>
-          <b>{{evento?.qtdPessoas}}</b>
+          <b>{{evento.qtdPessoas}}</b>
         </div>
 
         <div class="stat">
@@ -145,7 +145,7 @@
 
         <div class="stat">
           <span>Visualizações</span>
-          <b>{{evento?.visualizacoes}}</b>
+          <b>{{evento.visualizacoes}}</b>
         </div>
 
         <div class="progress">
@@ -175,7 +175,7 @@
         <div class="organizer">
 
           <div class="avatar big">
-            {{evento?.tema?.charAt(0)}}
+            {{evento.tema.charAt(0)}}
           </div>
 
           <div>
