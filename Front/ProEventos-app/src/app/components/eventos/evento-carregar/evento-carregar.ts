@@ -66,11 +66,11 @@ export class EventoCarregar implements OnInit {
   ngOnInit(): void {
     const id = this.router.snapshot.paramMap.get('id');
     if (id) {
-      this.loadEvent(+id);
+      this.CarregarEvento(+id);
     }
   }
 
-  loadEvent(id: number): void {
+  CarregarEvento(id: number): void {
 
     this.carregar = true;
 
