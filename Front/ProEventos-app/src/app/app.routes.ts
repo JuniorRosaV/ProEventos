@@ -29,7 +29,7 @@ export const routes: Routes = [
         path: 'eventos', component: Eventos,
         children: [
             { path: '', redirectTo: 'lista', pathMatch: 'full' },
-            { path: 'detalhe/:id', component: EventoCarregar },
+            { path: 'carregar/:id', component: EventoCarregar },
             { path: 'detalhe', component: EventoDetalhe },
             { path: 'lista', component: EventoListagem },
         ]

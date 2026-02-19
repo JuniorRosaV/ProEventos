@@ -25,7 +25,8 @@ interface Comment {
 })
 export class EventoCarregar implements OnInit {
 
-  evento!: Evento;
+  evento: Evento | null = null;
+
 
   Favorito = false;
   Registro = false;
@@ -58,40 +59,29 @@ export class EventoCarregar implements OnInit {
   ];
 
   constructor(
-    private route: ActivatedRoute,
+    private router: ActivatedRoute,
     private eventoService: EventoService
   ) {}
 
   ngOnInit(): void {
-    this.loadEvent();
+    const id = this.router.snapshot.paramMap.get('id');
+    if (id) {
+      this.loadEvent(+id);
+    }
   }
 
-  loadEvent(): void {
+  loadEvent(id: number): void {
 
-    const id = this.route.snapshot.paramMap.get('id');
+    this.carregar = true;
 
-    if (!id) return;
-
-    this.eventoService.getEventoById(+id).subscribe({
-
+    this.eventoService.getEventoById(id).subscribe({
       next: (evento) => {
 
         this.evento = {
           ...evento,
-
-          tema: evento.tema,
-          descricao: evento.descricao,
           dataEvento: new Date(evento.dataEvento).toLocaleDateString(),
           horario: new Date(evento.dataEvento).toLocaleTimeString(),
-          local: evento.local,
-          qtdPessoas: evento.qtdPessoas,
-          maxPessoas: evento.maxPessoas,
-          categoria: evento.categoria,
-          imagemUrl: evento.imagemUrl,
-          palestrantesEventos: evento.palestrantesEventos,
-          visualizacoes: evento.visualizacoes,
           TodaDescricao: evento.descricao
-
         };
 
         this.carregar = false;
@@ -101,14 +91,14 @@ export class EventoCarregar implements OnInit {
         console.error('Erro ao carregar evento', err);
         this.carregar = false;
       }
-
     });
-
   }
 
   get spotsLeft(): number {
-    return this.evento?.maxPessoas - this.evento?.qtdPessoas;
+  if (!this.evento) return 0;
+    return (this.evento.maxPessoas ?? 0) - (this.evento.qtdPessoas ?? 0);
   }
+
 
   get occupationPercent(): number {
     if (!this.evento) return 0;
@@ -127,6 +117,8 @@ export class EventoCarregar implements OnInit {
 
   share(): void {
 
+    if (!this.evento) return;
+    
     if (navigator.share) {
 
       navigator.share({

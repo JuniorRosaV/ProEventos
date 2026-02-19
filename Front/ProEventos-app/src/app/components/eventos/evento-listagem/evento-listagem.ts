@@ -10,7 +10,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PLATFORM_ID } from '@angular/core';
 import { finalize } from 'rxjs';
@@ -74,9 +74,14 @@ export class EventoListagem
     private modalService: BsModalService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) { }
 
+
+  irParaDetalhe(id: number) {
+  this.router.navigate(['/eventos/carregar', id]);
+}
   /* =======================
      CICLO DE VIDA
   ======================= */
