@@ -75,7 +75,6 @@ namespace ProEventos.API.Controllers
             if (Evento == null) return NoContent();
             await _eventoService.DeleteEvento(Evento.Id);
             await _context.SaveChangesAsync();
-
             return Ok();
         }
     }

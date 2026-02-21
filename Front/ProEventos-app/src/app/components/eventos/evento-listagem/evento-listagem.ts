@@ -41,30 +41,21 @@ import { HoursFormatPipe } from '../../../helpers/hours-format-pipe';
 export class EventoListagem
   implements OnInit, AfterViewInit, OnDestroy {
 
-  /* =======================
-     VIEW
-  ======================= */
   @ViewChild('network') canvas!: ElementRef<HTMLCanvasElement>;
 
   modalRef?: BsModalRef;
 
-  /* =======================
-     DADOS
-  ======================= */
   eventos: Evento[] = [];
   eventosFiltrados: Evento[] = [];
 
+  totalParticipantes = 0; // 🔥 agora não é mais getter
+
+  eventoId = 0;
   loading = false;
   mostrarImagem = true;
 
-  /* =======================
-     PARTÍCULAS
-  ======================= */
   particles: Array<{ x: string; d: string; s: string }> = [];
 
-  /* =======================
-     CONTROLE
-  ======================= */
   private animationFrameId?: number;
   private mouseMoveListener?: (e: MouseEvent) => void;
 
@@ -77,14 +68,6 @@ export class EventoListagem
     private cdr: ChangeDetectorRef,
     private router: Router
   ) { }
-
-
-  irParaDetalhe(id: number) {
-  this.router.navigate(['/eventos/carregar', id]);
-}
-  /* =======================
-     CICLO DE VIDA
-  ======================= */
 
   ngOnInit(): void {
     this.getEventos();
@@ -111,20 +94,16 @@ export class EventoListagem
     }
   }
 
-  /* =======================
-     GETTERS
-  ======================= */
+  irParaDetalhe(id: number) {
+    this.router.navigate(['/eventos/carregar', id]);
+  }
 
-  get totalParticipantes(): number {
-    return this.eventos.reduce(
+  private atualizarTotal(): void {
+    this.totalParticipantes = this.eventos.reduce(
       (total, e) => total + (e.qtdPessoas ?? 0),
       0
     );
   }
-
-  /* =======================
-     API
-  ======================= */
 
   getEventos(): void {
     this.loading = true;
@@ -136,7 +115,7 @@ export class EventoListagem
         finalize(() => {
           this.loading = false;
           this.spinner.hide();
-          this.cdr.detectChanges();
+          this.cdr.detectChanges(); // 🔥 garante sincronização
         })
       )
       .subscribe({
@@ -147,21 +126,22 @@ export class EventoListagem
           }));
 
           this.eventosFiltrados = [...this.eventos];
+
+          this.atualizarTotal(); // 🔥 atualiza total corretamente
         },
 
         error: () => {
           this.eventos = [];
           this.eventosFiltrados = [];
+          this.totalParticipantes = 0;
           this.toastr.error('Erro ao carregar eventos');
         }
       });
   }
 
-  /* =======================
-     MODAL
-  ======================= */
-
-  openModal(template: TemplateRef<void>): void {
+  openModal(event: any, template: TemplateRef<void>, id: number): void {
+    event.stopPropagation();
+    this.eventoId = id;
     this.modalRef = this.modalService.show(template, {
       class: 'modal-sm'
     });
@@ -169,18 +149,41 @@ export class EventoListagem
 
   confirm(): void {
     this.modalRef?.hide();
-    this.toastr.success('Evento excluído com sucesso');
+    this.spinner.show();
+
+    this.eventoService.deleteEvento(this.eventoId)
+      .subscribe({
+        next: () => {
+
+          this.eventos = this.eventos.filter(e => e.id !== this.eventoId);
+          this.eventosFiltrados = this.eventosFiltrados.filter(e => e.id !== this.eventoId);
+
+          this.atualizarTotal(); // 🔥 recalcula total
+
+          this.cdr.detectChanges(); // 🔥 resolve NG0100 definitivamente
+
+          this.toastr.success('Evento excluído com sucesso', 'Deletado');
+        },
+        error: () => {
+          this.toastr.error('Erro ao excluir evento', 'Erro');
+        },
+        complete: () => this.spinner.hide()
+      });
   }
 
   decline(): void {
     this.modalRef?.hide();
   }
 
-  /* =======================
-     ANIMAÇÕES
-  ======================= */
+  filtrarEventos(event: Event) {
+    const valor = (event.target as HTMLInputElement).value.toLowerCase();
 
-  /** 🔥 Partículas flutuantes */
+    this.eventosFiltrados = this.eventos.filter(e =>
+      e.tema.toLowerCase().includes(valor) ||
+      e.local.toLowerCase().includes(valor)
+    );
+  }
+
   private initParticles(): void {
     this.particles = Array.from({ length: 30 }).map(() => ({
       x: `${Math.random() * 100}%`,
@@ -197,18 +200,6 @@ export class EventoListagem
     return new Date(ano, mes - 1, dia, hora, minuto, segundo);
   }
 
-  /* FILTRO DE EVENTOS */
-
-  filtrarEventos(event: Event) {
-    const valor = (event.target as HTMLInputElement).value.toLowerCase();
-
-    this.eventosFiltrados = this.eventos.filter(e =>
-      e.tema.toLowerCase().includes(valor) ||
-      e.local.toLowerCase().includes(valor)
-    );
-  }
-
-  /** 🔥 Glow seguindo o mouse */
   private initMouseGlow(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
@@ -223,7 +214,6 @@ export class EventoListagem
     window.addEventListener('mousemove', this.mouseMoveListener);
   }
 
-  /** 🔥 Canvas com partículas conectadas */
   private initCanvasNetwork(): void {
     if (!this.canvas) return;
 

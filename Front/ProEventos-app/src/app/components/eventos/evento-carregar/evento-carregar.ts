@@ -3,7 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { EventoService } from '../../../services/evento-service';
 import { Evento } from '../../../models/Evento';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';    
+import { FormsModule } from '@angular/forms'; 
+import { Subject, switchMap, takeUntil } from 'rxjs';
+
+
 
 interface Comment {
   id: string;
@@ -27,6 +30,7 @@ export class EventoCarregar implements OnInit {
 
   evento: Evento | null = null;
 
+  private destroy$ = new Subject<void>();
 
   Favorito = false;
   Registro = false;
@@ -63,20 +67,14 @@ export class EventoCarregar implements OnInit {
     private eventoService: EventoService
   ) {}
 
-  ngOnInit(): void {
-    const id = this.router.snapshot.paramMap.get('id');
-    if (id) {
-      this.CarregarEvento(+id);
-    }
-  }
-
+  
   CarregarEvento(id: number): void {
-
+    
     this.carregar = true;
-
+    
     this.eventoService.getEventoById(id).subscribe({
       next: (evento) => {
-
+        
         this.evento = {
           ...evento,
           dataEvento: new Date(evento.dataEvento).toLocaleDateString(),
@@ -86,12 +84,45 @@ export class EventoCarregar implements OnInit {
 
         this.carregar = false;
       },
-
+      
       error: (err) => {
         console.error('Erro ao carregar evento', err);
         this.carregar = false;
       }
     });
+  }
+  
+  ngOnInit(): void {
+    this.router.paramMap
+      .pipe(
+        switchMap(params => {
+          const id = params.get('id');
+          if (!id) throw new Error('ID não encontrado');
+          this.carregar = true;
+          return this.eventoService.getEventoById(+id);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (evento) => {
+          this.evento = {
+            ...evento,
+            dataEvento: new Date(evento.dataEvento).toLocaleDateString(),
+            horario: new Date(evento.dataEvento).toLocaleTimeString(),
+            TodaDescricao: evento.descricao
+          };
+          this.carregar = false;
+        },
+        error: (err) => {
+          console.error('Erro ao carregar evento', err);
+          this.carregar = false;
+        }
+      });
+    }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   get spotsLeft(): number {

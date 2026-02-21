@@ -115,7 +115,9 @@
               <button class="btn-icon edit">
                 <i class="fa fa-edit"></i>
               </button>
-              <button class="btn-icon delete" (click)="openModal(template)">
+              <button 
+                class="btn-icon delete" 
+                (click)="openModal($event, template, evento.id)">
                 <i class="fa fa-trash"></i>
               </button>
             </div>
