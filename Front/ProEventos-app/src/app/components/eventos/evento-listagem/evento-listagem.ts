@@ -115,7 +115,7 @@ export class EventoListagem
         finalize(() => {
           this.loading = false;
           this.spinner.hide();
-          this.cdr.detectChanges(); // 🔥 garante sincronização
+          this.cdr.detectChanges(); 
         })
       )
       .subscribe({
@@ -158,9 +158,9 @@ export class EventoListagem
           this.eventos = this.eventos.filter(e => e.id !== this.eventoId);
           this.eventosFiltrados = this.eventosFiltrados.filter(e => e.id !== this.eventoId);
 
-          this.atualizarTotal(); // 🔥 recalcula total
+          this.atualizarTotal(); 
 
-          this.cdr.detectChanges(); // 🔥 resolve NG0100 definitivamente
+          this.cdr.detectChanges(); 
 
           this.toastr.success('Evento excluído com sucesso', 'Deletado');
         },
