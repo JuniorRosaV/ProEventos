@@ -1,9 +1,11 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, OnInit, Inject, PLATFORM_ID, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventoService } from '../../../services/evento-service';
 import { Evento } from '../../../models/Evento';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -25,7 +27,10 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
     private fb: FormBuilder,
     @Inject(PLATFORM_ID) private platformId: Object,
     private router : ActivatedRoute,
-    private eventoService : EventoService
+    private route: Router,
+    private eventoService : EventoService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) {}
 
   get f(): any {
@@ -46,6 +51,35 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
     }
 
   }
+
+  public salvarAlteracao(): void {
+
+  this.spinner.show();
+
+  if (this.form.valid) {
+
+    this.evento = { ...this.form.value };
+
+    this.eventoService.postEvento(this.evento).subscribe({
+
+      next: () => {
+        this.toastr.success('Evento salvo com Sucesso!', 'Sucesso');
+        this.route.navigate(['/eventos']);
+      },
+
+      error: (error: any) => {
+        console.error(error);
+        this.toastr.error('Erro ao salvar evento', 'Erro');
+        this.spinner.hide();
+      },
+
+      complete: () => this.spinner.hide()
+
+    });
+
+  }
+
+}
 
   ngOnInit(): void {
     this.validation();
