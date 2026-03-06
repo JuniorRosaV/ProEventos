@@ -38,48 +38,90 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  public carregarEvento(): void {
-    const EventoIdParam = this.router.snapshot.paramMap.get('id');
+  eventoId = 0;
 
-    if(EventoIdParam !== null){
-      this.eventoService.getEventoById(+EventoIdParam).subscribe({
+  public carregarEvento(): void {
+
+    const eventoIdParam = this.router.snapshot.paramMap.get('id');
+
+    if (eventoIdParam !== null) {
+
+      this.eventoId = +eventoIdParam;
+
+      this.eventoService.getEventoById(this.eventoId).subscribe({
         next: (evento) => {
+
+          this.evento = evento;
+
           this.form.patchValue(evento);
+
         },
         error: (err) => console.error('Erro ao carregar evento:', err)
       });
-    }
 
+    }
+  }
+
+  CancelarAlteracao(): void {
+    this.route.navigate(['/eventos/lista']);
   }
 
   public salvarAlteracao(): void {
 
-  this.spinner.show();
+    this.spinner.show();
 
-  if (this.form.valid) {
+    if (this.form.valid) {
 
-    this.evento = { ...this.form.value };
+      this.evento = {
+        id: this.eventoId,
+        ...this.form.value
+      };
 
-    this.eventoService.postEvento(this.evento).subscribe({
+      if (this.eventoId > 0) {
 
-      next: () => {
-        this.toastr.success('Evento salvo com Sucesso!', 'Sucesso');
-        this.route.navigate(['/eventos']);
-      },
+        // PUT
+        this.eventoService.putEvento(this.eventoId, this.evento).subscribe({
 
-      error: (error: any) => {
-        console.error(error);
-        this.toastr.error('Erro ao salvar evento', 'Erro');
-        this.spinner.hide();
-      },
+          next: () => {
+            this.toastr.success('Evento atualizado!', 'Sucesso');
+            this.route.navigate(['/eventos']);
+          },
 
-      complete: () => this.spinner.hide()
+          error: (error: any) => {
+            console.error(error);
+            this.toastr.error('Erro ao atualizar evento', 'Erro');
+            this.spinner.hide();
+          },
 
-    });
+          complete: () => this.spinner.hide()
+
+        });
+
+      } else {
+
+        // POST
+        this.eventoService.postEvento(this.evento).subscribe({
+
+          next: () => {
+            this.toastr.success('Evento criado!', 'Sucesso');
+            this.route.navigate(['/eventos']);
+          },
+
+          error: (error: any) => {
+            console.error(error);
+            this.toastr.error('Erro ao criar evento', 'Erro');
+            this.spinner.hide();
+          },
+
+          complete: () => this.spinner.hide()
+
+        });
+
+      }
+
+    }
 
   }
-
-}
 
   ngOnInit(): void {
     this.validation();

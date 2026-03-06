@@ -31,6 +31,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'lista', pathMatch: 'full' },
             { path: 'carregar/:id', component: EventoCarregar },
             { path: 'detalhe', component: EventoDetalhe },
+            { path: 'detalhe/:id', component: EventoDetalhe},
             { path: 'lista', component: EventoListagem },
         ]
     },

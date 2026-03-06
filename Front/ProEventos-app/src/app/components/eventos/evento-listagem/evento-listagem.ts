@@ -48,7 +48,7 @@ export class EventoListagem
   eventos: Evento[] = [];
   eventosFiltrados: Evento[] = [];
 
-  totalParticipantes = 0; // 🔥 agora não é mais getter
+  totalParticipantes = 0;
 
   eventoId = 0;
   loading = false;
@@ -127,7 +127,7 @@ export class EventoListagem
 
           this.eventosFiltrados = [...this.eventos];
 
-          this.atualizarTotal(); // 🔥 atualiza total corretamente
+          this.atualizarTotal();
         },
 
         error: () => {
@@ -137,6 +137,11 @@ export class EventoListagem
           this.toastr.error('Erro ao carregar eventos');
         }
       });
+  }
+
+    editarEvento(event: Event, id: number): void {
+    event.stopPropagation();
+    this.router.navigate([`/eventos/detalhe/${id}`]);
   }
 
   openModal(event: any, template: TemplateRef<void>, id: number): void {

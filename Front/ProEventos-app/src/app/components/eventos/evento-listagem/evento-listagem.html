@@ -112,7 +112,7 @@
             <span class="people">👥 {{ evento.qtdPessoas }}</span>
 
             <div class="actions">
-              <button class="btn-icon edit">
+              <button class="btn-icon edit" (click)="editarEvento($event, evento.id)">
                 <i class="fa fa-edit"></i>
               </button>
               <button 
