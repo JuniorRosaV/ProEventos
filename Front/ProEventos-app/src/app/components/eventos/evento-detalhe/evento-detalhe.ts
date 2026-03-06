@@ -53,6 +53,13 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
           this.evento = evento;
 
+          if (evento.dataEvento) 
+          {
+            const data = new Date(evento.dataEvento);
+            evento.dataEvento = data.toISOString().slice(0, 16);
+          }
+
+
           this.form.patchValue(evento);
 
         },
@@ -68,58 +75,44 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
   public salvarAlteracao(): void {
 
+    if (this.form.invalid) return;
+
     this.spinner.show();
 
-    if (this.form.valid) {
+    const evento: Evento = {
+      id: this.eventoId,
+      ...this.form.value
+    };
 
-      this.evento = {
-        id: this.eventoId,
-        ...this.form.value
-      };
+    const request$ = this.eventoId > 0
+      ? this.eventoService.putEvento(this.eventoId, evento)
+      : this.eventoService.postEvento(evento);
 
-      if (this.eventoId > 0) {
+    request$.subscribe({
 
-        // PUT
-        this.eventoService.putEvento(this.eventoId, this.evento).subscribe({
+      next: () => {
+        const mensagem = this.eventoId > 0
+          ? 'Evento atualizado com sucesso!'
+          : 'Evento criado com sucesso!';
 
-          next: () => {
-            this.toastr.success('Evento atualizado!', 'Sucesso');
-            this.route.navigate(['/eventos']);
-          },
+        this.toastr.success(mensagem, 'Sucesso');
+        this.route.navigate(['/eventos']);
+      },
 
-          error: (error: any) => {
-            console.error(error);
-            this.toastr.error('Erro ao atualizar evento', 'Erro');
-            this.spinner.hide();
-          },
+      error: (error) => {
+        console.error(error);
 
-          complete: () => this.spinner.hide()
+        const mensagem = this.eventoId > 0
+          ? 'Erro ao atualizar evento'
+          : 'Erro ao criar evento';
 
-        });
+        this.toastr.error(mensagem, 'Erro');
+        this.spinner.hide();
+      },
 
-      } else {
+      complete: () => this.spinner.hide()
 
-        // POST
-        this.eventoService.postEvento(this.evento).subscribe({
-
-          next: () => {
-            this.toastr.success('Evento criado!', 'Sucesso');
-            this.route.navigate(['/eventos']);
-          },
-
-          error: (error: any) => {
-            console.error(error);
-            this.toastr.error('Erro ao criar evento', 'Erro');
-            this.spinner.hide();
-          },
-
-          complete: () => this.spinner.hide()
-
-        });
-
-      }
-
-    }
+    });
 
   }
 
