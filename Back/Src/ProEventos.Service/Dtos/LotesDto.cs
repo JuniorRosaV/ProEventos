@@ -2,6 +2,7 @@
 
 public class LotesDto
 {
+    public int Id { get; set; }
     public required string Nome { get; set; }
     public required decimal Preco { get; set; }
     public required string DataInicio { get; set; }

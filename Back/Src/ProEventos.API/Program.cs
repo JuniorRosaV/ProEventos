@@ -13,6 +13,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<IEventoRepository, EventoRepository>();
+builder.Services.AddScoped<ILotesService, LotesService>();
+builder.Services.AddScoped<ILotesRepository, LotesRepository>();
 builder.Services.AddScoped<IGeralRepository, GeralRepository>();
 builder.Services.AddScoped<IPalestranteRepository, PalestranteRepository>();
 
