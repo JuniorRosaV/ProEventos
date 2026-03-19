@@ -19,7 +19,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpGet("{eventoId:int}")]
-        public async Task<IActionResult> Get(int eventoId)
+        public async Task<IActionResult> GetLotesByEventoId(int eventoId)
         {
             var lotes = await _lotesService.GetLotesByEventoIdAsync(eventoId);
 
@@ -29,8 +29,8 @@ namespace ProEventos.API.Controllers
             return Ok(lotes);
         }
 
-        [HttpPut("{eventoId:int}")]
-        public async Task<IActionResult> Put(int eventoId, LotesDto[] models)
+        [HttpPost("{eventoId:int}")]
+        public async Task<IActionResult> PostLote(int eventoId, LotesDto[] models)
         {
             var lotes = await _lotesService.SaveLotes(eventoId, models);
 
@@ -41,7 +41,7 @@ namespace ProEventos.API.Controllers
         }
 
         [HttpDelete("{eventoId:int}/{loteId:int}")]
-        public async Task<IActionResult> Delete(int eventoId, int loteId)
+        public async Task<IActionResult> DeleteLote(int eventoId, int loteId)
         {
             var deleted = await _lotesService.DeleteLote(eventoId, loteId);
 

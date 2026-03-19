@@ -52,30 +52,51 @@ public class LotesService : ILotesService
         }
     }
 
-    public async Task<LotesDto[]> SaveLotes(int eventoId, LotesDto[] model)
+    public async Task<LotesDto> AddLote(int eventoId, LotesDto model)
     {
         try
         {
-            if (model == null) return new LotesDto[0];
+            var lote = _mapper.Map<Lote>(model);
+            lote.EventoId = eventoId;
 
-            var lotes = await _lotesRepository.GetLotesByEventoIdAsync(eventoId) ?? new Lote[0];
+            _geralRepository.Add<Lote>(lote);
 
-            foreach (var lote in model)
+            if (await _geralRepository.SaveChangesAsync())
             {
-                if (lote.Id == 0)
+                var loteRetorno = await _lotesRepository
+                    .GetLoteByIdAsync(eventoId, lote.Id);
+
+                return _mapper.Map<LotesDto>(loteRetorno);
+            }
+
+            return null;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.InnerException?.Message);
+            throw;
+        }
+    }
+    public async Task<LotesDto[]> SaveLotes(int eventoId, LotesDto[] models)
+    {
+        try
+        {
+            var lotes = await _lotesRepository.GetLotesByEventoIdAsync(eventoId);
+            if (lotes == null) return null;
+
+            foreach (var model in models)
+            {
+                if (model.Id == 0)
                 {
-                    var loteAdd = _mapper.Map<Lote>(lote);
-                    loteAdd.EventoId = eventoId;
-                    _geralRepository.Add(loteAdd);
+                    await AddLote(eventoId, model);
                 }
                 else
                 {
-                    var loteAtual = lotes.FirstOrDefault(l => l.Id == lote.Id);
-                    if (loteAtual != null)
-                    {
-                        _mapper.Map(lote, loteAtual);
-                        _geralRepository.Update(loteAtual);
-                    }
+                    var loteAtual = lotes.FirstOrDefault(l => l.Id == model.Id);
+                    model.EventoId = eventoId;
+                    _mapper.Map(model, loteAtual);
+                    _geralRepository.Update<Lote>(loteAtual);
+                    await _geralRepository.SaveChangesAsync();
                 }
             }
 

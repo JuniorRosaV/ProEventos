@@ -7,6 +7,6 @@ public interface ILotesService
 {
     Task<LotesDto[]> GetLotesByEventoIdAsync(int eventoId);
     Task<LotesDto> GetLoteByIdAsync(int EventoId, int loteId);
-    Task<LotesDto[]> SaveLotes(int eventoId, LotesDto[] model);
+    Task<LotesDto[]> SaveLotes(int eventoId, LotesDto[] models);
     Task<bool> DeleteLote(int eventoId, int loteId);
 }
