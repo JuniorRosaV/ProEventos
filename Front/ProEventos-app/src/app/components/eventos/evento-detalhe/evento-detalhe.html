@@ -1,23 +1,18 @@
 <div class="eventos-container">
 
-  <!-- FUNDO ANIMADO -->
   <div class="animated-bg"></div>
   <div class="bg-gradient"></div>
   <div class="blob blob-purple"></div>
   <div class="blob blob-blue"></div>
 
-  <!-- PARTÍCULAS -->
   <div class="particles">
     <span *ngFor="let p of particles" [style.--x]="p.x" [style.--d]="p.d" [style.--s]="p.s"></span>
   </div>
 
-  <!-- CANVAS -->
   <canvas #network class="network-canvas"></canvas>
 
-  <!-- GLOW SEGUINDO O MOUSE -->
   <div class="mouse-glow"></div>
 
-  <!-- CONTEÚDO -->
   <div class="eventos-content">
 
     <header class="eventos-header">
@@ -25,77 +20,128 @@
       <p>Preencha os dados do evento</p>
     </header>
 
-    <!-- FORMULÁRIO -->
     <form [formGroup]="form" class="form-card">
 
       <div class="p-3">
-        <!-- Tema -->
         <div class="row mb-3">
           <div class="col-12">
             <label>Tema</label>
             <input type="text" class="form-control" formControlName="tema" placeholder="Insira o Tema"
               [ngClass]="cssValidator(f.tema)" />
-            <div class="invalid-feedback" *ngIf="f.tema?.errors?.['required'] && f.tema?.touched">Tema é obrigatório.</div>
-            <div class="invalid-feedback" *ngIf="f.tema?.errors?.['minlength'] && f.tema?.touched">Tema deve ter no mínimo 4 caracteres.</div>
-            <div class="invalid-feedback" *ngIf="f.tema?.errors?.['maxlength'] && f.tema?.touched">Tema deve ter no máximo 50 caracteres.</div>
+            <div class="invalid-feedback" *ngIf="f.tema?.errors?.['required'] && f.tema?.touched">Tema é obrigatório.
+            </div>
+            <div class="invalid-feedback" *ngIf="f.tema?.errors?.['minlength'] && f.tema?.touched">Tema deve ter no
+              mínimo 4 caracteres.</div>
+            <div class="invalid-feedback" *ngIf="f.tema?.errors?.['maxlength'] && f.tema?.touched">Tema deve ter no
+              máximo 50 caracteres.</div>
           </div>
         </div>
 
-        <!-- Local e Data -->
         <div class="row mb-3">
           <div class="col-md-8">
             <label>Local</label>
-            <input type="text" class="form-control" formControlName="local"
-              [ngClass]="cssValidator(f.local)" />
-            <div class="invalid-feedback" *ngIf="f.local?.errors?.['required'] && f.local?.touched">Local é obrigatório.</div>
+            <input type="text" class="form-control" formControlName="local" [ngClass]="cssValidator(f.local)" />
+            <div class="invalid-feedback" *ngIf="f.local?.errors?.['required'] && f.local?.touched">Local é obrigatório.
+            </div>
           </div>
           <div class="col-md-4">
             <label>Data e Hora</label>
-            <input type="datetime-local" 
-            class="form-control" 
-            [ngClass]="cssValidator(f.dataEvento)"
-            bsDatepicker
-            formControlName="dataEvento" />
+            <input type="datetime-local" class="form-control" [ngClass]="cssValidator(f.dataEvento)" bsDatepicker
+              formControlName="dataEvento" />
           </div>
         </div>
-
-        <!-- Pessoas, Telefone, Email, Imagem -->
         <div class="row mb-4">
           <div class="col-md-2">
             <label>Qtd Pessoas</label>
             <input type="number" class="form-control" formControlName="qtdPessoas"
               [ngClass]="cssValidator(f.qtdPessoas)" />
-            <div class="invalid-feedback" *ngIf="f.qtdPessoas?.errors?.['required'] && f.qtdPessoas?.touched">Qtd Pessoas é obrigatório.</div>
-            <div class="invalid-feedback" *ngIf="f.qtdPessoas?.errors?.['max'] && f.qtdPessoas?.touched">Qtd Pessoas deve ter no máximo 120000 pessoas.</div>
+            <div class="invalid-feedback" *ngIf="f.qtdPessoas?.errors?.['required'] && f.qtdPessoas?.touched">Qtd
+              Pessoas é obrigatório.</div>
+            <div class="invalid-feedback" *ngIf="f.qtdPessoas?.errors?.['max'] && f.qtdPessoas?.touched">Qtd Pessoas
+              deve ter no máximo 120000 pessoas.</div>
           </div>
           <div class="col-md-2">
             <label>Telefone</label>
             <input type="text" class="form-control" formControlName="telefone" placeholder="(00) 90000-0000"
               [ngClass]="cssValidator(f.telefone)" />
-            <div class="invalid-feedback" *ngIf="f.telefone?.errors?.['required'] && f.telefone?.touched">Telefone é obrigatório.</div>
+            <div class="invalid-feedback" *ngIf="f.telefone?.errors?.['required'] && f.telefone?.touched">Telefone é
+              obrigatório.</div>
           </div>
           <div class="col-md-4">
             <label>Email</label>
             <input type="email" class="form-control" formControlName="email" placeholder="email@exemplo.com"
               [ngClass]="cssValidator(f.email)" />
-            <div class="invalid-feedback" *ngIf="f.email?.errors?.['required'] && f.email?.touched">Email é obrigatório.</div>
+            <div class="invalid-feedback" *ngIf="f.email?.errors?.['required'] && f.email?.touched">Email é obrigatório.
+            </div>
             <div class="invalid-feedback" *ngIf="f.email?.errors?.['email'] && f.email?.touched">Email inválido.</div>
           </div>
           <div class="col-md-4">
             <label>Imagem</label>
             <input type="text" class="form-control" formControlName="imagemUrl" placeholder="URL da imagem"
               [ngClass]="cssValidator(f.imagemUrl)" />
-            <div class="invalid-feedback" *ngIf="f.imagemUrl?.errors?.['required'] && f.imagemUrl?.touched">Imagem é obrigatória.</div>
+            <div class="invalid-feedback" *ngIf="f.imagemUrl?.errors?.['required'] && f.imagemUrl?.touched">Imagem é
+              obrigatória.</div>
           </div>
         </div>
 
       </div>
 
-      <!-- FOOTER -->
+      <div class="lotes-section mt-4">
+        <div class="lotes-header d-flex justify-content-between align-items-center mb-3">
+          <h5>Lotes do Evento</h5>
+          <button type="button" class="btn btn-salvar" (click)="addLote()">+ Lote</button>
+        </div>
+
+        <div formArrayName="lotes">
+
+          <div *ngFor="let lote of lotes.controls; let i = index" [formGroupName]="i" class="lote-card mb-3">
+
+            <div class="row">
+
+              <div class="col-md-3">
+                <label>Nome</label>
+                <input type="text" class="form-control" formControlName="nome" />
+              </div>
+
+              <div class="col-md-2">
+                <label>Preço</label>
+                <input type="number" class="form-control" formControlName="preco" />
+              </div>
+
+              <div class="col-md-2">
+                <label>Quantidade</label>
+                <input type="number" class="form-control" formControlName="quantidade" />
+              </div>
+
+              <div class="col-md-2">
+                <label>Data Início</label>
+                <input type="datetime-local" class="form-control" formControlName="dataInicio" />
+              </div>
+
+              <div class="col-md-2">
+                <label>Data Fim</label>
+                <input type="datetime-local" class="form-control" formControlName="dataFim" />
+              </div>
+
+              <div class="col-md-1 d-flex align-items-end">
+                <button type="button" class="btn btn-outline-danger w-100" (click)="removeLote(i)">
+                  X
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
       <div class="card-footer">
         <div class="d-flex justify-content-between align-items-center">
-          <button type="button" class="btn btn-outline-secondary" (click)="CancelarAlteracao()">Cancelar Alteração</button>
-          <button type="submit" class="btn btn-salvar" (click)="salvarAlteracao()" [disabled]="form.invalid">Salvar Evento</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="CancelarAlteracao()">Cancelar
+            Alteração</button>
+          <button type="submit" class="btn btn-salvar" (click)="salvarAlteracao()" [disabled]="form.invalid">Salvar
+            Evento</button>
         </div>
       </div>
 

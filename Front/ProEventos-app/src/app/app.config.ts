@@ -17,6 +17,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
 
 import { EventoService } from './services/evento-service';
+import { LoteService } from './services/lote-service';
+
 
 
 
@@ -44,6 +46,7 @@ export const appConfig: ApplicationConfig = {
       }),
       NgxSpinnerModule
     ),
-    EventoService
+    EventoService,
+    LoteService
   ],
 };
