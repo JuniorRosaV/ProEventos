@@ -1,6 +1,14 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, OnInit, Inject, PLATFORM_ID, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormArray, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  Component, OnInit, Inject, PLATFORM_ID,
+  ElementRef, ViewChild, AfterViewInit, OnDestroy
+} from '@angular/core';
+
+import {
+  FormBuilder, FormControl, FormArray,
+  FormGroup, FormsModule, ReactiveFormsModule, Validators
+} from '@angular/forms';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventoService } from '../../../services/evento-service';
 import { Evento } from '../../../models/Evento';
@@ -8,6 +16,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { LoteService } from '../../../services/lote-service';
 import { Lote } from '../../../models/lote';
+import { forkJoin } from 'rxjs'; // 🔥 IMPORTANTE
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -73,30 +82,27 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  adicionarLote(): void {
-    this.lotes.push(this.criarLote({id: 0} as Lote));
-  }
-  
-  criarLote(lote: Lote): FormGroup {
-    return this.fb.group({
-      id: [lote.id],
-      nome: ['', Validators.required],
-      preco: [lote.preco, Validators.required],
-      quantidade: [lote.quantidade, Validators.required],
-      dataInicio: [lote.dataInicio, Validators.required],
-      dataFim: [lote.dataFim, Validators.required],
-    });
+  addLote(): void {
+    this.lotes.push(this.createLote());
   }
 
+  createLote(): FormGroup {
+    return this.fb.group({
+      id: [0],
+      nome: ['', Validators.required],
+      preco: [0, Validators.required],
+      quantidade: [0, Validators.required],
+      dataInicio: ['', Validators.required],
+      dataFim: ['', Validators.required]
+    });
+  }
 
   removeLote(index: number): void {
     this.lotes.removeAt(index);
   }
 
   public carregarEvento(): void {
-
     const id = this.router.snapshot.paramMap.get('id');
-
     if (!id) return;
 
     this.eventoId = +id;
@@ -107,38 +113,28 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
         this.evento = evento;
 
         if (evento.dataEvento) {
-          const data = new Date(evento.dataEvento);
-          evento.dataEvento = data.toISOString().slice(0, 16);
+          evento.dataEvento = new Date(evento.dataEvento).toISOString().slice(0, 16);
         }
 
         this.form.patchValue(evento);
-
         this.lotes.clear();
 
         if (evento.lotes?.length) {
-
           evento.lotes.forEach((lote: any) => {
-
-            const dataInicio = lote.dataInicio
-              ? new Date(lote.dataInicio).toISOString().slice(0, 16)
-              : '';
-
-            const dataFim = lote.dataFim
-              ? new Date(lote.dataFim).toISOString().slice(0, 16)
-              : '';
 
             this.lotes.push(this.fb.group({
               id: [lote.id],
               nome: [lote.nome],
               preco: [lote.preco],
               quantidade: [lote.quantidade],
-              dataInicio: [dataInicio],
-              dataFim: [dataFim],
+              dataInicio: lote.dataInicio ? new Date(lote.dataInicio).toISOString().slice(0, 16) : '',
+              dataFim: lote.dataFim ? new Date(lote.dataFim).toISOString().slice(0, 16) : ''
             }));
+
           });
         }
       },
-      error: (err: any) => console.error(err)
+      error: (err) => console.error(err)
     });
   }
 
@@ -154,7 +150,7 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
     const formValue = this.form.value;
 
-    // 🔥 AJUSTA DATAS
+    // 🔥 Ajuste datas
     formValue.lotes?.forEach((l: any) => {
       if (l.dataInicio) l.dataInicio = new Date(l.dataInicio).toISOString();
       if (l.dataFim) l.dataFim = new Date(l.dataFim).toISOString();
@@ -173,17 +169,37 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
       next: (eventoRetorno: any) => {
 
-        const eventoId = eventoRetorno.id ?? this.eventoId;
+        const eventoId = eventoRetorno?.id || this.eventoId;
+
+        if (!eventoId || eventoId === 0) {
+          this.toastr.error('EventoId inválido para salvar lotes');
+          this.spinner.hide();
+          return;
+        }
+
         const lotes = formValue.lotes;
 
         if (lotes && lotes.length > 0) {
 
-          this.loteService.saveLote(eventoId, lotes).subscribe({
+          const requests = [];
+
+          for (const lote of lotes) {
+
+            if (!lote.id || lote.id === 0) {
+              // ✅ NOVO
+              requests.push(this.loteService.postLote(eventoId, lote));
+            } else {
+              // ✅ EDITAR
+              requests.push(this.loteService.putLote(eventoId, lote));
+            }
+          }
+
+          forkJoin(requests).subscribe({
             next: () => {
               this.toastr.success('Salvo com sucesso!', 'Sucesso');
               this.route.navigate(['/eventos']);
             },
-            error: (err: any) => {
+            error: (err) => {
               console.error(err);
               this.toastr.error('Erro ao salvar lotes', 'Erro');
               this.spinner.hide();
@@ -194,10 +210,9 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
           this.toastr.success('Salvo com sucesso!', 'Sucesso');
           this.route.navigate(['/eventos']);
         }
-
       },
 
-      error: (error: any) => {
+      error: (error) => {
         console.error(error);
         this.toastr.error('Erro ao salvar evento', 'Erro');
         this.spinner.hide();
@@ -258,18 +273,6 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
         ctx.fillStyle = '#a855f7';
         ctx.fillRect(p.x, p.y, 2, 2);
-
-        points.forEach(p2 => {
-          const d = Math.hypot(p.x - p2.x, p.y - p2.y);
-
-          if (d < 130) {
-            ctx.strokeStyle = `rgba(168,85,247,${1 - d / 130})`;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-        });
       });
 
       this.animationFrameId = requestAnimationFrame(animate);

@@ -8,5 +8,5 @@ public class Lote
     public required DateTime DataInicio { get; set; }
     public required DateTime DataFim { get; set; }
     public required int Quantidade { get; set; }
-    public int? EventoId { get; set; }
+    public int EventoId { get; set; }
 }

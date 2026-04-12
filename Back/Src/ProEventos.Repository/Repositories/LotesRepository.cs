@@ -12,16 +12,27 @@ namespace ProEventos.Repository.Repositories
         {
             _context = context;
         }
-        public async Task<Lote[]> GetLotesByEventoIdAsync(int eventoId)
-        {
-            return await _context.Lotes.AsNoTracking().Where(l => l.EventoId == eventoId).ToArrayAsync();
-        }
+    
+    public async Task<Lote[]> GetLotesByEventoIdAsync(int eventoId)
+    {
+        IQueryable<Lote> query = _context.Lotes;
 
-        public async Task<Lote> GetLoteByIdAsync(int EventoId, int loteId)
-        {
-            return await _context.Lotes.AsNoTracking()
-            .FirstOrDefaultAsync(l => l.EventoId == EventoId && l.Id == loteId);
-        }
+        query = query.AsNoTracking()
+                    .Where(lote => lote.EventoId == eventoId);
+
+        return await query.ToArrayAsync();
+    }
+        
+
+    public async Task<Lote> GetLoteByIdAsync(int eventoId, int id)
+    {
+        IQueryable<Lote> query = _context.Lotes;
+
+        query = query.AsNoTracking()
+                    .Where(lote => lote.EventoId == eventoId && lote.Id == id);
+
+        return await query.FirstOrDefaultAsync();
+    }
     }
 }
 

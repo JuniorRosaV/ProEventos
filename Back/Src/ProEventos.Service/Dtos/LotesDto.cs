@@ -8,5 +8,5 @@ public class LotesDto
     public required string DataInicio { get; set; }
     public required string DataFim { get; set; }
     public required int Quantidade { get; set; }
-    public required int? EventoId { get; set; }
+    public required int EventoId { get; set; }
 }

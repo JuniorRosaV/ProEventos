@@ -1,27 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Lote } from '../models/lote';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs';
 
-@Injectable(
-   {providedIn: 'root'}
-  )
+@Injectable({ providedIn: 'root' })
 export class LoteService {
-   baseURL = 'https://localhost:7074/api/Lotes';
+
+  baseURL = 'https://localhost:7074/api/Lotes';
+
   constructor(private http: HttpClient) {}
-  public getLotesByEventoId(eventoId: number) : Observable<Lote[]>
-  {
+
+  public getLotesByEventoId(eventoId: number): Observable<Lote[]> {
     return this.http.get<Lote[]>(`${this.baseURL}/${eventoId}`).pipe(take(1));
   }
 
-  public saveLote(EventoId: number, Lote: Lote[]) : Observable<Lote[]>
-  {
-    return this.http.put<Lote[]>(`${this.baseURL}/${EventoId}`, Lote).pipe(take(1));
+  public postLote(eventoId: number, lote: Lote): Observable<Lote> {
+    return this.http.post<Lote>(`${this.baseURL}/${eventoId}`, [lote]).pipe(take(1));
   }
 
-  public deleteLote(EventoId: number, LoteId: number): Observable<void>
-  {
-    return this.http.delete<void>(`${this.baseURL}/${EventoId}/${LoteId}`).pipe(take(1));
+  public putLote(eventoId: number, lote: Lote): Observable<Lote> {
+    return this.http.put<Lote>(`${this.baseURL}/${eventoId}/${lote.id}`, lote).pipe(take(1));
+  }
+
+  public deleteLote(eventoId: number, loteId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseURL}/${eventoId}/${loteId}`).pipe(take(1));
   }
 }
