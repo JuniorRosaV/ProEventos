@@ -1,22 +1,12 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {
-  Component, OnInit, Inject, PLATFORM_ID,
-  ElementRef, ViewChild, AfterViewInit, OnDestroy
-} from '@angular/core';
-
-import {
-  FormBuilder, FormControl, FormArray,
-  FormGroup, FormsModule, ReactiveFormsModule, Validators
-} from '@angular/forms';
-
+import { Component, OnInit, Inject, PLATFORM_ID, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventoService } from '../../../services/evento-service';
 import { Evento } from '../../../models/Evento';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { LoteService } from '../../../services/lote-service';
 import { Lote } from '../../../models/lote';
-import { forkJoin } from 'rxjs'; // 🔥 IMPORTANTE
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -26,12 +16,11 @@ import { forkJoin } from 'rxjs'; // 🔥 IMPORTANTE
   styleUrls: ['./evento-detalhe.scss']
 })
 export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
-
   form!: FormGroup;
-  evento = {} as Evento;
-  eventoId = 0;
-
   particles: Array<{ x: string; d: string; s: string }> = [];
+
+  evento = {} as Evento;
+  estadoSalvar = 'post';
 
   @ViewChild('network') canvas!: ElementRef<HTMLCanvasElement>;
   private animationFrameId?: number;
@@ -39,10 +28,9 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private router: ActivatedRoute,
-    private route: Router,
-    private eventoService: EventoService,
-    private loteService: LoteService,
+    private activatedRouter : ActivatedRoute,
+    private router: Router,
+    private eventoService : EventoService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService
   ) {}
@@ -51,8 +39,71 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
     return this.form.controls;
   }
 
+  get modoEditar(): boolean {
+    return this.estadoSalvar === 'put';
+  }
+
   get lotes(): FormArray {
     return this.form.get('lotes') as FormArray;
+  }
+
+  eventoId = 0;
+
+  public carregarEvento(): void {
+
+    const eventoIdParam = this.activatedRouter.snapshot.paramMap.get('id');
+
+    if (eventoIdParam !== null) {
+
+      this.eventoId = +eventoIdParam;
+
+      this.eventoService.getEventoById(this.eventoId).subscribe({
+        next: (evento) => {
+
+          this.evento = evento;
+
+          if (evento.dataEvento) 
+          {
+            const data = new Date(evento.dataEvento);
+            evento.dataEvento = data.toISOString().slice(0, 16);
+          }
+
+
+          this.form.patchValue(evento);
+
+        },
+        error: (err) => console.error('Erro ao carregar evento:', err)
+      });
+
+    }
+  }
+
+  CancelarAlteracao(): void {
+    this.router.navigate(['/eventos/lista']);
+  }
+
+  public salvarAlteracao(): void {
+    this.spinner.show();
+
+    if (this.form.valid) {
+
+      this.evento = (this.estadoSalvar === 'post')
+        ? { ...this.form.value }
+        : { id: this.evento.id, ...this.form.value };
+
+      this.eventoService[this.estadoSalvar](this.evento).subscribe(
+        (eventoRetorno: Evento) => {
+          this.toastr.success('Evento salvo com Sucesso!', 'Sucesso');
+          this.router.navigate([`eventos/detalhe/${eventoRetorno.id}`]);
+        },
+        (error: any) => {
+          console.error(error);
+          this.spinner.hide();
+          this.toastr.error('Erro ao salvar evento', 'Erro');
+        },
+      () => this.spinner.hide()
+      );
+    }
   }
 
   ngOnInit(): void {
@@ -78,151 +129,27 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
       telefone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       imagemUrl: ['', Validators.required],
-      lotes: this.fb.array([])
+      lotes: this.fb.array([]),
     });
   }
 
-  addLote(): void {
-    this.lotes.push(this.createLote());
+  adicionarLote(): void {
+    this.lotes.push(this.criarLote({id:0} as Lote));
   }
 
-  createLote(): FormGroup {
+  criarLote(lote: Lote): FormGroup {
     return this.fb.group({
-      id: [0],
-      nome: ['', Validators.required],
-      preco: [0, Validators.required],
-      quantidade: [0, Validators.required],
-      dataInicio: ['', Validators.required],
-      dataFim: ['', Validators.required]
+      id: [lote.id],
+      nome: [lote.nome, Validators.required],
+      quantidade: [lote.quantidade, Validators.required],
+      preco: [lote.preco, Validators.required],
+      dataInicio: [lote.dataInicio],
+      dataFim: [lote.dataFim]
     });
   }
 
-  removeLote(index: number): void {
-    this.lotes.removeAt(index);
-  }
-
-  public carregarEvento(): void {
-    const id = this.router.snapshot.paramMap.get('id');
-    if (!id) return;
-
-    this.eventoId = +id;
-
-    this.eventoService.getEventoById(this.eventoId).subscribe({
-      next: (evento) => {
-
-        this.evento = evento;
-
-        if (evento.dataEvento) {
-          evento.dataEvento = new Date(evento.dataEvento).toISOString().slice(0, 16);
-        }
-
-        this.form.patchValue(evento);
-        this.lotes.clear();
-
-        if (evento.lotes?.length) {
-          evento.lotes.forEach((lote: any) => {
-
-            this.lotes.push(this.fb.group({
-              id: [lote.id],
-              nome: [lote.nome],
-              preco: [lote.preco],
-              quantidade: [lote.quantidade],
-              dataInicio: lote.dataInicio ? new Date(lote.dataInicio).toISOString().slice(0, 16) : '',
-              dataFim: lote.dataFim ? new Date(lote.dataFim).toISOString().slice(0, 16) : ''
-            }));
-
-          });
-        }
-      },
-      error: (err) => console.error(err)
-    });
-  }
-
-  CancelarAlteracao(): void {
-    this.route.navigate(['/eventos/lista']);
-  }
-
-  public salvarAlteracao(): void {
-
-    if (this.form.invalid) return;
-
-    this.spinner.show();
-
-    const formValue = this.form.value;
-
-    // 🔥 Ajuste datas
-    formValue.lotes?.forEach((l: any) => {
-      if (l.dataInicio) l.dataInicio = new Date(l.dataInicio).toISOString();
-      if (l.dataFim) l.dataFim = new Date(l.dataFim).toISOString();
-    });
-
-    const evento: Evento = {
-      id: this.eventoId,
-      ...formValue
-    };
-
-    const request$ = this.eventoId > 0
-      ? this.eventoService.putEvento(this.eventoId, evento)
-      : this.eventoService.postEvento(evento);
-
-    request$.subscribe({
-
-      next: (eventoRetorno: any) => {
-
-        const eventoId = eventoRetorno?.id || this.eventoId;
-
-        if (!eventoId || eventoId === 0) {
-          this.toastr.error('EventoId inválido para salvar lotes');
-          this.spinner.hide();
-          return;
-        }
-
-        const lotes = formValue.lotes;
-
-        if (lotes && lotes.length > 0) {
-
-          const requests = [];
-
-          for (const lote of lotes) {
-
-            if (!lote.id || lote.id === 0) {
-              // ✅ NOVO
-              requests.push(this.loteService.postLote(eventoId, lote));
-            } else {
-              // ✅ EDITAR
-              requests.push(this.loteService.putLote(eventoId, lote));
-            }
-          }
-
-          forkJoin(requests).subscribe({
-            next: () => {
-              this.toastr.success('Salvo com sucesso!', 'Sucesso');
-              this.route.navigate(['/eventos']);
-            },
-            error: (err) => {
-              console.error(err);
-              this.toastr.error('Erro ao salvar lotes', 'Erro');
-              this.spinner.hide();
-            }
-          });
-
-        } else {
-          this.toastr.success('Salvo com sucesso!', 'Sucesso');
-          this.route.navigate(['/eventos']);
-        }
-      },
-
-      error: (error) => {
-        console.error(error);
-        this.toastr.error('Erro ao salvar evento', 'Erro');
-        this.spinner.hide();
-      },
-
-      complete: () => this.spinner.hide()
-    });
-  }
-
-  public cssValidator(campoForm: FormControl): any {
+  public cssValidator(campoForm: FormControl): any 
+  { 
     return {
       'is-invalid': campoForm?.errors && campoForm?.touched
     };
@@ -237,9 +164,7 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initCanvasNetwork(): void {
-
     if (!this.canvas) return;
-
     const canvas = this.canvas.nativeElement;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -248,7 +173,6 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-
     resize();
     window.addEventListener('resize', resize);
 
@@ -260,11 +184,9 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
     }));
 
     const animate = () => {
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       points.forEach(p => {
-
         p.x += p.vx;
         p.y += p.vy;
 
@@ -273,11 +195,21 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
         ctx.fillStyle = '#a855f7';
         ctx.fillRect(p.x, p.y, 2, 2);
+
+        points.forEach(p2 => {
+          const d = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (d < 130) {
+            ctx.strokeStyle = `rgba(168,85,247,${1 - d / 130})`;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        });
       });
 
       this.animationFrameId = requestAnimationFrame(animate);
     };
-
     animate();
   }
 }
