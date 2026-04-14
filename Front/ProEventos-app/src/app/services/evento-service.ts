@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { Evento } from '../models/Evento';
+import { Lote } from '../models/lote';
 
 @Injectable(
   // {providedIn: 'root'}
@@ -36,10 +37,7 @@ export class EventoService
     return this.http.delete<void>(`${this.baseURL}/${id}`);
   }
 
-  postLotes(eventoId: number, lotes: any[]) {
-  return this.http.post(
-    `${this.baseURLLotes}/${eventoId}`,
-    lotes
-  );
-}
+  postLotes(eventoId: number, lotes: Lote[]): Observable<Lote[]> {
+    return this.http.post<Lote[]>(`${this.baseURLLotes}/${eventoId}`, lotes);
+  }
 }
