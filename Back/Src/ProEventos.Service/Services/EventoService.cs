@@ -33,6 +33,8 @@ public class EventoService : IEventoService
         if (!sucesso)
             throw new Exception("Erro ao salvar alterações do evento.");
 
+        Console.WriteLine($"Evento salvo com ID: {evento.Id}");
+
         var eventoRetorno = await _eventoRepository
             .GetEventoByIdAsync(evento.Id, false, false);
 

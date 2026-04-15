@@ -14,10 +14,13 @@ namespace ProEventos.API.Controllers
     {
         public readonly ProEventosContext _context;
         public readonly IEventoService _eventoService;
-        public EventoController(ProEventosContext context, IEventoService eventoService)
+        private readonly ILogger<EventoController> _logger;
+
+        public EventoController(ProEventosContext context, IEventoService eventoService, ILogger<EventoController> logger)
         {
             _context = context;
             _eventoService = eventoService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -48,10 +51,18 @@ namespace ProEventos.API.Controllers
         {
             if (evento == null) return BadRequest("Nenhum evento informado.");
 
-            await _eventoService.AddEvento(evento);
-            await _context.SaveChangesAsync();
-
-            return Ok(evento);
+            try
+            {
+                _logger.LogInformation("Criando novo evento: {@evento}", evento);
+                var eventoRetorno = await _eventoService.AddEvento(evento);
+                _logger.LogInformation("Evento criado com sucesso. ID: {id}", eventoRetorno.Id);
+                return Ok(eventoRetorno);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao salvar evento");
+                return BadRequest($"Erro ao salvar: {ex.Message}");
+            }
         }
 
 

@@ -37,7 +37,7 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
   form!: FormGroup;
   lotesForm!: FormGroup;
   salvandoEvento = false;
-  salvandoLotes  = false;
+  salvandoLotes = false;
   eventoId = 0;
   particles: Array<{ x: string; d: string; s: string }> = [];
 
@@ -73,7 +73,7 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
 
-    if (idParam && +idParam > 0) {  
+    if (idParam && +idParam > 0) {
       this.eventoId = +idParam;
       this.carregarEvento();
     }
@@ -89,13 +89,13 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
   private initForms(): void {
     this.form = this.fb.group({
-      tema:       ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-      local:      ['', Validators.required],
+      tema: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      local: ['', Validators.required],
       dataEvento: ['', Validators.required],
       qtdPessoas: ['', [Validators.required, Validators.max(120000)]],
-      telefone:   ['', Validators.required],
-      email:      ['', [Validators.required, Validators.email]],
-      imagemUrl:  ['', Validators.required],
+      telefone: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      imagemUrl: ['', Validators.required],
     });
 
     this.lotesForm = this.fb.group({
@@ -109,17 +109,20 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
     this.eventoService.getEventoById(this.eventoId).subscribe({
       next: (evento: Evento) => {
         if (evento.dataEvento) {
-          evento.dataEvento = new Date(evento.dataEvento).toISOString().slice(0, 16);
+          const dateObj = new Date(evento.dataEvento);
+          if (!isNaN(dateObj.getTime())) {
+            evento.dataEvento = dateObj.toISOString().slice(0, 16);
+          }
         }
 
         this.form.patchValue({
-          tema:       evento.tema,
-          local:      evento.local,
+          tema: evento.tema,
+          local: evento.local,
           dataEvento: evento.dataEvento,
           qtdPessoas: evento.qtdPessoas,
-          telefone:   evento.telefone,
-          email:      evento.email,
-          imagemUrl:  evento.imagemUrl,
+          telefone: evento.telefone,
+          email: evento.email,
+          imagemUrl: evento.imagemUrl,
         });
 
         this.lotes.clear();
@@ -155,15 +158,16 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
     operacao$.subscribe({
       next: (eventoRetorno: Evento) => {
+        console.log('Evento retornado do backend:', eventoRetorno);
         this.toastr.success('Evento salvo com sucesso!', 'Sucesso');
         this.eventoId = eventoRetorno.id;
+        console.log('ID do evento após salvar:', this.eventoId);
+        // Atualiza a URL sem recarregar a página
         this.router.navigate([`/eventos/detalhe/${eventoRetorno.id}`], { replaceUrl: true });
       },
       error: (err: unknown) => {
         console.error('Erro ao salvar evento:', err);
         this.toastr.error('Erro ao salvar o evento.', 'Erro');
-        this.salvandoEvento = false;
-        this.spinner.hide();
       },
       complete: () => {
         this.salvandoEvento = false;
@@ -199,7 +203,7 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
     const lotesParaSalvar: Lote[] = this.lotes.value as Lote[];
 
-    this.eventoService.postLotes(this.eventoId, lotesParaSalvar).subscribe({
+    this.eventoService.putLotes(this.eventoId, lotesParaSalvar).subscribe({
       next: (lotesRetorno: Lote[]) => {
         this.toastr.success('Lotes salvos com sucesso!', 'Sucesso');
         this.lotes.clear();
@@ -208,8 +212,6 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
       error: (err: unknown) => {
         console.error('Erro ao salvar lotes:', err);
         this.toastr.error('Erro ao salvar os lotes.', 'Erro');
-        this.salvandoLotes = false;
-        this.spinner.hide();
       },
       complete: () => {
         this.salvandoLotes = false;
@@ -221,16 +223,18 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
   private criarLoteFormGroup(lote: Lote): FormGroup {
     const toInputDate = (date: Date | string | null | undefined): string => {
       if (!date) return '';
-      return new Date(date).toISOString().slice(0, 16);
+      const dateObj = date instanceof Date ? date : new Date(date);
+      if (isNaN(dateObj.getTime())) return '';
+      return dateObj.toISOString().slice(0, 16);
     };
 
     return this.fb.group({
-      id:         [lote.id],
-      nome:       [lote.nome,       Validators.required],
-      preco:      [lote.preco,      [Validators.required, Validators.min(0)]],
+      id: [lote.id],
+      nome: [lote.nome, Validators.required],
+      preco: [lote.preco, [Validators.required, Validators.min(0)]],
       quantidade: [lote.quantidade, [Validators.required, Validators.min(1)]],
       dataInicio: [toInputDate(lote.dataInicio)],
-      dataFim:    [toInputDate(lote.dataFim)],
+      dataFim: [toInputDate(lote.dataFim)],
     });
   }
 
@@ -262,15 +266,15 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
     if (!ctx) return;
 
     const resize = (): void => {
-      canvas.width  = window.innerWidth;
+      canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
     resize();
     window.addEventListener('resize', resize);
 
     const points = Array.from({ length: 70 }, () => ({
-      x:  Math.random() * canvas.width,
-      y:  Math.random() * canvas.height,
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
       vx: (Math.random() - 0.5) * 0.8,
       vy: (Math.random() - 0.5) * 0.8
     }));
@@ -282,7 +286,7 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
         p.x += p.vx;
         p.y += p.vy;
 
-        if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
         ctx.fillStyle = '#a855f7';

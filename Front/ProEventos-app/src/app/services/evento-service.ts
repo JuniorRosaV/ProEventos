@@ -37,7 +37,7 @@ export class EventoService
     return this.http.delete<void>(`${this.baseURL}/${id}`);
   }
 
-  postLotes(eventoId: number, lotes: Lote[]): Observable<Lote[]> {
-    return this.http.post<Lote[]>(`${this.baseURLLotes}/${eventoId}`, lotes);
+  putLotes(eventoId: number, lotes: Lote[]): Observable<Lote[]> {
+    return this.http.put<Lote[]>(`${this.baseURLLotes}/${eventoId}`, lotes);
   }
 }

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { EventoDetalhe } from './evento-detalhe';
+
+
 
 describe('EventoDetalhe', () => {
   let component: EventoDetalhe;
