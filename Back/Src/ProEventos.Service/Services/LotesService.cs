@@ -3,6 +3,7 @@ using ProEventos.Repository.Interfaces;
 using ProEventos.Domain.Models;
 using ProEventos.Service.Dtos;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 
 namespace ProEventos.Service.Services;
 
@@ -11,14 +12,17 @@ public class LotesService : ILotesService
     private readonly IGeralRepository _geralRepository;
     private readonly ILotesRepository _lotesRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger<LotesService> _logger;
 
     public LotesService(IGeralRepository geralRepository,
                          ILotesRepository lotesRepository,
-                         IMapper mapper)
+                         IMapper mapper,
+                         ILogger<LotesService> logger)
     {
         _geralRepository = geralRepository;
         _lotesRepository = lotesRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task AddLote(int eventoId, LotesDto model)
@@ -27,9 +31,7 @@ public class LotesService : ILotesService
         {
             var lote = _mapper.Map<Lote>(model);
             lote.EventoId = eventoId;
-
             _geralRepository.Add<Lote>(lote);
-            await _geralRepository.SaveChangesAsync();
         }
         catch (Exception ex)
         {
@@ -94,11 +96,15 @@ public class LotesService : ILotesService
     {
         try
         {
+            _logger.LogInformation("Iniciando SaveLotes para evento {eventoId} com {count} lotes", eventoId, models.Length);
+
             var lotes = await _lotesRepository.GetLotesByEventoIdAsync(eventoId);
             if (lotes == null) return null;
 
             foreach (var model in models)
             {
+                _logger.LogInformation("Processando lote Id {id} para evento {eventoId}", model.Id, eventoId);
+
                 if (model.Id == 0)
                 {
                     await AddLote(eventoId, model);
@@ -108,16 +114,29 @@ public class LotesService : ILotesService
                     var lote = lotes.FirstOrDefault(l => l.Id == model.Id);
                     model.EventoId = eventoId;
 
-                    _mapper.Map(model, lote);
-                    _geralRepository.Update<Lote>(lote);
-                    await _geralRepository.SaveChangesAsync();
+                    if (lote == null)
+                    {
+                        _logger.LogWarning("Lote Id {id} não encontrado, adicionando como novo", model.Id);
+                        await AddLote(eventoId, model);
+                    }
+                    else
+                    {
+                        _mapper.Map(model, lote);
+                        _geralRepository.Update<Lote>(lote);
+                    }
                 }
             }
+
+            var sucesso = await _geralRepository.SaveChangesAsync();
+            if (!sucesso)
+                throw new Exception("Erro ao salvar lotes.");
+
             var loteRetorno = await _lotesRepository.GetLotesByEventoIdAsync(eventoId);
             return _mapper.Map<LotesDto[]>(loteRetorno);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Erro ao salvar lotes para evento {eventoId}", eventoId);
             throw new Exception(ex.Message);
         }
     }

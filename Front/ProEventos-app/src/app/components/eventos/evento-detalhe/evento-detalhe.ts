@@ -7,7 +7,8 @@ import {
   ElementRef,
   ViewChild,
   AfterViewInit,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectorRef
 } from '@angular/core';
 import {
   AbstractControl,
@@ -63,7 +64,8 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private eventoService: EventoService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -207,8 +209,13 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
     this.eventoService.putLotes(this.eventoId, lotesParaSalvar).subscribe({
       next: (lotesRetorno: Lote[]) => {
         this.toastr.success('Lotes salvos com sucesso!', 'Sucesso');
-        this.lotes.clear();
-        lotesRetorno.forEach(lote => this.lotes.push(this.criarLoteFormGroup(lote)));
+        Promise.resolve().then(() => {
+          this.lotes.clear();
+          lotesRetorno.forEach(lote => this.lotes.push(this.criarLoteFormGroup(lote)));
+          this.lotesForm.markAsPristine();
+          this.lotesForm.markAsUntouched();
+          this.cd.detectChanges();
+        });
       },
       error: (err: unknown) => {
         console.error('Erro ao salvar lotes:', err);
