@@ -3,7 +3,7 @@ import { routes } from './app.routes';
 import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -18,6 +18,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 
 import { EventoService } from './services/evento-service';
 import { LoteService } from './services/lote-service';
+import { CamelCaseInterceptor } from './util/camel-case.interceptor';
 
 
 
@@ -30,7 +31,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([CamelCaseInterceptor])),
     importProvidersFrom(
       BrowserAnimationsModule,
       CollapseModule.forRoot(),

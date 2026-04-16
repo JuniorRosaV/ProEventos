@@ -112,6 +112,9 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
           const dateObj = new Date(evento.dataEvento);
           if (!isNaN(dateObj.getTime())) {
             evento.dataEvento = dateObj.toISOString().slice(0, 16);
+          } else {
+            console.warn('Data inválida recebida do backend:', evento.dataEvento);
+            evento.dataEvento = '';
           }
         }
 
@@ -158,10 +161,8 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
     operacao$.subscribe({
       next: (eventoRetorno: Evento) => {
-        console.log('Evento retornado do backend:', eventoRetorno);
         this.toastr.success('Evento salvo com sucesso!', 'Sucesso');
         this.eventoId = eventoRetorno.id;
-        console.log('ID do evento após salvar:', this.eventoId);
         // Atualiza a URL sem recarregar a página
         this.router.navigate([`/eventos/detalhe/${eventoRetorno.id}`], { replaceUrl: true });
       },

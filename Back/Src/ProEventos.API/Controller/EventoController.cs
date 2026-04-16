@@ -68,15 +68,17 @@ namespace ProEventos.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put( [FromBody] EventoDto passarEvento)
+        public async Task<ActionResult> Put(int id, [FromBody] EventoDto passarEvento)
         {
-            
-            var Evento = await _eventoService.GetEventoByIdAsync(passarEvento.Id);
-            if (Evento == null) return NoContent();
-            await _eventoService.UpdateEvento(Evento.Id, passarEvento);
-            await _context.SaveChangesAsync();
+            if (passarEvento == null || id != passarEvento.Id)
+                return BadRequest("Id do evento inválido.");
 
-            return Ok(Evento);
+            var Evento = await _eventoService.GetEventoByIdAsync(id);
+            if (Evento == null) return NoContent();
+
+            await _eventoService.UpdateEvento(id, passarEvento);
+
+            return Ok(passarEvento);
         }
 
         [HttpDelete("{id}")]

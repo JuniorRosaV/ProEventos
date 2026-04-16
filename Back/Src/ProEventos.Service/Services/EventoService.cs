@@ -31,15 +31,12 @@ public class EventoService : IEventoService
 
         var sucesso = await _geralRepository.SaveChangesAsync();
         if (!sucesso)
-            throw new Exception("Erro ao salvar alterações do evento.");
-
-        Console.WriteLine($"Evento salvo com ID: {evento.Id}");
+            throw new Exception("Erro ao salvar novo evento.");
 
         var eventoRetorno = await _eventoRepository
             .GetEventoByIdAsync(evento.Id, false, false);
 
         return _mapper.Map<EventoDto>(eventoRetorno);
-
     }
 
     public async Task<EventoDto> UpdateEvento(int eventoId, EventoDto model)
