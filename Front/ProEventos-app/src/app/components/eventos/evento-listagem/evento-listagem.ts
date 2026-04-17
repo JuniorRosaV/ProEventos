@@ -10,7 +10,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PLATFORM_ID } from '@angular/core';
 import { finalize } from 'rxjs';
@@ -66,7 +66,8 @@ export class EventoListagem
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -94,9 +95,14 @@ export class EventoListagem
     }
   }
 
-  irParaDetalhe(id: number) {
-    this.router.navigate(['/eventos/carregar', id]);
-  }
+  irParaDetalhe(id: number): void {
+  if (!id) return;
+
+  this.router.navigate(
+    [`/eventos/carregar/${id}`],
+    { replaceUrl: false } 
+  );
+}
 
   private atualizarTotal(): void {
     this.totalParticipantes = this.eventos.reduce(
