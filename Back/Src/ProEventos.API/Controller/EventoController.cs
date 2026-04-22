@@ -15,12 +15,14 @@ namespace ProEventos.API.Controllers
         public readonly ProEventosContext _context;
         public readonly IEventoService _eventoService;
         private readonly ILogger<EventoController> _logger;
+        private readonly IHostEnvironment _hostEnvironment;
 
-        public EventoController(ProEventosContext context, IEventoService eventoService, ILogger<EventoController> logger)
+        public EventoController(ProEventosContext context, IEventoService eventoService, ILogger<EventoController> logger, IHostEnvironment hostEnvironment)
         {
             _context = context;
             _eventoService = eventoService;
             _logger = logger;
+            _hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
@@ -65,7 +67,42 @@ namespace ProEventos.API.Controllers
             }
         }
 
+        [HttpPost("upload-image/{eventoId}")]
+        public async Task<IActionResult> UploadImage(int eventoId)
+        {
+            try
+            {
+                var evento = await _eventoService.GetEventoByIdAsync(eventoId, true);
+                if (evento == null) return NoContent();
 
+                if (Request.Form.Files.Count == 0)
+                    return BadRequest("Nenhum arquivo enviado.");
+
+                var file = Request.Form.Files[0];
+                if (file.Length == 0)
+                    return BadRequest("Arquivo vazio.");
+
+                if (file.Length > 5 * 1024 * 1024)
+                    return BadRequest("Arquivo muito grande. Máximo 5MB.");
+
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+                var extension = Path.GetExtension(file.FileName).ToLower();
+                if (!allowedExtensions.Contains(extension))
+                    return BadRequest("Tipo de arquivo não permitido. Apenas JPG, JPEG, PNG.");
+
+                DeleteImage(evento.ImagemUrl);
+                evento.ImagemUrl = await SaveImage(file);
+
+                var eventoRetorno = await _eventoService.UpdateEvento(eventoId, evento);
+
+                return Ok(eventoRetorno);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro ao tentar fazer upload da imagem. Erro: {ex.Message}");
+            }
+        }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] EventoDto passarEvento)
@@ -90,6 +127,32 @@ namespace ProEventos.API.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
-    }
 
+        [NonAction]
+        public void DeleteImage(string imageName)
+        {
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/images", imageName);
+            if (System.IO.File.Exists(imagePath))
+                System.IO.File.Delete(imagePath);
+        }
+
+        [NonAction]
+        public async Task<string> SaveImage(IFormFile imageFile)
+        {
+            var extension = Path.GetExtension(imageFile.FileName).ToLower();
+            string imageName = $"{Guid.NewGuid()}{extension}";
+
+            var dir = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/images");
+            Directory.CreateDirectory(dir);
+
+            var imagePath = Path.Combine(dir, imageName);
+
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+
+            return imageName;
+        }
+    }
 }
