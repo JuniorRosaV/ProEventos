@@ -262,7 +262,67 @@ label {
   font-size: 0.9rem;
 }
 
-/* ANIMAÇÕES */
+.img-preview {
+  max-width: 220px;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+input[type="file"].form-control {
+  padding: 0.35rem;
+  cursor: pointer;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(0,0,0,0.25);
+  color: #e5e7eb;
+  transition: all 0.25s ease;
+}
+
+input[type="file"].form-control:hover {
+  border-color: $orange;
+  box-shadow: 0 0 0 2px rgba(249,115,22,0.25);
+}
+
+input[type="file"]::file-selector-button {
+  background: linear-gradient(135deg, $orange, $orange-dark);
+  border: none;
+  color: #fff;
+  padding: 0.45rem 1rem;
+  margin-right: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(249,115,22,0.45);
+}
+
+input[type="file"]::file-selector-button:active {
+  transform: scale(0.96);
+}
+
+input[type="file"] {
+  font-size: 0.85rem;
+}
+
+input[type="file"]:focus {
+  outline: none;
+  border-color: $orange;
+  box-shadow: 0 0 0 3px rgba(249,115,22,0.3);
+}
+
+input[type="file"].is-invalid {
+  border-color: $danger;
+}
+
+input[type="file"].is-invalid::file-selector-button {
+  background: linear-gradient(135deg, $danger, #b91c1c);
+}
+
 @keyframes gradient {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -274,7 +334,6 @@ label {
   to { transform: translateY(100vh); }
 }
 
-/* RESPONSIVO */
 @media (max-width: 768px) {
   .eventos-content {
     padding: 24px 18px;

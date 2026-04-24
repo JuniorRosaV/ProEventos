@@ -35,6 +35,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
+  fileSelecionado!: File;
+  previewImagem: string | ArrayBuffer | null = null;
+  imagemUrlAtual: string | null = null;
   form!: FormGroup;
   lotesForm!: FormGroup;
   salvandoEvento = false;
@@ -130,14 +133,18 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
           imagemUrl: evento.imagemUrl,
         });
 
+        this.imagemUrlAtual = evento.imagemUrl;
+
         this.lotes.clear();
         if (evento.lotes?.length) {
           evento.lotes.forEach(lote => this.lotes.push(this.criarLoteFormGroup(lote)));
         }
+        this.cd.markForCheck();
       },
       error: (err: unknown) => {
         console.error('Erro ao carregar evento:', err);
         this.toastr.error('Não foi possível carregar o evento.', 'Erro');
+        this.cd.markForCheck();
       },
       complete: () => this.spinner.hide()
     });
@@ -163,21 +170,60 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
 
     operacao$.subscribe({
       next: (eventoRetorno: Evento) => {
-        this.toastr.success('Evento salvo com sucesso!', 'Sucesso');
         this.eventoId = eventoRetorno.id;
-        // Atualiza a URL sem recarregar a página
-        this.router.navigate([`/eventos/detalhe/${eventoRetorno.id}`], { replaceUrl: true });
+        this.cd.markForCheck();
+
+        if (this.fileSelecionado) {
+          this.uploadImagem(this.eventoId);
+        } else {
+          this.finalizarSalvamento(eventoRetorno.id);
+        }
       },
-      error: (err: unknown) => {
-        console.error('Erro ao salvar evento:', err);
-        this.toastr.error('Erro ao salvar o evento.', 'Erro');
-      },
-      complete: () => {
-        this.salvandoEvento = false;
+      error: () => {
+        this.toastr.error('Erro ao salvar o evento.');
         this.spinner.hide();
+        this.salvandoEvento = false;
+        this.cd.markForCheck();
       }
     });
   }
+
+  finalizarSalvamento(id: number): void {
+    this.spinner.hide();
+    this.salvandoEvento = false;
+    this.cd.markForCheck();
+
+    this.router.navigate([`/eventos/detalhe/${id}`], {
+      replaceUrl: true
+    });
+  }
+
+  uploadImagem(eventoId: number): void {
+    const formData = new FormData();
+    formData.append('file', this.fileSelecionado);
+
+    this.eventoService.uploadImagem(eventoId, formData).subscribe({
+      next: (res) => {
+        const url = res.imagemUrl;
+        
+        this.imagemUrlAtual = url;
+        this.form.patchValue({
+          imagemUrl: url
+        });
+        this.cd.markForCheck();
+
+        this.toastr.success('Imagem enviada com sucesso!');
+        this.finalizarSalvamento(eventoId);
+      },
+      error: () => {
+        this.toastr.error('Erro ao enviar imagem');
+        this.spinner.hide();
+        this.salvandoEvento = false;
+        this.cd.markForCheck();
+      }
+    });
+  }
+  
 
   adicionarLote(): void {
     const novoLote: Lote = {
@@ -220,12 +266,37 @@ export class EventoDetalhe implements OnInit, AfterViewInit, OnDestroy {
       error: (err: unknown) => {
         console.error('Erro ao salvar lotes:', err);
         this.toastr.error('Erro ao salvar os lotes.', 'Erro');
+        this.cd.markForCheck();
       },
       complete: () => {
         this.salvandoLotes = false;
         this.spinner.hide();
       }
     });
+  }
+
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      this.toastr.error('Selecione apenas imagens.');
+      return;
+    }
+
+    this.fileSelecionado = file;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewImagem = reader.result;
+      this.cd.markForCheck();
+    };
+    reader.readAsDataURL(file);
+
+    // Atribuir o nome do arquivo ao campo para validação
+    this.form.get('imagemUrl')?.setValue(file.name);
+    this.form.get('imagemUrl')?.markAsTouched();
   }
 
   private criarLoteFormGroup(lote: Lote): FormGroup {

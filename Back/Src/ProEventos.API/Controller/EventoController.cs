@@ -83,24 +83,30 @@ namespace ProEventos.API.Controllers
                     return BadRequest("Arquivo vazio.");
 
                 if (file.Length > 5 * 1024 * 1024)
-                    return BadRequest("Arquivo muito grande. Máximo 5MB.");
+                    return BadRequest("Arquivo muito grande. Máx: 5MB.");
 
                 var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
                 var extension = Path.GetExtension(file.FileName).ToLower();
-                if (!allowedExtensions.Contains(extension))
-                    return BadRequest("Tipo de arquivo não permitido. Apenas JPG, JPEG, PNG.");
 
-                DeleteImage(evento.ImagemUrl);
-                evento.ImagemUrl = await SaveImage(file);
+                if (!allowedExtensions.Contains(extension))
+                    return BadRequest("Formato inválido.");
+
+                if (!string.IsNullOrEmpty(evento.ImagemUrl))
+                {
+                    DeleteImage(evento.ImagemUrl);
+                }
+
+                var imagemUrl = await SaveImage(file);
+
+                evento.ImagemUrl = imagemUrl;
 
                 var eventoRetorno = await _eventoService.UpdateEvento(eventoId, evento);
 
-                return Ok(eventoRetorno);
+                return Ok(new { imagemUrl });
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro ao tentar fazer upload da imagem. Erro: {ex.Message}");
+                return StatusCode(500, $"Erro ao fazer upload: {ex.Message}");
             }
         }
 
@@ -129,30 +135,36 @@ namespace ProEventos.API.Controllers
         }
 
         [NonAction]
-        public void DeleteImage(string imageName)
+        public void DeleteImage(string imageUrl)
         {
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/images", imageName);
-            if (System.IO.File.Exists(imagePath))
-                System.IO.File.Delete(imagePath);
+            if (string.IsNullOrEmpty(imageUrl)) return;
+
+            var fileName = Path.GetFileName(imageUrl);
+            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "images", fileName);
+            
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
         }
 
         [NonAction]
         public async Task<string> SaveImage(IFormFile imageFile)
         {
             var extension = Path.GetExtension(imageFile.FileName).ToLower();
-            string imageName = $"{Guid.NewGuid()}{extension}";
+            var imageName = $"{Guid.NewGuid()}{extension}";
 
-            var dir = Path.Combine(_hostEnvironment.ContentRootPath, @"Resources/images");
-            Directory.CreateDirectory(dir);
+            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "images");
 
-            var imagePath = Path.Combine(dir, imageName);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
 
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            var fullPath = Path.Combine(path, imageName);
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
             {
-                await imageFile.CopyToAsync(fileStream);
+                await imageFile.CopyToAsync(stream);
             }
-
-            return imageName;
+            var baseUrl = $"{Request.Scheme}://{Request.Host}";
+            return $"{baseUrl}/images/{imageName}";
         }
     }
 }

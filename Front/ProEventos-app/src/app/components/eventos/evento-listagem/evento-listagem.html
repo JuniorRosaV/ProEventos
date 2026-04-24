@@ -82,7 +82,7 @@
       (click)="irParaDetalhe(evento.id)"
       style="cursor: pointer;">
 
-        <img *ngIf="mostrarImagem" [src]="'/assets/' + evento.imagemUrl" alt="Evento" />
+        <img *ngIf="mostrarImagem && evento.imagemUrl" [src]="evento.imagemUrl" alt="Evento" />
 
         <div class="event-content">
           <h4>{{ evento.tema }}</h4>

@@ -37,6 +37,10 @@ export class EventoService
     return this.http.delete<void>(`${this.baseURL}/${id}`);
   }
 
+  uploadImagem(eventoId: number, formData: FormData) {
+    return this.http.post<{ imagemUrl: string }>(`${this.baseURL}/upload-image/${eventoId}`, formData);
+  }
+
   putLotes(eventoId: number, lotes: Lote[]): Observable<Lote[]> {
     return this.http.put<Lote[]>(`${this.baseURLLotes}/${eventoId}`, lotes);
   }

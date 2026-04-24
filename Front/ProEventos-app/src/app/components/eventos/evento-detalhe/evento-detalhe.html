@@ -64,11 +64,24 @@
           </div>
           <div class="col-md-4">
             <label>Imagem</label>
-            <input type="text" class="form-control" formControlName="imagemUrl" placeholder="URL da imagem" [ngClass]="cssValidator(f['imagemUrl'])" />
-            <div class="invalid-feedback" *ngIf="f['imagemUrl'].errors?.['required'] && f['imagemUrl'].touched">Imagem é obrigatória.</div>
+            <input type="file" class="form-control"
+                  (change)="onFileChange($event)"
+                  accept="image/*"
+                  [ngClass]="cssValidator(f['imagemUrl'])" />
+            <div class="invalid-feedback"
+                *ngIf="f['imagemUrl'].errors?.['required'] && f['imagemUrl'].touched">
+              Imagem é obrigatória.
+            </div>
+            <div class="mt-2">
+            <img *ngIf="previewImagem"
+                [src]="previewImagem"
+                class="img-preview">
+            <img *ngIf="!previewImagem && imagemUrlAtual"
+                [src]="imagemUrlAtual"
+                class="img-preview">
+          </div>
           </div>
         </div>
-
       </div>
 
       <div class="card-footer">
